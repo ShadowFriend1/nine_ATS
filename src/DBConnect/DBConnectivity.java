@@ -1,14 +1,19 @@
 package DBConnect;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 // An interface defining what a class allowing for connection to a database needs to contain
-interface DBConnectivity {
-    String defaultAddress = "jdbc:h2:localhost:8000/ATS";
+public interface DBConnectivity {
+    String defaultAddress = "jdbc:h2:tcp://127.0.1.1:9092/~/Documents/City_Uni_cs/university_course/team_project/ATS_DB";
     String defaultUserName = "sa";
     String defaultPassword = "";
 
-    int update(String sqlStatement) throws Exception;
+    int update(String sqlStatement) throws SQLException;
 
-    ResultSet query(String sqlStatement) throws Exception;
+    ResultSet query(String sqlStatement) throws SQLException;
+
+    void close() throws SQLException;
 }
