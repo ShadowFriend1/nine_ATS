@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 // An interface defining what a class allowing for connection to a database needs to contain
 public interface DBConnectivity {
+    // TODO sort whatever this is out
     String defaultAddress = "jdbc:h2:tcp://127.0.1.1:9092/~/Documents/City_Uni_cs/university_course/team_project/ATS_DB";
     String defaultUserName = "sa";
     String defaultPassword = "";

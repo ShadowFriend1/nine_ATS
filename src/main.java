@@ -8,23 +8,19 @@ public class main {
     public static void main(String[] args) throws SQLException {
         DBConnectivity database = null;
         // TODO remove need for execution arguments and implement database searching algorithm.
-        if (args.length==3|args.length==0) {
-            try {
-                if (args.length == 3) {
+        try {
+            switch (args.length) {
+                case 3:
                     database = new MyDBConnectivity(args[0], args[1], args[2]);
-                } else {
+                    break;
+                case 0:
                     database = new MyDBConnectivity();
-                }
-            } finally {
-                try {
-                    database.close();
-                } catch (Exception e) {
-                    System.out.println(e.toString());
-                }
+                    break;
+                default:
+                    System.out.println("incorrect number of arguments");
             }
-            // TODO add tests queries and updates to mke sure connection is working properly
-        } else {
-            System.out.println("incorrect number of arguments");
+        } finally {
+            if (database!=null) database.close();
         }
     }
 }
