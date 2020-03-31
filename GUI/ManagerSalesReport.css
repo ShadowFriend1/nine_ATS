@@ -24,8 +24,8 @@ nav{
 }
 
 nav ul{
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 nav li{
@@ -65,21 +65,21 @@ nav a::before{
 nav a:hover::before{
     width: 100%;
 }
-
-.loginBox{
+.managerSalesReportBox{
     position: absolute;
     top: 50%;
     left: 50%;
     transform:  translate(-50% , -50%);
     width: 350px;
     min-height: 500px;
+    margin-top: 100px;
     background: #000000;
     text-align: center;
     border-radius: 30px;
     border-style: ridge;
     border-color: #214dff;
 }
-.loginBox input[type = "text"],.loginBox input[type = "password"]{
+.managerSalesReportBox input[type = "text"]{
     font-family: Comic Sans MS;
     font-size: 15px;
     color: #214dff;
@@ -91,11 +91,11 @@ nav a:hover::before{
     padding: 14px 10px;
     width: 150px;
 }
-.loginBox input[type = "text"]:focus,.loginBox input[type = "password"]:focus{
+.managerSalesReportBox input[type = "text"]:focus{
     width: 200px;
     border: #598bff;
 }
-.loginBox input[type = "submit"]{
+.managerSalesReportBox input[type = "submit"]{
     font-family: Comic Sans MS;
     font-size: 15px;
     color: whitesmoke;
@@ -108,7 +108,7 @@ nav a:hover::before{
     width: 150px;
     cursor: pointer;
 }
-.loginBox select{
+.managerSalesReportBox select{
     font-family: Comic Sans MS;
     font-size: 15px;
     color: whitesmoke;
@@ -118,6 +118,6 @@ nav a:hover::before{
     text-align: center;
     border: 2px solid #214dff;
     padding: 14px 10px;
-    width: 150px;
+    width: 200px;
     height: 40px;
 }

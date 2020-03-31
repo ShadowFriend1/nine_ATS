@@ -24,8 +24,8 @@ nav{
 }
 
 nav ul{
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
     list-style: none;
 }
 nav li{
@@ -66,7 +66,7 @@ nav a:hover::before{
     width: 100%;
 }
 
-.loginBox{
+.advisorBox{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -74,50 +74,24 @@ nav a:hover::before{
     width: 350px;
     min-height: 500px;
     background: #000000;
+    margin-top: 100px;
     text-align: center;
     border-radius: 30px;
     border-style: ridge;
     border-color: #214dff;
 }
-.loginBox input[type = "text"],.loginBox input[type = "password"]{
+
+
+.advisorBox input[type = "button"]{
     font-family: Comic Sans MS;
     font-size: 15px;
-    color: #214dff;
+    color: whitesmoke;
     background: none;
     display: block;
     margin: 40px auto;
     text-align: center;
     border: 2px solid #214dff;
     padding: 14px 10px;
-    width: 150px;
-}
-.loginBox input[type = "text"]:focus,.loginBox input[type = "password"]:focus{
     width: 200px;
-    border: #598bff;
-}
-.loginBox input[type = "submit"]{
-    font-family: Comic Sans MS;
-    font-size: 15px;
-    color: whitesmoke;
-    background: none;
-    display: block;
-    margin: 40px auto;
-    text-align: center;
-    border: 2px solid #214dff;
-    padding: 14px 10px;
-    width: 150px;
     cursor: pointer;
-}
-.loginBox select{
-    font-family: Comic Sans MS;
-    font-size: 15px;
-    color: whitesmoke;
-    background: black;
-    display: block;
-    margin: 40px auto;
-    text-align: center;
-    border: 2px solid #214dff;
-    padding: 14px 10px;
-    width: 150px;
-    height: 40px;
 }
