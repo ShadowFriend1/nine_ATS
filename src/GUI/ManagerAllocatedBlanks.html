@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TicketList</title>
-    <link href="TicketList.css" rel="stylesheet" type="text/css">
+    <title>ManagerAllocatedBlanks</title>
+    <link href="ManagerAllocatedBlanks.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -15,10 +15,10 @@
 
         <nav>
             <ul>
-                <li><a href="TicketList.html">Home</a> </li>
-                <li><a href="Advisor.html">Advisor</a> </li>
+                <li><a href="Manager.html">Home</a> </li>
+                <li><a href="UserTypes/Advisor/Advisor.html">Advisor</a> </li>
                 <li><a href="Manager.html">Management</a> </li>
-                <li><a href="Admin.html">Administration</a> </li>
+                <li><a href="UserTypes/Admin/Admin.html">Administration</a> </li>
                 <li><a href="Login.html">Logout</a></li>
             </ul>
         </nav>
@@ -27,23 +27,26 @@
 
 </header>
 
-<div style="text-align: center" class="ticketListBox">
-    <h1 style="text-align:center; color: #214dff">Ticket List</h1>
+<div style="text-align: center" class="managerAllocatedBlanksBox">
+    <h1 style="text-align:center; color: #214dff">Allocated Blank</h1>
+
+
 
     <form>
-        <input type="text" name="Ticket ID:" placeholder="Ticket ID:">
+        <input type="text" name="Blank ID:" placeholder="Blank ID:">
 
         <div>
-            <input type="submit" name="Search Ticket" value="Search Ticket">
+            <input type="submit" name="Return Blank" value="Return Blank">
 
         </div>
     </form>
     <div class="table">
 
+
         <table>
             <tr>
-                <th>Ticket ID</th>
-                <th>Ticket</th>
+                <th>Blank ID</th>
+                <th>Blank</th>
             </tr>
             <tr>
                 <td>
@@ -71,6 +74,15 @@
             </tr>
         </table>
     </div>
+    <form>
+        <input type="text" name="Advisor Email" placeholder="Advisor Email">
+
+        <div>
+            <input type="submit" name="Reallocate Blank" value="Reallocate Blank">
+
+        </div>
+    </form>
+
 </div>
 
 </body>
