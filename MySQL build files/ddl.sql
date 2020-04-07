@@ -1,4 +1,4 @@
-CREATE TABLE Sale (SaleID int AUTO_INCREMENT, TravelAgentCode int DEFAULT 0 NOT NULL, CustomerAlias varchar(10), CommissionRatesRate float DEFAULT 0 NOT NULL, BlankStockID int NOT NULL, payment float NOT NULL, PaymentType int NOT NULL, ExchangeRatesDate date, ExchangeRatesCode varchar(3), CardNumber bigint, CardName varchar(255), SaleDate date NOT NULL, LocalTax float, OtherTax float, PRIMARY KEY (SaleID));
+CREATE TABLE Sale (SaleID int AUTO_INCREMENT, TravelAgentCode int DEFAULT 0 NOT NULL, CustomerAlias varchar(10), CommissionRatesRate float DEFAULT 0 NOT NULL, BlankStockID bigint NOT NULL, payment float NOT NULL, PaymentType int NOT NULL, ExchangeRatesDate date, ExchangeRatesCode varchar(3), CardNumber bigint, CardName varchar(255), SaleDate date NOT NULL, LocalTax float, OtherTax float, PRIMARY KEY (SaleID));
 
 CREATE TABLE TravelAgent (SysAccountCode int, FirstName varchar(20) NOT NULL, LastName varchar(20) NOT NULL, PRIMARY KEY (SysAccountCode));
 
@@ -23,6 +23,10 @@ ALTER TABLE Sale ADD CONSTRAINT FKSale604739 FOREIGN KEY (CustomerAlias) REFEREN
 ALTER TABLE TravelAgent ADD CONSTRAINT FKTravelAgen745141 FOREIGN KEY (SysAccountCode) REFERENCES SysAccount (Code) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE Sale ADD CONSTRAINT FKSale537230 FOREIGN KEY (ExchangeRatesDate, ExchangeRatesCode) REFERENCES ExchangeRates (ExchangeDate, Code) ON UPDATE CASCADE ON DELETE SET NULL;
+
+ALTER TABLE Sale ADD CONSTRAINT  FKSale861056 FOREIGN KEY (CommissionRatesRate) REFERENCES CommissionRates (Rate) ON UPDATE CASCADE;
+
+ALTER TABLE Sale ADD CONSTRAINT FKSale847210 FOREIGN KEY (BlankStockID) REFERENCES BlankStock (ID) ON UPDATE CASCADE ON DELETE CASCADE;
 
 ALTER TABLE CustomerAccount ADD CONSTRAINT FKCustomerAc123123 FOREIGN KEY (DiscountID) REFERENCES Discount (DiscountID) ON UPDATE CASCADE ON DELETE CASCADE;
 
@@ -267,6 +271,27 @@ BEGIN
 end //
 
 //
+/* Log delayed sale */
+CREATE PROCEDURE AirVia.MakeSaleDelayed (
+    IN BlankID bigint,
+    IN ICode int,
+    IN ILocalTax float,
+    IN IOtherTax float,
+    IN IAlias varchar(10),
+    IN Commission float,
+    IN IPayment float,
+    IN IExchangeCode varchar(3),
+    IN ICurrentDate Date
+)
+BEGIN
+    INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
+                      exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate)
+    VALUES (IAlias, ICode, BlankID, IPayment, 0,
+            (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate LIMIT 1),
+            IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission);
+end //
+
+//
 /* Log cash sale information in table */
 CREATE PROCEDURE AirVia.MakeSaleCash (
     IN BlankID bigint,
@@ -282,8 +307,8 @@ CREATE PROCEDURE AirVia.MakeSaleCash (
 BEGIN
     INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
                       exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate)
-    VALUES (IAlias, ICode, BlankID, IPayment, 0,
-            (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate),
+    VALUES (IAlias, ICode, BlankID, IPayment, 1,
+            (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate LIMIT 1),
             IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission);
 end //
 
@@ -303,9 +328,9 @@ CREATE PROCEDURE AirVia.MakeSaleCard (
     IN ICurrentDate Date
 )
 BEGIN
-    INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
-                      exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate, CardName, CardNumber)
-    VALUES (IAlias, ICode, BlankID, IPayment, 1,
+    INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate, exchangeratescode,
+                      saledate, LocalTax, OtherTax, CommissionRatesRate, CardName, CardNumber)
+    VALUES (IAlias, ICode, BlankID, IPayment, 2,
             (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate),
             IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission, ICardType, ICardNumber);
 end //
