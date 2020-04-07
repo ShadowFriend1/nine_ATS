@@ -1,4 +1,4 @@
-CREATE TABLE Sale (SaleID varchar(255) NOT NULL, TravelAgentCode int DEFAULT 0 NOT NULL, CustomerAlias varchar(10), CommissionRatesRate float DEFAULT 0 NOT NULL, BlankStockID int NOT NULL, Fare double NOT NULL, PaymentType varchar(10) NOT NULL, ExchangeRatesDate date, ExchangeRatesCode varchar(3), CardNumber bigint, CardExpiry date, CardName varchar(255), SaleDate date NOT NULL, PRIMARY KEY (SaleID));
+CREATE TABLE Sale (SaleID int AUTO_INCREMENT, TravelAgentCode int DEFAULT 0 NOT NULL, CustomerAlias varchar(10), CommissionRatesRate float DEFAULT 0 NOT NULL, BlankStockID int NOT NULL, payment float NOT NULL, PaymentType int NOT NULL, ExchangeRatesDate date, ExchangeRatesCode varchar(3), CardNumber bigint, CardName varchar(255), SaleDate date NOT NULL, LocalTax float, OtherTax float, PRIMARY KEY (SaleID));
 
 CREATE TABLE TravelAgent (SysAccountCode int, FirstName varchar(20) NOT NULL, LastName varchar(20) NOT NULL, PRIMARY KEY (SysAccountCode));
 
@@ -267,12 +267,46 @@ BEGIN
 end //
 
 //
-/* Log sale information in table */
-CREATE PROCEDURE AirVia.MakeSale (
+/* Log cash sale information in table */
+CREATE PROCEDURE AirVia.MakeSaleCash (
     IN BlankID bigint,
-
+    IN ICode int,
+    IN ILocalTax float,
+    IN IOtherTax float,
+    IN IAlias varchar(10),
+    IN Commission float,
+    IN IPayment float,
+    IN IExchangeCode varchar(3),
+    IN ICurrentDate Date
 )
 BEGIN
+    INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
+                      exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate)
+    VALUES (IAlias, ICode, BlankID, IPayment, 0,
+            (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate),
+            IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission);
+end //
 
+//
+/* Log card sale information in table */
+CREATE PROCEDURE AirVia.MakeSaleCard (
+    IN BlankID bigint,
+    IN ICode int,
+    IN ILocalTax float,
+    IN IOtherTax float,
+    IN IPayment float,
+    IN IAlias varchar(10),
+    IN Commission float,
+    IN ICardNumber bigint,
+    IN ICardType varchar(10),
+    IN IExchangeCode varchar(3),
+    IN ICurrentDate Date
+)
+BEGIN
+    INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
+                      exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate, CardName, CardNumber)
+    VALUES (IAlias, ICode, BlankID, IPayment, 1,
+            (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate),
+            IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission, ICardType, ICardNumber);
 end //
 DELIMITER ;
