@@ -33,7 +33,7 @@ public class LoginController {
     // Checks username and password. Logins if correct. Displays a message if login was unsuccessful
 
     public void onClickLogin(javafx.event.ActionEvent event) throws IOException, SQLException {
-        // intially type set to 0
+        // initially type set to 0
         int type = 0;
         String query = "SELECT * FROM `SysAccount` WHERE username ='" + username.getText() + "' AND password_ ='" + password.getText() + "';";
         System.out.println(query);
@@ -50,13 +50,11 @@ public class LoginController {
 
         // if it's an admin type (type 1)
 
-        /*
-            NEED TO CONNECT WITH ADMIN HOME PAGE GUI
-         */
+
         if (type == 1) {
 
 
-            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/blankList.fxml"));
+            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/admin.fxml"));
             Scene homeScene = new Scene(homeView);
 
 
@@ -65,13 +63,37 @@ public class LoginController {
             // Change the scene
             window.setScene(homeScene);
             window.show();
-            Blank test = new Blank(2120000, 212, 2, "2019-02-02");
-            test.insertBlankIntoDB();
+
+        }
+
+        // type 2 office manager
+        else if (type == 2){
+            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/manager.fxml"));
+            Scene homeScene = new Scene(homeView);
+
+
+            // Get stage information
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // Change the scene
+            window.setScene(homeScene);
+            window.show();
         }
         /*
             NEED TO DO OTHER ACCOUNT HOME GUI CONNECTIONS
          */
 
+        // type 3 travel advisor
+        else if (type == 3){
+            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/advisor.fxml"));
+            Scene homeScene = new Scene(homeView);
+
+
+            // Get stage information
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            // Change the scene
+            window.setScene(homeScene);
+            window.show();
+        }
     }
 }
 
