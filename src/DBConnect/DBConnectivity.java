@@ -6,8 +6,8 @@ import java.sql.*;
 public interface DBConnectivity {
     // TODO sort whatever this is out
     String defaultAddress = "jdbc:mysql://localhost:3306/AirVia";
-    String defaultUserName = "root";
-    String defaultPassword = "giratina950";
+    String defaultUserName = "client";
+    String defaultPassword = "";
 
     int update(String sqlStatement) throws SQLException;
 
