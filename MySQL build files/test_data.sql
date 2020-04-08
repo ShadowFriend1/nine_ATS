@@ -1,5 +1,5 @@
 /* add users */
-call AddAdvisor(250, 'PenelopePitstop', 'Pinkobile', 'Penelope', 'Pitstop', @a);
+call AddAdvisor(250, 'PenelopePitstop', 'PinkMobile', 'Penelope', 'Pitstop', @a);
 call AddAdvisor(211, 'DennisMenace', 'Gnasher', 'Dennis', 'Menace', @a);
 call AddUser(220, 'MinnieMinx', 'NotiGirl', 1, @a);
 call AddUser(320, 'ArthurDaley', 'LiesaLot', 2, @a);
