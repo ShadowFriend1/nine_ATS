@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BlankListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="949.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.BlankListController">
    <left>
       <AnchorPane prefHeight="328.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -23,19 +23,21 @@
    <right>
       <AnchorPane prefHeight="400.0" prefWidth="442.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="blankTable" layoutY="-4.0" prefHeight="394.0" prefWidth="401.0">
+            <TableView fx:id="blankTable" layoutX="-81.0" prefHeight="394.0" prefWidth="655.0">
               <columns>
                 <TableColumn fx:id="blankIDColumn" prefWidth="103.0" text="Blank ID" />
-                <TableColumn fx:id="blankTypeColumn" prefWidth="83.0" text="Blank" />
-                  <TableColumn fx:id="travelAgentCodeColumn" prefWidth="105.0" text="Advisor ID" />
-                  <TableColumn fx:id="blankDateColumn" prefWidth="109.0" text="Date" />
+                <TableColumn fx:id="blankTypeColumn" prefWidth="56.0" text="Blank" />
+                  <TableColumn fx:id="travelAgentCodeColumn" prefWidth="102.0" text="Advisor ID" />
+                  <TableColumn fx:id="assignedDateColumn" prefWidth="115.0" text="AssignedDate" />
+                  <TableColumn fx:id="mcoTextColumn" prefWidth="142.0" text="MCOText" />
+                  <TableColumn fx:id="blankDateColumn" prefWidth="136.0" text="Date" />
               </columns>
             </TableView>
          </children>
       </AnchorPane>
    </right>
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="100.0" prefWidth="863.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane prefHeight="0.0" prefWidth="115.0" />
             <Button mnemonicParsing="false" onAction="#goHome" text="Home">
@@ -48,7 +50,7 @@
                   <Insets left="20.0" top="30.0" />
                </HBox.margin>
             </Button>
-            <Button onAction="#logout" mnemonicParsing="false" text="Logout">
+            <Button mnemonicParsing="false" onAction="#logout" text="Logout">
                <HBox.margin>
                   <Insets left="200.0" top="30.0" />
                </HBox.margin>

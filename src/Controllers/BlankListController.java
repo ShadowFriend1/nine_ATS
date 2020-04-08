@@ -14,17 +14,13 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDate;
-import java.util.ResourceBundle;
 
 public class BlankListController {
 
@@ -33,13 +29,17 @@ public class BlankListController {
     @FXML
     private TableView<Blank> blankTable;
     @FXML
-    private TableColumn<Blank, Integer> blankIDColumn;
+    private TableColumn<Blank, Long> blankIDColumn;
     @FXML
     private TableColumn<Blank, Integer> blankTypeColumn;
     @FXML
     private TableColumn<Blank, Integer> travelAgentCodeColumn;
     @FXML
-    private TableColumn<Blank, String> blankDateColumn;
+    private TableColumn<Blank, LocalDate> blankDateColumn;
+    @FXML
+    private TableColumn<Blank, String> assignedDateColumn;
+    @FXML
+    private TableColumn<Blank, String> mcoTextColumn;
     @FXML
     private TextField searchID;
     @FXML
@@ -50,38 +50,79 @@ public class BlankListController {
     }
 
     // configure table columnn
-    public void initialize() {
-        blankIDColumn.setCellValueFactory(new PropertyValueFactory<Blank, Integer>("blankID"));
+    public void initialize() throws SQLException {
+        blankIDColumn.setCellValueFactory(new PropertyValueFactory<Blank, Long>("blankID"));
         blankTypeColumn.setCellValueFactory(new PropertyValueFactory<Blank, Integer>("blankType"));
         travelAgentCodeColumn.setCellValueFactory(new PropertyValueFactory<Blank, Integer>("travelAdvisorCode"));
-        blankDateColumn.setCellValueFactory(new PropertyValueFactory<Blank, String>("blankDate"));
+        blankDateColumn.setCellValueFactory(new PropertyValueFactory<Blank, LocalDate>("blankDate"));
+        mcoTextColumn.setCellValueFactory(new PropertyValueFactory<Blank, String>("mcoText"));
+        assignedDateColumn.setCellValueFactory(new PropertyValueFactory<Blank, String>("assignedDate"));
 
-       loadBlanks();
+
+
+        loadBlanks();
     }
 
     // This method will load blanks from the database and put them in the tableview object
 
-    public void loadBlanks(){
+    public void loadBlanks() throws SQLException {
         ObservableList<Blank> blanks = FXCollections.observableArrayList();
 
+        // Create temp variables to check for null
+            long tempID;
+            int tempType;
+            int tempAdvisorCode;
+            String tempAssignedDate;
+            String tempMCOText;
+            LocalDate tempDate;
 
-        try {
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
             // get blanks
-            ResultSet resultSet = database.query("SELECT * FROM blanks");
-            // create blank objects from each record
-            while(resultSet.next()){
-                Blank newBlank = new Blank(resultSet.getInt("blankID"),
-                                            resultSet.getInt("blankType"),
-                                            resultSet.getInt("travelAdvisorCode"),
-                                            resultSet.getString("blankDate"));
-                blanks.add(newBlank);
-            }
-            blankTable.getItems().addAll(blanks);
+        // get blanks
+        try {
 
+            // I tried to use database connection manually to maybe avoid opening many connections. Still doesn't work
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", "");
+            statement = conn.createStatement();
+
+            resultSet = statement.executeQuery("SELECT * FROM BlankStock;");
+            // create blank objects from each record
+            while (resultSet.next()) {
+                tempID = resultSet.getLong("ID");
+                tempType = resultSet.getInt("Type");
+                tempAdvisorCode = resultSet.getInt("TravelAgentCode");
+                if (resultSet.wasNull()) {
+                    tempAdvisorCode = 0;
+                }
+                try {
+                    tempAssignedDate = resultSet.getDate("AssignedDate").toString();
+                } catch (NullPointerException e) {
+                    tempAssignedDate = "none";
+                }
+                tempMCOText = resultSet.getString("MCOText");
+                tempDate = resultSet.getDate("Date").toLocalDate();
+                Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate.toString(), tempMCOText, tempDate.toString());
+                blanks.add(newBlank);
+
+
+            }
         }
         catch (Exception e){
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
+        finally {
+            if (conn != null) conn.close();
+            if (statement !=null) statement.close();
+            if (resultSet != null) resultSet.close();
+
+        }
+            blankTable.getItems().addAll(blanks);
+
+
+
 
 
     }
@@ -103,17 +144,56 @@ public class BlankListController {
 
         ObservableList<Blank> blanks = FXCollections.observableArrayList();
 
-            // get blanks
-            ResultSet resultSet = database.query("SELECT * FROM blanks WHERE blankID = " + searchID.getText() + ";");
+        long tempID;
+        int tempType;
+        int tempAdvisorCode;
+        String tempAssignedDate;
+        String tempMCOText;
+        LocalDate tempDate;
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        blankTable.getItems().clear();
+        // get blanks
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", "");
+            statement = conn.createStatement();
+
+            resultSet = statement.executeQuery("SELECT * FROM BlankStock WHERE ID = " + searchID.getText() + ";");
             // create blank objects from each record
             while (resultSet.next()) {
-                Blank newBlank = new Blank(resultSet.getInt("blankID"),
-                        resultSet.getInt("blankType"),
-                        resultSet.getInt("travelAdvisorCode"),
-                        resultSet.getString("blankDate"));
+                tempID = resultSet.getLong("ID");
+                tempType = resultSet.getInt("Type");
+                tempAdvisorCode = resultSet.getInt("TravelAgentCode");
+                if (resultSet.wasNull()) {
+                    tempAdvisorCode = 0;
+                    System.out.println(tempAdvisorCode);
+                }
+                try {
+                    tempAssignedDate = resultSet.getDate("AssignedDate").toString();
+                } catch (NullPointerException e) {
+                    tempAssignedDate = "none";
+                }
+                tempMCOText = resultSet.getString("MCOText");
+                tempDate = resultSet.getDate("Date").toLocalDate();
+                Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate.toString(), tempMCOText, tempDate.toString());
                 blanks.add(newBlank);
+
+
             }
-            blankTable.getItems().addAll(blanks);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (conn != null) conn.close();
+            if (statement !=null) statement.close();
+            if (resultSet != null) resultSet.close();
+
+        }
+        blankTable.getItems().addAll(blanks);
+
 
 
     }

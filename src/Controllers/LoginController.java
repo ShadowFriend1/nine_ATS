@@ -35,7 +35,7 @@ public class LoginController {
     public void onClickLogin(javafx.event.ActionEvent event) throws IOException, SQLException {
         // initially type set to 0
         int type = 0;
-        String query = "SELECT * FROM `SysAccount` WHERE username ='" + username.getText() + "' AND password_ ='" + password.getText() + "';";
+        String query = "CALL Login('" + username.getText() + "', '" + password.getText() + "', @a)";
         System.out.println(query);
         ResultSet resultSet = database.query(query);
         if (resultSet.next()) {

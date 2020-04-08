@@ -2,25 +2,27 @@ package entities;
 
 import DBConnect.MyDBConnectivity;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Blank {
 
     MyDBConnectivity database = new MyDBConnectivity();
-    private int blankID;
+    private long blankID;
     private int blankType;
-    private int travelAdvisorCode;
+    private Integer travelAdvisorCode;
     private String blankDate;
+    private String mcoText;
+    private String assignedDate;
 
 
-    public int getBlankID() {
+    public long getBlankID() {
         return blankID;
     }
 
-    public void setBlankID(int blankID) {
+    public void setBlankID(long blankID) {
         this.blankID = blankID;
     }
 
@@ -32,7 +34,7 @@ public class Blank {
         this.blankType = blankType;
     }
 
-    public int getTravelAdvisorCode() {
+    public Integer getTravelAdvisorCode() {
         return travelAdvisorCode;
     }
 
@@ -50,19 +52,19 @@ public class Blank {
         this.blankDate = blankDate;
     }
 
-    public Blank(int blankID, int blankType, int travelAdvisorCode, String blankDate) throws SQLException {
+    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,String assignedDate, String mcoText, String blankDate) throws SQLException {
         this.blankID = blankID;
         this.blankType = blankType;
-        this.travelAdvisorCode = travelAdvisorCode;
+        if (travelAdvisorCode == null){
+            this.travelAdvisorCode = 0;
+        }
+        else {
+            this.travelAdvisorCode = travelAdvisorCode;
+        }
         this.blankDate = blankDate;
+        this.mcoText = mcoText;
+        this.assignedDate = assignedDate;
     }
 
-    public void insertBlankIntoDB() throws SQLException{
-        Date db = Date.valueOf(blankDate);
-        String sql = "INSERT INTO blanks (blankID, blankType, travelAdvisorCode, blankDate) VALUES\n" +
-                "(" + blankID + ", " + blankType +", "+ travelAdvisorCode +", '" + blankDate +"');";
-        database.update(sql);
-        System.out.println(sql);
 
-    }
 }

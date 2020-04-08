@@ -29,10 +29,12 @@ public class MyDBConnectivity implements DBConnectivity {
     public ResultSet query(String sqlStatement) throws SQLException {
         Statement statement = conn.createStatement();
         return statement.executeQuery(sqlStatement);
+
     }
 
     @Override
     public void close() throws SQLException{
         conn.close();
     }
+
 }
