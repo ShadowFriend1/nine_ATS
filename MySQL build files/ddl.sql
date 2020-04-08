@@ -10,7 +10,9 @@ CREATE TABLE FixedDiscount(FixedID int AUTO_INCREMENT, DiscountID int NOT NULL U
 
 CREATE TABLE FlexibleBand(FlexibleID int AUTO_INCREMENT, DiscountID int NOT NULL, LowerBound float, UpperBound float, DiscountValue float NOT NULL, PRIMARY KEY (FlexibleID));
 
-CREATE TABLE SysAccount (Code int NOT NULL, UserName varchar(15) NOT NULL, PasswordHash BINARY(64) NOT NULL, Type int NOT NULL, PRIMARY KEY (Code));
+
+CREATE TABLE SysAccount (Code int NOT NULL, UserName varchar(15) NOT NULL, PasswordHash VARBINARY(1024) NOT NULL, Type int NOT NULL, PRIMARY KEY (Code));
+
 
 CREATE TABLE CommissionRates (Rate float NOT NULL, CommissionDate date NOT NULL, Active int NOT NULL, PRIMARY KEY (Rate));
 
@@ -52,11 +54,19 @@ BEGIN
 
     IF NOT EXISTS(SELECT Code FROM SysAccount WHERE Code=ICode) THEN
         INSERT INTO AirVia.SysAccount (Code, UserName, PasswordHash, Type)
+<<<<<<< HEAD
         VALUES(ICode, IUserName, aes_encrypt('cat&dog', IPassword), IType);
         SET Response = 'System Account Created';
     ELSE
         UPDATE SysAccount
         SET UserName=IUserName, PasswordHash=aes_encrypt('cat&dog', IPassword), Type=IType
+=======
+        VALUES(ICode, IUserName, aes_encrypt(IPassword, 'catdog'), IType);
+        SET Response = 'System Account Created';
+    ELSE
+        UPDATE SysAccount
+        SET UserName=IUserName, PasswordHash=aes_encrypt(IPassword, 'catdog'), Type=IType
+>>>>>>> b750ccd7b01c377d8b77cfae2f83a096fdd1215f
         WHERE Code=ICode;
         SET Response = 'System Account Updated';
     end if;
@@ -107,10 +117,13 @@ BEGIN
             ROLLBACK;
         end;
 
+
+    SET IResponseMessage = 999;
+
     IF EXISTS (SELECT PasswordHash FROM SysAccount WHERE UserName=IUserName) THEN
-        IF EXISTS(SELECT PasswordHash FROM SysAccount WHERE UserName=IUserName AND PasswordHash=aes_decrypt('cat&dog', IPassword)) THEN
+        IF EXISTS(SELECT PasswordHash FROM SysAccount WHERE UserName=IUserName AND aes_decrypt(PasswordHash, 'catdog')=IPassword) THEN
             /* Successful login */
-            SET IResponseMessage = (SELECT Type FROM SysAccount WHERE UserName=IUserName AND PasswordHash=aes_decrypt('cat&dog', IPassword) LIMIT 1);
+            SET IResponseMessage = (SELECT Type FROM SysAccount WHERE UserName=IUserName AND aes_decrypt(PasswordHash, 'catdog')=IPassword LIMIT 1);
         ELSE
             /* Password invalid */
             SET IResponseMessage = 222;

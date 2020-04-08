@@ -1,4 +1,6 @@
 package DBConnect;
+
+
 import java.sql.*;
 
 // An implementation of a database connection.
@@ -30,6 +32,11 @@ public class MyDBConnectivity implements DBConnectivity {
         Statement statement = conn.createStatement();
         return statement.executeQuery(sqlStatement);
 
+    }
+
+    @Override
+    public CallableStatement call(String sqlStatement) throws SQLException {
+        return conn.prepareCall(sqlStatement);
     }
 
     @Override
