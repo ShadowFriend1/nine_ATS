@@ -36,12 +36,8 @@ public class LoginController {
 
     public void onClickLogin(javafx.event.ActionEvent event) throws IOException, SQLException {
 
-
-
-
-        String login = "{call Login(?, ?, ?)}";
         System.out.println("{call Login("+username.getText()+", "+password.getText()+")}");
-        CallableStatement cs = database.call(login);
+        CallableStatement cs = database.call("{call Login(?, ?, ?)}");
         cs.setString(1, username.getText());
         cs.setString(2, password.getText());
         cs.registerOutParameter(3, Types.INTEGER);
