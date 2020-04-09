@@ -13,10 +13,21 @@ public class Blank {
     private long blankID;
     private int blankType;
     private Integer travelAdvisorCode;
-    private String blankDate;
+    private LocalDate blankDate;
     private String mcoText;
-    private String assignedDate;
+    private LocalDate assignedDate;
 
+    public LocalDate getAssignedDate() { return assignedDate; }
+
+    public void setAssignedDate(LocalDate assignedDate) {
+        this.assignedDate = assignedDate;
+    }
+
+    public void setMcoText(String mcoText) {
+        this.mcoText = mcoText;
+    }
+
+    public String getMcoText() { return mcoText; }
 
     public long getBlankID() {
         return blankID;
@@ -38,29 +49,18 @@ public class Blank {
         return travelAdvisorCode;
     }
 
-    public void setTravelAdvisorCode(int travelAdvisorCode) throws SQLException {
-
-        this.travelAdvisorCode = travelAdvisorCode;
-        database.update("UPDATE blanks SET travelAdvisorCode = " + travelAdvisorCode);
-    }
-
-    public String getBlankDate() {
+    public LocalDate getBlankDate() {
         return blankDate;
     }
 
-    public void setBlankDate(String blankDate) {
+    public void setBlankDate(LocalDate blankDate) {
         this.blankDate = blankDate;
     }
 
-    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,String assignedDate, String mcoText, String blankDate) throws SQLException {
+    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,LocalDate assignedDate, String mcoText, LocalDate blankDate) throws SQLException {
         this.blankID = blankID;
         this.blankType = blankType;
-        if (travelAdvisorCode == null){
-            this.travelAdvisorCode = 0;
-        }
-        else {
-            this.travelAdvisorCode = travelAdvisorCode;
-        }
+        this.travelAdvisorCode = travelAdvisorCode;
         this.blankDate = blankDate;
         this.mcoText = mcoText;
         this.assignedDate = assignedDate;

@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class CreateCustomerAccountController implements SystemController {
 
+    private int id;
     MyDBConnectivity database;
 
 @FXML
@@ -30,4 +31,7 @@ public class CreateCustomerAccountController implements SystemController {
 
     @Override
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    @Override
+    public void setId (int id) { this.id = id; }
 }

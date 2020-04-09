@@ -12,10 +12,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class LoginController {
+public class LoginController{
 
     @FXML
     private TextField username;
@@ -24,7 +25,7 @@ public class LoginController {
     @FXML
     private Text message;
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
     public LoginController() throws SQLException {
     }
@@ -32,15 +33,19 @@ public class LoginController {
     // Checks username and password. Logins if correct. Displays a message if login was unsuccessful
 
     public void onClickLogin(javafx.event.ActionEvent event) throws IOException, SQLException {
-
         System.out.println("{call Login(" + username.getText() + ", " + password.getText() + ")}");
         CallableStatement cs = database.call("{call Login(?, ?, ?)}");
         cs.setString(1, username.getText());
         cs.setString(2, password.getText());
         cs.registerOutParameter(3, Types.INTEGER);
-        cs.execute();
-        int type = cs.getInt(3);
-
+        int type = 999;
+        try {
+            cs.execute();
+            type = cs.getInt(3);
+        } finally {
+            cs.close();
+        }
+        int code = 0;
         String fxmlFile = "none found";
 
         // if it's an admin type (type 2)
@@ -60,6 +65,10 @@ public class LoginController {
 
         // type 0 travel advisor
         else if (type == 0) {
+            ResultSet rs = database.getStatement().executeQuery("SELECT Code FROM SysAccount WHERE UserName="+username.getText()+
+                    " AND aes_decrypt(PasswordHash, 'catdog')="+password.getText()+" LIMIT 1");
+            code = rs.getInt("Code");
+            rs.close();
             System.out.println("Logged in as advisor: " + username.getText());
             fxmlFile = "/GUI/advisor.fxml";
         }
@@ -83,6 +92,7 @@ public class LoginController {
             Parent homeView = fxmlloader.load();
             SystemController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
+            sys.setId(code);
             Scene homeScene = new Scene(homeView);
 
             // Get stage information
@@ -91,6 +101,10 @@ public class LoginController {
             window.setScene(homeScene);
             window.show();
         }
+    }
+
+    public void setDatabaseC(MyDBConnectivity db) {
+        database = db;
     }
 }
 

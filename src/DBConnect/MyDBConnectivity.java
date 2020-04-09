@@ -22,16 +22,8 @@ public class MyDBConnectivity implements DBConnectivity {
     }
 
     @Override
-    public int update(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        return statement.executeUpdate(sqlStatement);
-    }
-
-    @Override
-    public ResultSet query(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        return statement.executeQuery(sqlStatement);
-
+    public Statement getStatement() throws SQLException {
+        return conn.createStatement();
     }
 
     @Override

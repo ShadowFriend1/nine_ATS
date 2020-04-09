@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 public class SystemAdminController implements SystemController {
 
+    private int id;
     MyDBConnectivity database;
 
     public SystemAdminController() throws SQLException {
@@ -15,9 +16,11 @@ public class SystemAdminController implements SystemController {
     @Override
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
-    public ResultSet accessFullStock() throws SQLException {
-        String query = "SELECT * FROM BlankStock;";
-        return database.query(query);
+    @Override
+    public void setId (int id) { this.id = id; }
+
+    public void accessFullStock() throws SQLException {
+
     }
     public void generateStockReport(){
 
