@@ -11,10 +11,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 
 public class LoginController{
 
@@ -65,10 +62,11 @@ public class LoginController{
 
         // type 0 travel advisor
         else if (type == 0) {
-            ResultSet rs = database.getStatement().executeQuery("SELECT Code FROM SysAccount WHERE UserName="+username.getText()+
-                    " AND aes_decrypt(PasswordHash, 'catdog')="+password.getText()+" LIMIT 1");
-            code = rs.getInt("Code");
-            rs.close();
+            ResultSet rs = database.getStatement().executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
+                    " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
+            if (rs.first()) {
+                code = rs.getInt("Code");
+            }
             System.out.println("Logged in as advisor: " + username.getText());
             fxmlFile = "/GUI/advisor.fxml";
         }

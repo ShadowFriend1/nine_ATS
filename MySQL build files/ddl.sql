@@ -52,11 +52,11 @@ BEGIN
 
     IF NOT EXISTS(SELECT Code FROM SysAccount WHERE Code=ICode) THEN
         INSERT INTO AirVia.SysAccount (Code, UserName, PasswordHash, Type)
-        VALUES(ICode, IUserName, aes_encrypt('cat&dog', IPassword), IType);
+        VALUES(ICode, IUserName, aes_encrypt(IPassword, 'catdog'), IType);
         SET Response = 'System Account Created';
     ELSE
         UPDATE SysAccount
-        SET UserName=IUserName, PasswordHash=aes_encrypt('cat&dog', IPassword), Type=IType
+        SET UserName=IUserName, PasswordHash=aes_encrypt(IPassword, 'catdog'), Type=IType
         WHERE Code=ICode;
         SET Response = 'System Account Created';
     end if;
