@@ -19,7 +19,7 @@
             <Button layoutX="41.0" layoutY="154.0" mnemonicParsing="false" text="Travel Advisor List" />
             <Button layoutX="59.0" layoutY="200.0" mnemonicParsing="false" text="Accounts" />
             <Button layoutX="70.0" layoutY="304.0" mnemonicParsing="false" text="Backup" />
-            <Button layoutX="53.0" layoutY="66.0" mnemonicParsing="false" text="Blank Stock Report" />
+            <Button layoutX="53.0" layoutY="66.0" mnemonicParsing="false" text="Blank Stock Report" onAction="#accessFullStock" />
             <Text layoutX="58.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Home" />
          </children>
       </AnchorPane>

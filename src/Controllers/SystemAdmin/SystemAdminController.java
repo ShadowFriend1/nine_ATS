@@ -38,8 +38,18 @@ public class SystemAdminController implements SystemController {
     @Override
     public void setId (int id) { this.id = id; }
 
-    public void accessFullStock() throws SQLException {
-
+    public void accessFullStock(javafx.event.ActionEvent event) throws SQLException, IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
+        Parent homeView = fxmlloader.load();
+        BlankListController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.loadBlanks();
+        Scene homeScene = new Scene(homeView);
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
     }
     public void generateStockReport(){
 

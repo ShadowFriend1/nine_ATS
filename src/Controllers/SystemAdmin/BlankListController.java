@@ -1,5 +1,6 @@
-package Controllers;
+package Controllers.SystemAdmin;
 
+import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import entities.Blank;
 import javafx.collections.FXCollections;
@@ -18,7 +19,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,6 +43,8 @@ public class BlankListController implements SystemController {
     @FXML
     private TableColumn<Blank, String> mcoTextColumn;
     @FXML
+    private TableColumn<Blank, String> customerAliasColumn;
+    @FXML
     private TextField searchID;
     @FXML
     private Text message;
@@ -65,6 +67,7 @@ public class BlankListController implements SystemController {
         blankDateColumn.setCellValueFactory(new PropertyValueFactory<>("blankDate"));
         mcoTextColumn.setCellValueFactory(new PropertyValueFactory<>("mcoText"));
         assignedDateColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDate"));
+        customerAliasColumn.setCellValueFactory(new PropertyValueFactory<>("customerAlias"));
     }
 
     // This method will load blanks from the database and put them in the tableview object
@@ -74,11 +77,17 @@ public class BlankListController implements SystemController {
         blankTable.getItems().clear();
 
         // get blanks
-        try (ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM BlankStock;")) {
+        Statement stmt = database.getStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT ID, Type, BlankStock.TravelAgentCode, " +
+                "AssignedDate, MCOText, Date, Sale.CustomerAlias FROM BlankStock LEFT JOIN Sale ON " +
+                "BlankStock.ID = Sale.BlankStockID;");
+        try {
             // create blank objects from each record
             addBlanks(resultSet);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+        } finally {
+            stmt.close();
         }
     }
 
@@ -100,11 +109,17 @@ public class BlankListController implements SystemController {
 
         blankTable.getItems().clear();
 
-        try (ResultSet resultSet = database.getStatement().executeQuery("SELECT * FROM BlankStock WHERE ID LIKE '%" + searchID.getText() + "%';")) {
+        Statement stmt = database.getStatement();
+        ResultSet resultSet = stmt.executeQuery("SELECT ID, Type, BlankStock.TravelAgentCode, " +
+                "AssignedDate, MCOText, Date, Sale.CustomerAlias FROM BlankStock LEFT JOIN Sale ON " +
+                "BlankStock.ID = Sale.BlankStockID WHERE ID LIKE '%" + searchID.getText() + "%';");
+        try {
             // create blank objects from each record
             addBlanks(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            stmt.close();
         }
     }
 
@@ -117,6 +132,7 @@ public class BlankListController implements SystemController {
         LocalDate tempAssignedDate;
         String tempMCOText;
         LocalDate tempDate;
+        String tempAlias;
         try {
             while (resultSet.next()) {
                 tempID = resultSet.getLong("ID");
@@ -136,12 +152,16 @@ public class BlankListController implements SystemController {
                 } catch (NullPointerException e) {
                     tempMCOText = "";
                 }
+                try {
+                    tempAlias = resultSet.getString("CustomerAlias");
+                } catch (NullPointerException | SQLException e) {
+                    tempAlias = "";
+                }
                 tempDate = resultSet.getDate("Date").toLocalDate();
-                Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate, tempMCOText, tempDate);
+                Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate, tempMCOText, tempDate, tempAlias);
                 blanks.add(newBlank);
             }
         } finally {
-            resultSet.close();
             blankTable.getItems().addAll(blanks);
         }
     }

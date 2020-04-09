@@ -12,10 +12,13 @@ public class Blank {
     MyDBConnectivity database = new MyDBConnectivity();
     private long blankID;
     private int blankType;
-    private Integer travelAdvisorCode;
+    private int travelAdvisorCode;
     private LocalDate blankDate;
     private String mcoText;
     private LocalDate assignedDate;
+    private String customerAlias;
+
+    public String getCustomerAlias() { return customerAlias; }
 
     public LocalDate getAssignedDate() { return assignedDate; }
 
@@ -57,13 +60,14 @@ public class Blank {
         this.blankDate = blankDate;
     }
 
-    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,LocalDate assignedDate, String mcoText, LocalDate blankDate) throws SQLException {
+    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,LocalDate assignedDate, String mcoText, LocalDate blankDate, String customerAlias) throws SQLException {
         this.blankID = blankID;
         this.blankType = blankType;
         this.travelAdvisorCode = travelAdvisorCode;
         this.blankDate = blankDate;
         this.mcoText = mcoText;
         this.assignedDate = assignedDate;
+        this.customerAlias = customerAlias;
     }
 
 
