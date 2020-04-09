@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/blankStock.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/customerAccounts.fxml"));
         primaryStage.setTitle("AirVia");
         scene = new Scene(root);
         primaryStage.setScene(scene);

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Text?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateCustomerAccountController">
    <left>
       <AnchorPane prefHeight="341.0" prefWidth="152.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="25.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Customer Account" />
-            <TextField layoutX="20.0" layoutY="57.0" prefHeight="27.0" prefWidth="126.0" promptText="Email Address" />
-            <TextField layoutX="20.0" layoutY="97.0" prefHeight="27.0" prefWidth="126.0" promptText="First Name" />
-            <TextField layoutX="20.0" layoutY="137.0" prefHeight="27.0" prefWidth="126.0" promptText="Last Name" />
-            <TextField layoutX="20.0" layoutY="178.0" prefHeight="27.0" prefWidth="126.0" promptText="Discount" />
-            <Button layoutX="24.0" layoutY="300.0" mnemonicParsing="false" text="Create Account" />
-            <ComboBox layoutX="20.0" layoutY="226.0" prefHeight="27.0" prefWidth="125.0" promptText="Discount Type" />
-            <ComboBox layoutX="20.0" layoutY="264.0" prefHeight="27.0" prefWidth="125.0" promptText="Customer Type" />
+            <TextField fx:id="email" layoutX="20.0" layoutY="57.0" prefHeight="27.0" prefWidth="126.0" promptText="Email Address" />
+            <TextField fx:id="firstName" layoutX="20.0" layoutY="97.0" prefHeight="27.0" prefWidth="126.0" promptText="First Name" />
+            <TextField fx:id="lastName" layoutX="20.0" layoutY="137.0" prefHeight="27.0" prefWidth="126.0" promptText="Last Name" />
+            <TextField fx:id="alias" layoutX="20.0" layoutY="178.0" prefHeight="27.0" prefWidth="126.0" promptText="Alias" />
+            <Button layoutX="24.0" layoutY="300.0" mnemonicParsing="false" onAction="#createCustomerAccount" text="Create Account" />
+            <ComboBox fx:id="type" layoutX="20.0" layoutY="226.0" onAction="#setType" prefHeight="27.0" prefWidth="125.0" promptText="Type" />
+            <Text fx:id="message" layoutX="62.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" />
          </children>
       </AnchorPane>
    </left>
@@ -45,7 +49,7 @@
       </HBox>
    </top>
    <right>
-      <AnchorPane prefHeight="341.0" prefWidth="472.0" BorderPane.alignment="CENTER">
+      <AnchorPane prefHeight="390.0" prefWidth="496.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="126.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Customer Accounts" />
             <TextField layoutX="120.0" layoutY="31.0" promptText="Email Address" />

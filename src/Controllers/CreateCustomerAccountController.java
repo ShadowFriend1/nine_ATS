@@ -1,14 +1,26 @@
 package Controllers;
 
+import DBConnect.MyDBConnectivity;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
-import java.awt.*;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+
 
 public class CreateCustomerAccountController {
 
-@FXML
+
+    @FXML
     private TextField alias;
 @FXML
     private TextField email;
@@ -17,11 +29,42 @@ public class CreateCustomerAccountController {
 @FXML
     private TextField lastName;
 @FXML
-    private TextField type;
+    private ComboBox<String> type;
+@FXML
+    private Text message;
+
+    private MyDBConnectivity database = new MyDBConnectivity();
+    int typeInt = -1;
 
 
 
-    public void createCustomerAccount(ActionEvent event){
+    public CreateCustomerAccountController() throws SQLException {
+    }
+
+    public void initialize(){
+        type.getItems().setAll("Regular", "Valued");
+
+    }
+
+    public void createCustomerAccount(ActionEvent event) throws SQLException {
+
+        String addCustomer = "{call AddCustomer(?, ?, ?, ?, ?, ?)}";
+        CallableStatement cs = database.call(addCustomer);
+        cs.setString(1, alias.getText());
+        cs.setString(2, email.getText());
+        cs.setString(3, firstName.getText());
+        cs.setString(4, lastName.getText());
+        cs.setInt(5, typeInt);
+
+        cs.registerOutParameter(6, Types.VARCHAR);
+        cs.execute();
+        message.setText(cs.getString(6));
+    }
+
+    public void setType(ActionEvent actionEvent) {
+        // set customer type to int value upon selection
+        if (type.getValue().equals("Regular")) typeInt = 1;
+        else if (type.getValue().equals("Valued")) typeInt = 2;
 
     }
 }

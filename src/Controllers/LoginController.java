@@ -76,9 +76,7 @@ public class LoginController {
             window.setScene(homeScene);
             window.show();
         }
-        /*
-            NEED TO DO OTHER ACCOUNT HOME GUI CONNECTIONS
-         */
+
 
         // type 0 travel advisor
         else if (type == 0){
