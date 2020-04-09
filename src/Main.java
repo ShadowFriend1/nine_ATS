@@ -13,13 +13,11 @@ import java.sql.*;
 
 public class Main extends Application {
 
-    private Scene scene;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/blankStock.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GUI/login.fxml"));
         primaryStage.setTitle("AirVia");
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();

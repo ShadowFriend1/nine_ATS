@@ -1,5 +1,6 @@
 package Controllers;
 
+import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -7,6 +8,8 @@ import javafx.scene.control.TextField;
 import java.awt.*;
 
 public class CreateCustomerAccountController {
+
+    MyDBConnectivity database;
 
 @FXML
     private TextField alias;
@@ -24,4 +27,6 @@ public class CreateCustomerAccountController {
     public void createCustomerAccount(ActionEvent event){
 
     }
+
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 }

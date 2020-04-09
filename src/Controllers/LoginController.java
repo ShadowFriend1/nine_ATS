@@ -1,20 +1,17 @@
 package Controllers;
 
 import DBConnect.MyDBConnectivity;
-import entities.Blank;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.control.TextField;
-
 
 import java.io.IOException;
 import java.sql.CallableStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
@@ -46,9 +43,11 @@ public class LoginController {
 
         // if it's an admin type (type 2)
         if (type == 2) {
-
-
-            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/admin.fxml"));
+            System.out.println("Logged in as admin: "+username.getText());
+            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/admin.fxml"));
+            Parent homeView = (Parent) fxmlloader.load();
+            SystemAdminController sys = fxmlloader.<SystemAdminController>getController();
+            sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
 
@@ -62,7 +61,11 @@ public class LoginController {
 
         // type 1 office manager
         else if (type == 1){
-            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/manager.fxml"));
+            System.out.println("Logged in as manager: "+username.getText());
+            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/manager.fxml"));
+            Parent homeView = (Parent) fxmlloader.load();
+            OfficeManagerController sys = fxmlloader.<OfficeManagerController>getController();
+            sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
 
@@ -78,7 +81,11 @@ public class LoginController {
 
         // type 0 travel advisor
         else if (type == 0){
-            Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/advisor.fxml"));
+            System.out.println("Logged in as advisor: "+username.getText());
+            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/advisor.fxml"));
+            Parent homeView = (Parent) fxmlloader.load();
+            TravelAdvisorController sys = fxmlloader.<TravelAdvisorController>getController();
+            sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
 

@@ -7,12 +7,13 @@ import java.sql.SQLException;
 
 public class TravelAdvisorController {
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    private MyDBConnectivity database;
 
-    public TravelAdvisorController() throws SQLException {
-    }
+    public TravelAdvisorController() throws SQLException {}
 
-    public void createCustomerAccount(){
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    public void onCLickCreateCustomerAccount(){
 
     }
     public void giveDiscount(){

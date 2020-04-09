@@ -25,7 +25,7 @@ import java.time.LocalDate;
 public class BlankListController {
 
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
     @FXML
     private TableView<Blank> blankTable;
     @FXML
@@ -48,6 +48,8 @@ public class BlankListController {
 
     public BlankListController() throws SQLException {
     }
+
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     // configure table columnn
     public void initialize() throws SQLException {

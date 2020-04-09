@@ -7,10 +7,12 @@ import java.sql.SQLException;
 
 public class SystemAdminController {
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
     public SystemAdminController() throws SQLException {
     }
+
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public ResultSet accessFullStock() throws SQLException {
         String query = "SELECT * FROM BlankStock;";

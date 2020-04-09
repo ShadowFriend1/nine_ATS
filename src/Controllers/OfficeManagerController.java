@@ -19,12 +19,13 @@ import java.sql.SQLException;
 
 public class OfficeManagerController {
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
 
     public OfficeManagerController() throws SQLException {
     }
 
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public void accessRefundLog(){
 

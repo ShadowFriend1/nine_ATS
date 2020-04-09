@@ -19,11 +19,13 @@ public class SysAccountController {
     @FXML
     private TextField accountID;
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
 
     public SysAccountController() throws SQLException {
     }
+
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public void createNewAccount(ActionEvent event) throws SQLException {
         String query = "INSERT INTO SysAccount (username, password_, accountType, accountID) VALUES ('" + username + "', '" + password +"', " +
