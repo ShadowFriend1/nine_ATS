@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class CreateCustomerAccountController implements SystemController {
 
+    private int id;
     MyDBConnectivity database;
 
 
@@ -68,4 +69,7 @@ public class CreateCustomerAccountController implements SystemController {
 
     @Override
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    @Override
+    public void setId (int id) { this.id = id; }
 }

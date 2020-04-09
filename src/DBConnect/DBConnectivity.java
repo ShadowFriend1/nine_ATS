@@ -9,9 +9,7 @@ public interface DBConnectivity {
     String defaultUserName = "root";
     String defaultPassword = "";
 
-    int update(String sqlStatement) throws SQLException;
-
-    ResultSet query(String sqlStatement) throws SQLException;
+    Statement getStatement() throws SQLException;
 
     CallableStatement call(String sqlStatement) throws SQLException;
 
