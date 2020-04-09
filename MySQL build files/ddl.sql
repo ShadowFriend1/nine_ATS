@@ -16,7 +16,7 @@ CREATE TABLE CommissionRates (Rate float NOT NULL, CommissionDate date NOT NULL,
 
 CREATE TABLE ExchangeRates (ExchangeDate date NOT NULL, Code varchar(3) NOT NULL, Rate double NOT NULL, PRIMARY KEY (ExchangeDate, Code));
 
-CREATE TABLE BlankStock (ID bigint, Type int NOT NULL, TravelAgentCode int, AssignedDate date, MCOText varchar(255), Date date NOT NULL, PRIMARY KEY (ID));
+CREATE TABLE BlankStock (ID bigint UNIQUE, Type int NOT NULL, TravelAgentCode int, AssignedDate date, MCOText varchar(255), Date date NOT NULL, PRIMARY KEY (ID));
 
 ALTER TABLE Sale ADD CONSTRAINT FKSale604739 FOREIGN KEY (CustomerAlias) REFERENCES CustomerAccount (Alias) ON UPDATE CASCADE ON DELETE SET NULL;
 
@@ -224,6 +224,7 @@ BEGIN
     DECLARE BlankType int;
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
+            SET Response = 'Error adding blanks';
             SHOW ERRORS;
             ROLLBACK;
         end;
@@ -237,6 +238,25 @@ BEGIN
     UNTIL Counter > EndBlank
     END REPEAT;
     SET Response = 'Blanks Successfully Added';
+end //
+
+//
+/* deletes blanks from the database */
+CREATE PROCEDURE AirVia.DeleteBlanks (
+    IN StartBlank BIGINT,
+    IN EndBlank BIGINT,
+    OUT Response varchar(255)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+        BEGIN
+            SET Response = 'Error deleting blanks';
+            SHOW ERRORS;
+            ROLLBACK;
+        end;
+
+    DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
+    SET Response = 'Unused Blanks Successfully Deleted';
 end //
 
 //

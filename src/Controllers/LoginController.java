@@ -62,11 +62,13 @@ public class LoginController{
 
         // type 0 travel advisor
         else if (type == 0) {
-            ResultSet rs = database.getStatement().executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
+            Statement stmt = database.getStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
                     " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
             if (rs.first()) {
                 code = rs.getInt("Code");
             }
+            stmt.close();
             System.out.println("Logged in as advisor: " + username.getText());
             fxmlFile = "/GUI/advisor.fxml";
         }

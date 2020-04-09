@@ -1,7 +1,4 @@
-import Controllers.BlankListController;
-import Controllers.LoginController;
-import Controllers.SystemController;
-import DBConnect.DBConnectivity;
+import Controllers.SystemAdmin.SystemAdminController;
 import DBConnect.MyDBConnectivity;
 
 
@@ -18,9 +15,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/admin.fxml"));
         Parent root = fxmlLoader.load();
-        LoginController sys = fxmlLoader.getController();
+        SystemAdminController sys = fxmlLoader.getController();
         MyDBConnectivity database = new MyDBConnectivity();
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("database connection closed");

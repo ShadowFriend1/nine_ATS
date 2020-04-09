@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SystemAdminController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SystemAdmin.SystemAdminController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
@@ -15,12 +15,11 @@
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="57.0" layoutY="112.0" mnemonicParsing="false" text="Ticket List" />
+            <Button layoutX="57.0" layoutY="112.0" mnemonicParsing="false" text="Add Blanks" onAction="#onClickAddBlanks" />
             <Button layoutX="41.0" layoutY="154.0" mnemonicParsing="false" text="Travel Advisor List" />
             <Button layoutX="59.0" layoutY="200.0" mnemonicParsing="false" text="Accounts" />
-            <Button layoutX="29.0" layoutY="247.0" mnemonicParsing="false" text="Ticket Turnover Report" />
             <Button layoutX="70.0" layoutY="304.0" mnemonicParsing="false" text="Backup" />
-            <Button layoutX="53.0" layoutY="66.0" mnemonicParsing="false" text="Blank Stock" />
+            <Button layoutX="53.0" layoutY="66.0" mnemonicParsing="false" text="Blank Stock Report" />
             <Text layoutX="58.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Admin Home" />
          </children>
       </AnchorPane>
