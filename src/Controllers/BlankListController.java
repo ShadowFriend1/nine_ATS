@@ -119,7 +119,6 @@ public class BlankListController implements SystemController {
         LocalDate tempDate;
         try {
             while (resultSet.next()) {
-                System.out.println("blank retrieved");
                 tempID = resultSet.getLong("ID");
                 tempType = resultSet.getInt("Type");
                 try {
@@ -143,8 +142,8 @@ public class BlankListController implements SystemController {
             }
         } finally {
             resultSet.close();
+            blankTable.getItems().addAll(blanks);
         }
-        blankTable.getItems().addAll(blanks);
     }
 
     public void logout(ActionEvent event) throws IOException {
