@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 
 
-public class SysAccountController {
+public class SysAccountController implements SystemController{
 
     @FXML
     private TextField username;
@@ -19,11 +19,14 @@ public class SysAccountController {
     @FXML
     private TextField accountID;
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
 
     public SysAccountController() throws SQLException {
     }
+
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public void createNewAccount(ActionEvent event) throws SQLException {
         String query = "INSERT INTO SysAccount (username, password_, accountType, accountID) VALUES ('" + username + "', '" + password +"', " +

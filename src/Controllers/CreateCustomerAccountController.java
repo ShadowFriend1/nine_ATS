@@ -1,10 +1,7 @@
 package Controllers;
 
 import DBConnect.MyDBConnectivity;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -17,7 +14,9 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 
-public class CreateCustomerAccountController {
+public class CreateCustomerAccountController implements SystemController {
+
+    MyDBConnectivity database;
 
 
     @FXML
@@ -33,7 +32,6 @@ public class CreateCustomerAccountController {
 @FXML
     private Text message;
 
-    private MyDBConnectivity database = new MyDBConnectivity();
     int typeInt = -1;
 
 
@@ -67,4 +65,7 @@ public class CreateCustomerAccountController {
         else if (type.getValue().equals("Valued")) typeInt = 2;
 
     }
+
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 }

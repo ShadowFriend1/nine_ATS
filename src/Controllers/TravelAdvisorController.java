@@ -5,14 +5,16 @@ import DBConnect.MyDBConnectivity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TravelAdvisorController {
+public class TravelAdvisorController implements SystemController{
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    private MyDBConnectivity database;
 
-    public TravelAdvisorController() throws SQLException {
-    }
+    public TravelAdvisorController() throws SQLException {}
 
-    public void createCustomerAccount(){
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    public void onCLickCreateCustomerAccount(){
 
     }
     public void giveDiscount(){
@@ -20,8 +22,7 @@ public class TravelAdvisorController {
     }
     public ResultSet returnBlanks(int id) throws SQLException {
         String query = "SELECT * FROM BlankStock WHERE TravelAgentCode = " + id + ";";
-        ResultSet resultSet = database.query(query);
-        return resultSet;
+        return database.query(query);
 
     }
     public void setCurrencyExchangeRate(){

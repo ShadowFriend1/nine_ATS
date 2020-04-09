@@ -17,14 +17,16 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class OfficeManagerController {
+public class OfficeManagerController implements SystemController {
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
 
 
     public OfficeManagerController() throws SQLException {
     }
 
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public void accessRefundLog(){
 
@@ -52,8 +54,7 @@ public class OfficeManagerController {
     }
     public ResultSet viewTravelAgentDetails(int id) throws SQLException {
         String query = "GET * FROM TravelAgent WHERE TravelAgentCode=" + id + ";";
-        ResultSet resultSet = database.query(query);
-        return resultSet;
+        return database.query(query);
     }
     public void setCommissionRate(int id, float commissionRate){
         String query;

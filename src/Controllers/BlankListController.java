@@ -22,10 +22,10 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class BlankListController {
+public class BlankListController implements SystemController {
 
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    MyDBConnectivity database;
     @FXML
     private TableView<Blank> blankTable;
     @FXML
@@ -49,14 +49,17 @@ public class BlankListController {
     public BlankListController() throws SQLException {
     }
 
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
     // configure table columnn
     public void initialize() throws SQLException {
-        blankIDColumn.setCellValueFactory(new PropertyValueFactory<Blank, Long>("blankID"));
-        blankTypeColumn.setCellValueFactory(new PropertyValueFactory<Blank, Integer>("blankType"));
-        travelAgentCodeColumn.setCellValueFactory(new PropertyValueFactory<Blank, Integer>("travelAdvisorCode"));
-        blankDateColumn.setCellValueFactory(new PropertyValueFactory<Blank, LocalDate>("blankDate"));
-        mcoTextColumn.setCellValueFactory(new PropertyValueFactory<Blank, String>("mcoText"));
-        assignedDateColumn.setCellValueFactory(new PropertyValueFactory<Blank, String>("assignedDate"));
+        blankIDColumn.setCellValueFactory(new PropertyValueFactory<>("blankID"));
+        blankTypeColumn.setCellValueFactory(new PropertyValueFactory<>("blankType"));
+        travelAgentCodeColumn.setCellValueFactory(new PropertyValueFactory<>("travelAdvisorCode"));
+        blankDateColumn.setCellValueFactory(new PropertyValueFactory<>("blankDate"));
+        mcoTextColumn.setCellValueFactory(new PropertyValueFactory<>("mcoText"));
+        assignedDateColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDate"));
 
 
 
@@ -76,19 +79,12 @@ public class BlankListController {
             String tempMCOText;
             LocalDate tempDate;
 
-        Connection conn = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
-            // get blanks
         // get blanks
-        try {
+        // get blanks
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", ""); Statement statement = conn.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM BlankStock;")) {
 
             // I tried to use database connection manually to maybe avoid opening many connections. Still doesn't work
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", "");
-            statement = conn.createStatement();
 
-            resultSet = statement.executeQuery("SELECT * FROM BlankStock;");
             // create blank objects from each record
             while (resultSet.next()) {
                 tempID = resultSet.getLong("ID");
@@ -109,15 +105,8 @@ public class BlankListController {
 
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally {
-            if (conn != null) conn.close();
-            if (statement !=null) statement.close();
-            if (resultSet != null) resultSet.close();
-
         }
             blankTable.getItems().addAll(blanks);
 
@@ -150,17 +139,11 @@ public class BlankListController {
         String tempAssignedDate;
         String tempMCOText;
         LocalDate tempDate;
-        Connection conn = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
 
         blankTable.getItems().clear();
         // get blanks
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", "");
-            statement = conn.createStatement();
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/AirVia", "root", ""); Statement statement = conn.createStatement(); ResultSet resultSet = statement.executeQuery("SELECT * FROM BlankStock WHERE ID = " + searchID.getText() + ";")) {
 
-            resultSet = statement.executeQuery("SELECT * FROM BlankStock WHERE ID = " + searchID.getText() + ";");
             // create blank objects from each record
             while (resultSet.next()) {
                 tempID = resultSet.getLong("ID");
@@ -182,15 +165,8 @@ public class BlankListController {
 
 
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
-        }
-        finally {
-            if (conn != null) conn.close();
-            if (statement !=null) statement.close();
-            if (resultSet != null) resultSet.close();
-
         }
         blankTable.getItems().addAll(blanks);
 
