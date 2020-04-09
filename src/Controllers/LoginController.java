@@ -45,8 +45,8 @@ public class LoginController {
         if (type == 2) {
             System.out.println("Logged in as admin: "+username.getText());
             FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/admin.fxml"));
-            Parent homeView = (Parent) fxmlloader.load();
-            SystemAdminController sys = fxmlloader.<SystemAdminController>getController();
+            Parent homeView = fxmlloader.load();
+            SystemAdminController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
@@ -63,8 +63,8 @@ public class LoginController {
         else if (type == 1){
             System.out.println("Logged in as manager: "+username.getText());
             FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/manager.fxml"));
-            Parent homeView = (Parent) fxmlloader.load();
-            OfficeManagerController sys = fxmlloader.<OfficeManagerController>getController();
+            Parent homeView = fxmlloader.load();
+            OfficeManagerController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
@@ -83,8 +83,8 @@ public class LoginController {
         else if (type == 0){
             System.out.println("Logged in as advisor: "+username.getText());
             FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/advisor.fxml"));
-            Parent homeView = (Parent) fxmlloader.load();
-            TravelAdvisorController sys = fxmlloader.<TravelAdvisorController>getController();
+            Parent homeView = fxmlloader.load();
+            TravelAdvisorController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
 
