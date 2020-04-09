@@ -33,7 +33,7 @@ public class LoginController {
 
     public void onClickLogin(javafx.event.ActionEvent event) throws IOException, SQLException {
 
-        System.out.println("{call Login("+username.getText()+", "+password.getText()+")}");
+        System.out.println("{call Login(" + username.getText() + ", " + password.getText() + ")}");
         CallableStatement cs = database.call("{call Login(?, ?, ?)}");
         cs.setString(1, username.getText());
         cs.setString(2, password.getText());
@@ -41,75 +41,55 @@ public class LoginController {
         cs.execute();
         int type = cs.getInt(3);
 
+        String fxmlFile = "none found";
+
         // if it's an admin type (type 2)
         if (type == 2) {
-            System.out.println("Logged in as admin: "+username.getText());
-            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/admin.fxml"));
-            Parent homeView = fxmlloader.load();
-            SystemAdminController sys = fxmlloader.getController();
-            sys.setDatabaseC(database);
-            Scene homeScene = new Scene(homeView);
-
-
-            // Get stage information
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            // Change the scene
-            window.setScene(homeScene);
-            window.show();
-
+            System.out.println("Logged in as admin: " + username.getText());
+            fxmlFile = "/GUI/admin.fxml";
         }
 
         // type 1 office manager
-        else if (type == 1){
-            System.out.println("Logged in as manager: "+username.getText());
-            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/manager.fxml"));
-            Parent homeView = fxmlloader.load();
-            OfficeManagerController sys = fxmlloader.getController();
-            sys.setDatabaseC(database);
-            Scene homeScene = new Scene(homeView);
-
-
-            // Get stage information
-            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            // Change the scene
-            window.setScene(homeScene);
-            window.show();
+        else if (type == 1) {
+            System.out.println("Logged in as manager: " + username.getText());
+            fxmlFile = "/GUI/manager.fxml";
         }
         /*
             NEED TO DO OTHER ACCOUNT HOME GUI CONNECTIONS
          */
 
         // type 0 travel advisor
-        else if (type == 0){
-            System.out.println("Logged in as advisor: "+username.getText());
-            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/advisor.fxml"));
+        else if (type == 0) {
+            System.out.println("Logged in as advisor: " + username.getText());
+            fxmlFile = "/GUI/advisor.fxml";
+        }
+        if (fxmlFile.equals("none found")) {
+            /* type 222 password invalid */
+            if (type == 222) {
+                System.out.println("Password invalid");
+                message.setText("Password invalid");
+            }
+
+            /* type 111 username invalid */
+            else if (type == 111) {
+                System.out.println("Username invalid");
+                message.setText("Username invalid");
+            } else if (type == 999) {
+                System.out.println("Database error");
+                message.setText("Database error");
+            }
+        } else {
+            FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent homeView = fxmlloader.load();
-            TravelAdvisorController sys = fxmlloader.getController();
+            SystemController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             Scene homeScene = new Scene(homeView);
-
 
             // Get stage information
             Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
             // Change the scene
             window.setScene(homeScene);
             window.show();
-        }
-        /* type 222 password invalid */
-        else if (type == 222){
-            System.out.println("Password invalid");
-            message.setText("Password invalid");
-        }
-
-        /* type 111 username invalid */
-        else if (type == 111) {
-            System.out.println("Username invalid");
-            message.setText("Username invalid");
-        }
-
-        else if (type == 999) {
-            System.out.println("Database error");
-            message.setText("Database error");
         }
     }
 }

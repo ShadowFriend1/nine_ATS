@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 
 import java.awt.*;
 
-public class CreateCustomerAccountController {
+public class CreateCustomerAccountController implements SystemController {
 
     MyDBConnectivity database;
 
@@ -28,5 +28,6 @@ public class CreateCustomerAccountController {
 
     }
 
+    @Override
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
 }
