@@ -17,15 +17,18 @@
                 <TextField fx:id="localTax" layoutY="120.0" promptText="Local Taxes" />
                 <TextField fx:id="otherTax" layoutY="150.0" promptText="Other Taxes" />
                 <TextField fx:id="payment" layoutY="180.0" promptText="Travel Payment Amount" />
-                <TextField fx:id="cardNumber" layoutY="210.0" promptText="Card Number" />
-                <TextField fx:id="cardType" layoutY="240.0" promptText="Card Type" />
+                <TextField fx:id="cardNumber" layoutX="200" layoutY="180.0" promptText="Card Number" />
+                <TextField fx:id="cardType" layoutY="210" promptText="Card Type" />
                 <ComboBox fx:id="alias" layoutX="200" layoutY="90" promptText="Customer Account Alias" />
                 <ComboBox fx:id="commission" layoutX="200" layoutY="120" promptText="Commission Rate" />
                 <ComboBox fx:id="exchangeCode" layoutX="200" layoutY="150" promptText="Local Currency Code" />
-                <Button  layoutX="200" layoutY="270" mnemonicParsing="false" text="Cash Sale" onAction="#onClickMakeCashSale" />
-                <Button layoutX="60" layoutY="270" mnemonicParsing="false" text="Card Sale" onAction="#onClickMakeCardSale" />
-                <Button layoutX="60" layoutY="300" mnemonicParsing="false" text="Delayed Sale" onAction="#onClickMakeDelayedSale" />
-                <Button layoutX="200" layoutY="300" mnemonicParsing="false" text="Return to Home" onAction="#onClickBlanksCancel" />
+                <Button  layoutX="200" layoutY="240" mnemonicParsing="false" text="Cash Sale Interline" onAction="#onClickMakeCashSale" />
+                <Button layoutX="30" layoutY="240" mnemonicParsing="false" text="Card Sale Interline" onAction="#onClickMakeCardSale" />
+                <Button layoutX="30" layoutY="270" mnemonicParsing="false" text="Delayed Sale Interline" onAction="#onClickMakeDelayedSale" />
+                <Button  layoutX="30" layoutY="300" mnemonicParsing="false" text="Cash Sale Domestic" onAction="#onClickMakeCashSaleDomestic" />
+                <Button layoutX="200" layoutY="300" mnemonicParsing="false" text="Card Sale Domestic" onAction="#onClickMakeCardSaleDomestic" />
+                <Button layoutX="30" layoutY="330" mnemonicParsing="false" text="Delayed Sale Domestic" onAction="#onClickMakeDelayedSaleDomestic" />
+                <Button layoutX="30" layoutY="360" mnemonicParsing="false" text="Return to Home" onAction="#onClickBlanksCancel" />
                 <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
             </children>
         </AnchorPane>

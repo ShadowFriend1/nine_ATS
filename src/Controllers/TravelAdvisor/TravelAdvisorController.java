@@ -75,7 +75,22 @@ public class TravelAdvisorController implements SystemController {
     }
 
     public void onClickCheckBlankStock(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/checkBlankStock"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/checkBlankStock.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+
+    public void onClickRefund(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/refund.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

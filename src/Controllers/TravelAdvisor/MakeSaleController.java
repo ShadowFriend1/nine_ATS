@@ -4,6 +4,7 @@ import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -75,20 +76,6 @@ public class MakeSaleController implements SystemController{
     }
 
     public void onClickMakeCardSale() throws SQLException {
-        /*
-        IN BlankID bigint,
-                                     IN ICode int,
-                                     IN ILocalTax float,
-                                     IN IOtherTax float,
-                                     IN IPayment float,
-                                     IN IAlias varchar(10),
-                                     IN Commission float,
-                                     IN ICardNumber bigint,
-                                     IN ICardType varchar(10),
-                                     IN IExchangeCode varchar(3),
-                                     IN ICurrentDate Date,
-                                     OUT Response varchar(255))
-         */
         CallableStatement stmt = database.call("{call MakeSaleCard(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
         try {
             stmt.setLong(1, Long.parseLong(blankID.getText()));
@@ -194,5 +181,85 @@ public class MakeSaleController implements SystemController{
     @Override
     public void setDatabaseC(MyDBConnectivity db) {
         this.database = db;
+    }
+
+    public void onClickMakeCashSaleDomestic(ActionEvent event) throws SQLException {
+        CallableStatement stmt = database.call("{call MakeSaleCashDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        try {
+            stmt.setLong(1, Long.parseLong(blankID.getText()));
+            stmt.setInt(2, id);
+            stmt.setFloat(3, Float.parseFloat(localTax.getText()));
+            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
+            try {
+                stmt.setString(5, alias.getValue());
+            } catch (NullPointerException e) {
+                System.out.println("casual customer");
+                stmt.setString(5, null);
+            }
+            stmt.setFloat(6, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setFloat(7, Float.parseFloat(payment.getText()));
+            stmt.setDate(8, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(9, Types.VARCHAR);
+            stmt.execute();
+            message.setText(stmt.getString(9));
+        } catch (NullPointerException | NumberFormatException e) {
+            message.setText("Field Broken");
+        } finally {
+            stmt.close();
+        }
+    }
+
+    public void onClickMakeCardSaleDomestic(ActionEvent event) throws SQLException {
+        CallableStatement stmt = database.call("{call MakeSaleCardDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        try {
+            stmt.setLong(1, Long.parseLong(blankID.getText()));
+            stmt.setInt(2, id);
+            stmt.setFloat(3, Float.parseFloat(localTax.getText()));
+            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
+            stmt.setFloat(5, Float.parseFloat(payment.getText()));
+            try {
+                stmt.setString(6, alias.getValue());
+            } catch (NullPointerException e) {
+                System.out.println("casual customer");
+                stmt.setString(6, null);
+            }
+            stmt.setFloat(7, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setLong(8, Long.parseLong(cardNumber.getText()));
+            stmt.setString(9, cardType.getText());
+            stmt.setDate(10, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(11, Types.VARCHAR);
+            stmt.execute();
+            message.setText(stmt.getString(11));
+        } catch (NullPointerException | NumberFormatException e) {
+            message.setText("Field Broken");
+        } finally {
+            stmt.close();
+        }
+    }
+
+    public void onClickMakeDelayedSaleDomestic(ActionEvent event) throws SQLException {
+        CallableStatement stmt = database.call("{call MakeSaleDelayedDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        try {
+            stmt.setLong(1, Long.parseLong(blankID.getText()));
+            stmt.setInt(2, id);
+            stmt.setFloat(3, Float.parseFloat(localTax.getText()));
+            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
+            try {
+                stmt.setString(5, alias.getValue());
+            } catch (NullPointerException e) {
+                System.out.println("casual customer");
+                stmt.setString(5, null);
+            }
+            stmt.setFloat(6, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setFloat(7, Float.parseFloat(payment.getText()));
+            stmt.setDate(8, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(9, Types.VARCHAR);
+            stmt.execute();
+            message.setText(stmt.getString(9));
+        } catch (NullPointerException | NumberFormatException e) {
+            message.setText("Field Broken");
+        } finally {
+            stmt.close();
+        }
     }
 }

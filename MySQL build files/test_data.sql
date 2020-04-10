@@ -18,6 +18,7 @@ call AddCustomer('Dom', '', 'Dominic', 'Beatty', 1, @a);
 
 /* add customer discounts */
 call AddFixedDiscount('Chris', 0.01, @a);
+call AddFlexibleDiscount('DaveD', NULL, 1000, 0.00, @a);
 call AddFlexibleDiscount('DaveD', 1000, 2000, 0.01, @a);
 call AddFlexibleDiscount('DaveD', 2000, NULL, 0.02, @a);
 call AddFixedDiscount('SarahB', 0.02, @a);
