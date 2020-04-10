@@ -7,11 +7,20 @@ import java.sql.*;
 
 public class MyDBConnectivity implements DBConnectivity {
 
+    private String address;
+    private String userName;
+    private String password;
     final private Connection conn;
 
     // If arguments are provided for the creation of the connection then that database connection is attempted
     public MyDBConnectivity(String address, String userName, String password) throws SQLException {
         conn = DriverManager.getConnection(address, userName, password);
+        this.address = address;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public void reconnect() throws SQLException{
     }
 
     // If no arguments are provided for the database connection then the default values

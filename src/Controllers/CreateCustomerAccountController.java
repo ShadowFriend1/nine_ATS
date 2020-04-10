@@ -15,12 +15,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 
-public class CreateCustomerAccountController implements SystemController {
+public class CreateCustomerAccountController extends NavigationController implements SystemController {
 
     private int id;
     MyDBConnectivity database;
@@ -59,7 +60,7 @@ public class CreateCustomerAccountController implements SystemController {
 
 
 
-    public CreateCustomerAccountController() throws SQLException {
+    public CreateCustomerAccountController()  throws SQLException {
     }
 
     @Override
@@ -148,7 +149,6 @@ public class CreateCustomerAccountController implements SystemController {
 
 
     }
-
 
 
 

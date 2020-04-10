@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 
 
-public class SysAccountController implements SystemController{
+public class SysAccountController extends NavigationController implements SystemController{
 
     @FXML
     private TextField username;

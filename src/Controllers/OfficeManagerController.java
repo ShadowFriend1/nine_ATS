@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.*;
 
-public class OfficeManagerController implements SystemController {
+public class OfficeManagerController extends NavigationController implements SystemController {
 
     private int id;
     MyDBConnectivity database;

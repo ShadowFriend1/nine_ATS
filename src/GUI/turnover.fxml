@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="1500" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SystemAdmin.StockTurnoverController">
+    <left>
+        <AnchorPane prefHeight="328.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Text layoutX="68.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stock Turnover" />
+                <DatePicker fx:id="startDate" layoutX="20.0" layoutY="73.0" promptText="Start Date" />
+                <DatePicker fx:id="endDate" layoutX="20.0" layoutY="100.0" promptText="End Date" />
+                <Button layoutX="20.0" layoutY="127.0" text="Load Report" onAction="#loadReport" />
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane prefHeight="400.0" prefWidth="442.0" BorderPane.alignment="CENTER">
+            <children>
+                <TableView fx:id="advisorTable" layoutX="-141.0" prefHeight="394.0" prefWidth="750">
+                    <columns>
+                        <TableColumn fx:id="codeColumn" prefWidth="150" text="Advisor Code" />
+                        <TableColumn fx:id="assStartColumn" prefWidth="150" text="Assigned Start ID" />
+                        <TableColumn fx:id="assEndColumn" prefWidth="150" text="Assigned End ID" />
+                        <TableColumn fx:id="assAmountColumn" prefWidth="150" text="Assigned Amount" />
+                        <TableColumn fx:id="soldStartColumn" prefWidth="150" text="Sold Start ID" />
+                        <TableColumn fx:id="soldEndColumn" prefWidth="150" text="Sold End ID" />
+                        <TableColumn fx:id="soldAmountColumn" prefWidth="150" text="Sold Amount" />
+                        <TableColumn fx:id="advisorFinalColumn" prefWidth="150" text="Advisor Final Amount" />
+                    </columns>
+                </TableView>
+                <TableView fx:id="agentTable" layoutX="609" prefHeight="394.0" prefWidth="500">
+                <columns>
+                    <TableColumn fx:id="recStartColumn" prefWidth="150" text="Received Start ID" />
+                    <TableColumn fx:id="recEndColumn" prefWidth="150" text="Received End ID" />
+                    <TableColumn fx:id="recAmountColumn" prefWidth="150" text="Received Amount" />
+                    <TableColumn fx:id="finalAmountColumn" prefWidth="150" text="Agent Final Amount" />
+                </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+    </right>
+    <top>
+        <HBox prefHeight="100.0" prefWidth="863.0" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="0.0" prefWidth="115.0" />
+                <Button mnemonicParsing="false" onAction="#goManagerHome" text="Home">
+                    <HBox.margin>
+                        <Insets top="30.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" text="Manager">
+                    <HBox.margin>
+                        <Insets left="20.0" top="30.0" />
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#goLogout" text="Logout">
+                    <HBox.margin>
+                        <Insets left="200.0" top="30.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+        </HBox>
+    </top>
+</BorderPane>

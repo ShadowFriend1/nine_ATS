@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class TravelAdvisorController implements SystemController{
+public class TravelAdvisorController extends NavigationController implements SystemController{
 
     private MyDBConnectivity database;
     private int id;
@@ -25,7 +25,7 @@ public class TravelAdvisorController implements SystemController{
     public void setId (int id) { this.id = id; }
 
     public void onCLickCreateCustomerAccount(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("GUI/Advisor/customerAccounts.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

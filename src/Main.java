@@ -1,6 +1,5 @@
-import Controllers.BlankListController;
+import Controllers.SystemAdmin.SystemAdminController;
 import Controllers.SystemController;
-import DBConnect.DBConnectivity;
 import DBConnect.MyDBConnectivity;
 
 
@@ -17,9 +16,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/login.fxml"));
         Parent root = fxmlLoader.load();
         SystemController sys = fxmlLoader.getController();
+
         MyDBConnectivity database = new MyDBConnectivity();
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("database connection closed");
@@ -36,15 +37,6 @@ public class Main extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
     }
-
-
-
-
-
-
-
-
-
 
     public static void main(String[] args) throws SQLException {
         launch(args);
