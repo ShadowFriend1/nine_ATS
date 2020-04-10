@@ -21,7 +21,7 @@ public class SystemAdminController extends NavigationController implements Syste
     }
 
     public void onClickAddBlanks(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/addBlanks.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/addBlanks.fxml"));
         Parent homeView = fxmlloader.load();
         AddBlanksController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -40,7 +40,7 @@ public class SystemAdminController extends NavigationController implements Syste
     public void setId (int id) { this.id = id; }
 
     public void accessFullStock(javafx.event.ActionEvent event) throws IOException, SQLException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
         BlankListController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -54,7 +54,7 @@ public class SystemAdminController extends NavigationController implements Syste
     }
 
     public void accessStockTurnover(javafx.event.ActionEvent event) throws IOException, SQLException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/turnover.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/turnover.fxml"));
         Parent homeView = fxmlloader.load();
         StockTurnoverController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

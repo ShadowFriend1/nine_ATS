@@ -1,5 +1,6 @@
-package Controllers;
+package Controllers.TravelAdvisor;
 
+import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -9,79 +10,82 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class NavigationController implements SystemController {
+public class TravelAdvisorController implements SystemController {
 
-    private int id;
     private MyDBConnectivity database;
-
-    public void goManagerHome(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/OfficeManager/manager.fxml"));
-        Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
-        sys.setDatabaseC(database);
-        sys.setId(id);
-        Scene homeScene = new Scene(homeView);
-
-        // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // Change the scene
-        window.setScene(homeScene);
-        window.show();
-
-    }
-    public void goAdvisorHome(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/advisor.fxml"));
-        Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
-        sys.setDatabaseC(database);
-        sys.setId(id);
-        Scene homeScene = new Scene(homeView);
-
-        // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // Change the scene
-        window.setScene(homeScene);
-        window.show();
-
-    }
-    public void goAdminHome(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/admin.fxml"));
-        Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
-        sys.setDatabaseC(database);
-        sys.setId(id);
-        Scene homeScene = new Scene(homeView);
-
-        // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // Change the scene
-        window.setScene(homeScene);
-        window.show();
-
-    }
-    public void goLogout(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/login.fxml"));
-        Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
-        sys.setDatabaseC(database);
-        sys.setId(id);
-        Scene homeScene = new Scene(homeView);
-
-        // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // Change the scene
-        window.setScene(homeScene);
-        window.show();
-    }
+    private int id;
+    public TravelAdvisorController() throws SQLException {}
 
     @Override
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     @Override
-    public void setDatabaseC(MyDBConnectivity db) {
-        database = db;
+    public void setId (int id) { this.id = id; }
+
+    public void onCLickCreateCustomerAccount(javafx.event.ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/createCustomerAccount"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+    public void giveDiscount(){
+
+    }
+    public void returnBlanks() throws SQLException {
+
+    }
+    public void setCurrencyExchangeRate(){
+
+    }
+    public void writeRefundLog(){
+
+    }
+    public void accessRefundLog(){
+
+    }
+    public void generateSalesReport(){
+
+    }
+
+    public void onClickMakeSale(javafx.event.ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/makeSale.fxml"));
+        Parent homeView = fxmlloader.load();
+        MakeSaleController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        sys.configureMenus();
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+
+    public void onClickCheckBlankStock(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/checkBlankStock"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
     }
 }

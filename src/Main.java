@@ -1,5 +1,5 @@
-import Controllers.SystemAdmin.SystemAdminController;
-import Controllers.SystemController;
+import Controllers.OfficeManager.OfficeManagerController;
+import Controllers.TravelAdvisor.TravelAdvisorController;
 import DBConnect.MyDBConnectivity;
 
 
@@ -16,11 +16,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Advisor/advisor.fxml"));
         Parent root = fxmlLoader.load();
-        SystemController sys = fxmlLoader.getController();
-
+        TravelAdvisorController sys = fxmlLoader.getController();
         MyDBConnectivity database = new MyDBConnectivity();
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("database connection closed");
@@ -31,6 +29,7 @@ public class Main extends Application {
             }
         });
         sys.setDatabaseC(database);
+        sys.setId(211);
         primaryStage.setTitle("AirVia");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);

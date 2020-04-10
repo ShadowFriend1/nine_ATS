@@ -1,6 +1,5 @@
-package Controllers.SystemAdmin;
+package Controllers.OfficeManager;
 
-import Controllers.NavigationController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
@@ -9,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,34 +18,36 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class AddBlanksController extends NavigationController implements SystemController {
+public class AssignBlanksController implements SystemController {
 
     private int id;
     private MyDBConnectivity database;
 
     @FXML
-    private DatePicker blankDate;
-    @FXML
     private TextField startBlank;
     @FXML
     private TextField endBlank;
     @FXML
+    private TextField advisorCode;
+    @FXML
     private Text message;
 
-    public AddBlanksController() throws SQLException {
+    public AssignBlanksController() throws SQLException {
 
     }
 
-    public void onClickSubmitBlanks(javafx.event.ActionEvent event) throws SQLException, InterruptedException {
-        CallableStatement stmt = database.call("{call AddBlanks(?, ?, ?, ?)}");
+    public void onClickAssignBlanks(javafx.event.ActionEvent event) throws SQLException {
+        CallableStatement stmt = database.call("{call AssignBlanks(?, ?, ?, ?, ?, ?)}");
         try {
             stmt.setLong(1, Long.parseLong(startBlank.getText()));
             stmt.setLong(2, Long.parseLong(endBlank.getText()));
-            stmt.setDate(3, Date.valueOf(blankDate.getValue()));
-            stmt.registerOutParameter(4, Types.VARCHAR);
+            stmt.setInt(3, Integer.parseInt(advisorCode.getText()));
+            stmt.setDate(4, Date.valueOf(java.time.LocalDate.now()));
+            stmt.setBoolean(5, false);
+            stmt.registerOutParameter(6, Types.VARCHAR);
             message.setText("waiting");
             stmt.execute();
-            message.setText(stmt.getString(4));
+            message.setText(stmt.getString(6));
             stmt.close();
         } catch (NullPointerException | NumberFormatException e) {
             message.setText("Field Missing");
@@ -57,7 +57,7 @@ public class AddBlanksController extends NavigationController implements SystemC
     }
 
     public void onClickBlanksCancel(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/admin.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/OfficeManager/manager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -69,14 +69,24 @@ public class AddBlanksController extends NavigationController implements SystemC
         window.show();
     }
 
-    public void onClickDeleteBlanks(ActionEvent actionEvent) throws SQLException {
-        CallableStatement stmt = database.call("{call DeleteBlanks(?, ?, ?)}");
-        stmt.setLong(1, Long.parseLong(startBlank.getText()));
-        stmt.setLong(2, Long.parseLong(endBlank.getText()));
-        stmt.registerOutParameter(3, Types.VARCHAR);
-        message.setText("waiting");
-        stmt.execute();
-        message.setText(stmt.getString(3));
+    public void onClickReassignBlanks(ActionEvent actionEvent) throws SQLException {
+        CallableStatement stmt = database.call("{call AssignBlanks(?, ?, ?, ?, ?, ?)}");
+        try {
+            stmt.setLong(1, Long.parseLong(startBlank.getText()));
+            stmt.setLong(2, Long.parseLong(endBlank.getText()));
+            stmt.setInt(3, Integer.parseInt(advisorCode.getText()));
+            stmt.setDate(4, Date.valueOf(java.time.LocalDate.now()));
+            stmt.setBoolean(5, true);
+            stmt.registerOutParameter(6, Types.VARCHAR);
+            message.setText("waiting");
+            stmt.execute();
+            message.setText(stmt.getString(6));
+            stmt.close();
+        } catch (NullPointerException | NumberFormatException e) {
+            message.setText("Field Missing");
+        } finally {
+            stmt.close();
+        }
     }
 
     @Override
