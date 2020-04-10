@@ -14,46 +14,59 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-public class OfficeManagerController {
+public class OfficeManagerController implements SystemController {
 
-    MyDBConnectivity database = new MyDBConnectivity();
+    private int id;
+    MyDBConnectivity database;
 
 
     public OfficeManagerController() throws SQLException {
     }
 
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    @Override
+    public void setId (int id) { this.id = id; }
 
     public void accessRefundLog(){
 
     }
-    public void allocateBlanks(String email, int blankID) throws SQLException {
-        String query = "UPDATE BlankStock SET TravelAgentAgentEmail= " + email +
-                "WHERE ID=" + blankID + ";";
-        database.update(query);
+    public void allocateBlanks(int code, long start, long finish, Date currentDate) throws SQLException {
+        CallableStatement stmt = database.call("{call AssignBlanks(?, ?, ?, ?, ?)}");
+        stmt.setLong(1, start);
+        stmt.setLong(2, finish);
+        stmt.setInt(3, code);
+        stmt.setDate(4, currentDate);
+        stmt.registerOutParameter(5, Types.VARCHAR);
+        stmt.execute();
+        System.out.println(stmt.getString(5));
     }
     public void generateSalesReport(){
 
     }
-    public void giveDiscount(String alias, float discount, String discountType) throws SQLException {
-        String query = "UPDATE CustomerAccount SET Discount=" + discount + " SET DiscountType=" + discountType  + " WHERE alias=" + alias + ";";
-        database.update(query);
+
+    public void giveFixedDiscount(String alias, float value) throws SQLException {
+        CallableStatement stmt = database.call("{call AddFixedDiscount(?, ?, ?)}");
+        stmt.setString(1, alias);
+        stmt.setFloat(2, value);
+        stmt.registerOutParameter(3, Types.VARCHAR);
+        stmt.execute();
+        System.out.println(stmt.getString(3));
+    }
+
+    public void giveFlaxibleDiscount(String alias, float value) {
+
     }
     public void setCurrencyExchangeRate(){
 
     }
     public void setCustomerType(String alias, int type) throws SQLException {
-        String query = "UPDATE CustomerAccount SET Type=" + type + " WHERE alias=" + alias + ";";
-        database.update(query);
-
 
     }
-    public ResultSet viewTravelAgentDetails(int id) throws SQLException {
-        String query = "GET * FROM TravelAgent WHERE TravelAgentCode=" + id + ";";
-        ResultSet resultSet = database.query(query);
-        return resultSet;
+    public void viewTravelAgentDetails(int id) throws SQLException {
     }
     public void setCommissionRate(int id, float commissionRate){
         String query;

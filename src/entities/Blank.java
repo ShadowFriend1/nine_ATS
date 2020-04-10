@@ -2,25 +2,40 @@ package entities;
 
 import DBConnect.MyDBConnectivity;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Blank {
 
-    MyDBConnectivity database = new MyDBConnectivity();
-    private int blankID;
+    private long blankID;
     private int blankType;
     private int travelAdvisorCode;
-    private String blankDate;
+    private LocalDate blankDate;
+    private String mcoText;
+    private LocalDate assignedDate;
+    private String customerAlias;
 
+    public String getCustomerAlias() { return customerAlias; }
 
-    public int getBlankID() {
+    public LocalDate getAssignedDate() { return assignedDate; }
+
+    public void setAssignedDate(LocalDate assignedDate) {
+        this.assignedDate = assignedDate;
+    }
+
+    public void setMcoText(String mcoText) {
+        this.mcoText = mcoText;
+    }
+
+    public String getMcoText() { return mcoText; }
+
+    public long getBlankID() {
         return blankID;
     }
 
-    public void setBlankID(int blankID) {
+    public void setBlankID(long blankID) {
         this.blankID = blankID;
     }
 
@@ -32,37 +47,27 @@ public class Blank {
         this.blankType = blankType;
     }
 
-    public int getTravelAdvisorCode() {
+    public Integer getTravelAdvisorCode() {
         return travelAdvisorCode;
     }
 
-    public void setTravelAdvisorCode(int travelAdvisorCode) throws SQLException {
-
-        this.travelAdvisorCode = travelAdvisorCode;
-        database.update("UPDATE blanks SET travelAdvisorCode = " + travelAdvisorCode);
-    }
-
-    public String getBlankDate() {
+    public LocalDate getBlankDate() {
         return blankDate;
     }
 
-    public void setBlankDate(String blankDate) {
+    public void setBlankDate(LocalDate blankDate) {
         this.blankDate = blankDate;
     }
 
-    public Blank(int blankID, int blankType, int travelAdvisorCode, String blankDate) throws SQLException {
+    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,LocalDate assignedDate, String mcoText, LocalDate blankDate, String customerAlias) throws SQLException {
         this.blankID = blankID;
         this.blankType = blankType;
         this.travelAdvisorCode = travelAdvisorCode;
         this.blankDate = blankDate;
+        this.mcoText = mcoText;
+        this.assignedDate = assignedDate;
+        this.customerAlias = customerAlias;
     }
 
-    public void insertBlankIntoDB() throws SQLException{
-        Date db = Date.valueOf(blankDate);
-        String sql = "INSERT INTO blanks (blankID, blankType, travelAdvisorCode, blankDate) VALUES\n" +
-                "(" + blankID + ", " + blankType +", "+ travelAdvisorCode +", '" + blankDate +"');";
-        database.update(sql);
-        System.out.println(sql);
 
-    }
 }

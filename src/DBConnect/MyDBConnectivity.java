@@ -1,6 +1,5 @@
 package DBConnect;
 
-import org.h2.command.dml.Call;
 
 import java.sql.*;
 
@@ -8,11 +7,20 @@ import java.sql.*;
 
 public class MyDBConnectivity implements DBConnectivity {
 
+    private String address;
+    private String userName;
+    private String password;
     final private Connection conn;
 
     // If arguments are provided for the creation of the connection then that database connection is attempted
     public MyDBConnectivity(String address, String userName, String password) throws SQLException {
         conn = DriverManager.getConnection(address, userName, password);
+        this.address = address;
+        this.userName = userName;
+        this.password = password;
+    }
+
+    public void reconnect() throws SQLException{
     }
 
     // If no arguments are provided for the database connection then the default values
@@ -23,15 +31,8 @@ public class MyDBConnectivity implements DBConnectivity {
     }
 
     @Override
-    public int update(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        return statement.executeUpdate(sqlStatement);
-    }
-
-    @Override
-    public ResultSet query(String sqlStatement) throws SQLException {
-        Statement statement = conn.createStatement();
-        return statement.executeQuery(sqlStatement);
+    public Statement getStatement() throws SQLException {
+        return conn.createStatement();
     }
 
     @Override
@@ -43,4 +44,5 @@ public class MyDBConnectivity implements DBConnectivity {
     public void close() throws SQLException{
         conn.close();
     }
+
 }

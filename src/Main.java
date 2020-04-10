@@ -1,4 +1,4 @@
-import DBConnect.DBConnectivity;
+import Controllers.SystemAdmin.SystemAdminController;
 import DBConnect.MyDBConnectivity;
 
 
@@ -13,46 +13,29 @@ import java.sql.*;
 
 public class Main extends Application {
 
-    private Scene scene;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("GUI/login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/admin.fxml"));
+        Parent root = fxmlLoader.load();
+        SystemAdminController sys = fxmlLoader.getController();
+        MyDBConnectivity database = new MyDBConnectivity();
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("database connection closed");
+            try {
+                database.close();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        sys.setDatabaseC(database);
         primaryStage.setTitle("AirVia");
-        scene = new Scene(root);
+        Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
     }
 
-
-
-
-
-
-
-
-
-
     public static void main(String[] args) throws SQLException {
-
-
         launch(args);
-        DBConnectivity database = null;
-        // TODO remove need for execution arguments and implement database searching algorithm.
-        try {
-            switch (args.length) {
-                case 3:
-                    database = new MyDBConnectivity(args[0], args[1], args[2]);
-                    break;
-                case 0:
-                    database = new MyDBConnectivity();
-                    break;
-                default:
-                    System.out.println("incorrect number of arguments");
-            }
-        } finally {
-            if (database!=null) database.close();
-        }
     }
 }
