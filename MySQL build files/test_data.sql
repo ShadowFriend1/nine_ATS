@@ -67,18 +67,3 @@ call MakeSaleCard(20100000002, 250,0, 13.80, 75,
     '2020-01-02');
 call MakeSaleCash(20100000011, 211, 0, 13.80, NULL,
     0.05, 75, 'AAA', '2020-01-02');
-
-/*
- CREATE TEMPORARY TABLE temp7(Type int, RecStartBlank bigint, RecEndBlank bigint, RecAmount int, Code int,
-    AssStartBlank bigint, AssEndBlank bigint, AssAmount int, SoldStartBlank bigint, SoldEndBlank bigint, SoldAmount int,
-    AgentStartBlank bigint, AgentEndBlank bigint, AgentAmount int, AdvisorAmount int);
-    INSERT INTO temp7(Type, RecStartBlank, RecEndBlank, RecAmount, Code, AssStartBlank, AssEndBlank, AssAmount,
-    SoldStartBlank, SoldEndBlank, SoldAmount, AgentStartBlank, AgentEndBlank, AgentAmount, AdvisorAmount)
-    SELECT temp5.Type, StartBlank, EndBlank, Amount, Code, AssStartBlank,
-    AssEndBlank, AssAmount, SoldStartBlank, SoldEndBlank, SoldAmount,
-    MinVal(StartBlank, AssStartBlank), MaxVal(EndBlank, AssEndBlank), (Amount+FinalAmount), FinalAmount
-    FROM temp5 LEFT JOIN temp6 ON temp6.Type=temp5.Type
-    UNION SELECT temp5_2.Type, StartBlank, EndBlank, Amount, Code, AssStartBlank, AssEndBlank, AssAmount, SoldStartBlank, SoldEndBlank, SoldAmount,
-    MinVal(StartBlank, temp5_2.AssStartBlank), MaxVal(EndBlank, AssEndBlank), (Amount+FinalAmount), FinalAmount
-    FROM temp5_2 RIGHT JOIN temp6_2 ON temp6_2.Type=temp5_2.Type;
- */
