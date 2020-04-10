@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class LoginController{
+public class LoginController implements SystemController {
 
     @FXML
     private TextField username;
@@ -27,7 +27,7 @@ public class LoginController{
 
     MyDBConnectivity database;
 
-    public LoginController() throws SQLException {
+    public LoginController()  throws SQLException {
     }
 
     // Checks username and password. Logins if correct. Displays a message if login was unsuccessful
@@ -68,7 +68,7 @@ public class LoginController{
             code = rs.getInt("Code");
             rs.close();
             System.out.println("Logged in as advisor: " + username.getText());
-            fxmlFile = "/GUI/advisor.fxml";
+            fxmlFile = "/GUI/Advisor/advisor.fxml";
         }
         if (fxmlFile.equals("none found")) {
             /* type 222 password invalid */
@@ -101,6 +101,11 @@ public class LoginController{
         }
     }
 
+    @Override
+    public void setId(int id) {
+
+    }
+    @Override
     public void setDatabaseC(MyDBConnectivity db) {
         database = db;
     }

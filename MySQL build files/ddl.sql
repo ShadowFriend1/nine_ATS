@@ -10,7 +10,9 @@ CREATE TABLE FixedDiscount(FixedID int AUTO_INCREMENT, DiscountID int NOT NULL U
 
 CREATE TABLE FlexibleBand(FlexibleID int AUTO_INCREMENT, DiscountID int NOT NULL, LowerBound float, UpperBound float, DiscountValue float NOT NULL, PRIMARY KEY (FlexibleID));
 
+
 CREATE TABLE SysAccount (Code int NOT NULL, UserName varchar(15) NOT NULL, PasswordHash VARBINARY(1024) NOT NULL, Type int NOT NULL, PRIMARY KEY (Code));
+
 
 CREATE TABLE CommissionRates (Rate float NOT NULL, CommissionDate date NOT NULL, Active int NOT NULL, PRIMARY KEY (Rate));
 
@@ -52,13 +54,21 @@ BEGIN
 
     IF NOT EXISTS(SELECT Code FROM SysAccount WHERE Code=ICode) THEN
         INSERT INTO AirVia.SysAccount (Code, UserName, PasswordHash, Type)
+<<<<<<< HEAD
         VALUES(ICode, IUserName, aes_encrypt('cat&dog', IPassword), IType);
         SET Response = 'System Account Created';
     ELSE
         UPDATE SysAccount
         SET UserName=IUserName, PasswordHash=aes_encrypt('cat&dog', IPassword), Type=IType
-        WHERE Code=ICode;
+=======
+        VALUES(ICode, IUserName, aes_encrypt(IPassword, 'catdog'), IType);
         SET Response = 'System Account Created';
+    ELSE
+        UPDATE SysAccount
+        SET UserName=IUserName, PasswordHash=aes_encrypt(IPassword, 'catdog'), Type=IType
+>>>>>>> b750ccd7b01c377d8b77cfae2f83a096fdd1215f
+        WHERE Code=ICode;
+        SET Response = 'System Account Updated';
     end if;
 end //
 
@@ -287,12 +297,6 @@ CREATE PROCEDURE AirVia.MakeSaleDelayed (
     IN ICurrentDate Date
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            SHOW ERRORS;
-            ROLLBACK;
-        end;
-
     INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
                       exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate)
     VALUES (IAlias, ICode, BlankID, IPayment, 0,
@@ -314,12 +318,6 @@ CREATE PROCEDURE AirVia.MakeSaleCash (
     IN ICurrentDate Date
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            SHOW ERRORS;
-            ROLLBACK;
-        end;
-
     INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate,
                       exchangeratescode, saledate, LocalTax, OtherTax, CommissionRatesRate)
     VALUES (IAlias, ICode, BlankID, IPayment, 1,
@@ -343,12 +341,6 @@ CREATE PROCEDURE AirVia.MakeSaleCard (
     IN ICurrentDate Date
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            SHOW ERRORS;
-            ROLLBACK;
-        end;
-
     INSERT INTO Sale (customeralias, TravelAgentCode, blankstockid, payment, paymenttype, exchangeratesdate, exchangeratescode,
                       saledate, LocalTax, OtherTax, CommissionRatesRate, CardName, CardNumber)
     VALUES (IAlias, ICode, BlankID, IPayment, 2,

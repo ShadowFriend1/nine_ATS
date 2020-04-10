@@ -1,16 +1,11 @@
 package Controllers;
 
 import DBConnect.MyDBConnectivity;
-import entities.Blank;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -73,17 +68,34 @@ public class OfficeManagerController implements SystemController {
     }
 
     public void blankList(javafx.event.ActionEvent event) throws IOException {
-        Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/blankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
         Scene homeScene = new Scene(homeView);
 
-
         // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
         // Change the scene
         window.setScene(homeScene);
         window.show();
-        }
     }
 
+    public void onClickCustomerAccounts(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+}
 
 

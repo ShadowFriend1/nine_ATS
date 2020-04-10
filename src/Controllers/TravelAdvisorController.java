@@ -1,7 +1,14 @@
 package Controllers;
 
 import DBConnect.MyDBConnectivity;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,25 +24,19 @@ public class TravelAdvisorController implements SystemController{
     @Override
     public void setId (int id) { this.id = id; }
 
-    public void onCLickCreateCustomerAccount(){
+    public void onCLickCreateCustomerAccount(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("GUI/Advisor/customerAccounts.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
 
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
     }
-    public void giveDiscount(){
 
-    }
-    public void returnBlanks() throws SQLException {
-
-    }
-    public void setCurrencyExchangeRate(){
-
-    }
-    public void writeRefundLog(){
-
-    }
-    public void accessRefundLog(){
-
-    }
-    public void generateSalesReport(){
-
-    }
 }

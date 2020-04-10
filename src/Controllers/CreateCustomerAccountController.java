@@ -2,15 +2,21 @@ package Controllers;
 
 import DBConnect.MyDBConnectivity;
 
+import entities.Blank;
+import entities.CustomerAccount;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
-import java.sql.CallableStatement;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 
@@ -33,15 +39,42 @@ public class CreateCustomerAccountController implements SystemController {
 @FXML
     private Text message;
 
-    int typeInt = -1;
+    @FXML
+    private TableView<CustomerAccount> customerAccountTable;
+    @FXML
+    private TableColumn<CustomerAccount, String> aliasColumn;
+    @FXML
+    private TableColumn<CustomerAccount, String> emailColumn;
+    @FXML
+    private TableColumn<CustomerAccount, String> firstNameColumn;
+    @FXML
+    private TableColumn<CustomerAccount, String> lastNameColumn;
+    @FXML
+    private TableColumn<CustomerAccount, String> typeColumn;
+    @FXML
+    private TableColumn<CustomerAccount, Integer> discountID;
+    @FXML
+    private TextField searchID;
+
 
 
 
     public CreateCustomerAccountController() throws SQLException {
     }
 
-    public void initialize(){
-        type.getItems().setAll("Regular", "Valued");
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+
+    @Override
+    public void setId (int id) { this.id = id; }
+
+    public void initialize() throws SQLException {
+        aliasColumn.setCellValueFactory(new PropertyValueFactory<>("alias"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        firstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+        lastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        discountID.setCellValueFactory(new PropertyValueFactory<>("discountID"));
 
     }
 
@@ -53,23 +86,70 @@ public class CreateCustomerAccountController implements SystemController {
         cs.setString(2, email.getText());
         cs.setString(3, firstName.getText());
         cs.setString(4, lastName.getText());
-        cs.setInt(5, typeInt);
+        cs.setInt(5, 1);
 
         cs.registerOutParameter(6, Types.VARCHAR);
         cs.execute();
         message.setText(cs.getString(6));
     }
+    public void loadCustomerAccounts(ActionEvent event) throws SQLException {
+        System.out.println("pressed");
+        try {
+            customerAccountTable.getItems().clear();
+        }
+        catch (NullPointerException e){
 
-    public void setType(ActionEvent actionEvent) {
-        // set customer type to int value upon selection
-        if (type.getValue().equals("Regular")) typeInt = 1;
-        else if (type.getValue().equals("Valued")) typeInt = 2;
+        }
+
+        // get accounts
+        Statement stmt = database.getStatement();
+
+        ResultSet resultSet = stmt.executeQuery("SELECT * FROM CustomerAccount;");
+        try {
+            // create blank objects from each record
+            addCustomerAccounts(resultSet);
+        } catch (Exception e) {
+            System.out.println("erro called");
+            System.err.println(e.getMessage());
+        } finally {
+            stmt.close();
+        }
+
+
+    }
+    public void addCustomerAccounts(ResultSet resultSet) throws SQLException {
+        ObservableList<CustomerAccount> customerAccounts = FXCollections.observableArrayList();
+
+        String tempAlias;
+        String tempEmail;
+        String tempFirstName;
+        String tempLastName;
+        String tempType = " ";
+        int tempdiscountID;
+
+
+        while (resultSet.next()) {
+            tempAlias = resultSet.getString("Alias");
+            tempEmail = resultSet.getString("CustomerEmail");
+
+            try {
+                tempdiscountID = resultSet.getInt("DiscountID");
+            } catch (NullPointerException e) {
+                tempdiscountID = 0;
+            }
+            if (resultSet.getInt("Type") == 1) tempType="Regular";
+            else if (resultSet.getInt("Type") == 2) tempType="Valued";
+            tempFirstName = resultSet.getString("FirstName");
+            tempLastName = resultSet.getString(("LastName"));
+            CustomerAccount newAccount = new CustomerAccount(tempAlias, tempEmail, tempFirstName, tempLastName, tempType, tempdiscountID);
+            customerAccounts.add(newAccount);
+        }
+            customerAccountTable.getItems().addAll(customerAccounts);
+
 
     }
 
-    @Override
-    public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
-    @Override
-    public void setId (int id) { this.id = id; }
+
+
 }

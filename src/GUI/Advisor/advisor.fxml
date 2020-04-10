@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="Controllers.TravelAdvisorController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </left>
@@ -16,7 +16,7 @@
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="61.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Advisor Home" />
-            <Button layoutX="65.0" layoutY="165.0" mnemonicParsing="false" text="Ticket Record" />
+            <Button onAction="#onCLickCreateCustomerAccount" layoutX="65.0" layoutY="165.0" mnemonicParsing="false" text="Customer Accounts" />
             <Button layoutX="31.0" layoutY="216.0" mnemonicParsing="false" text="Access Commission Rates" />
             <Button layoutX="33.0" layoutY="106.0" mnemonicParsing="false" text="Advisors Allocated Blanks" />
             <Button layoutX="49.0" layoutY="264.0" mnemonicParsing="false" text="Customer Accounts" />

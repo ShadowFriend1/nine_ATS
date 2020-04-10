@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -21,8 +20,7 @@
             <TextField fx:id="lastName" layoutX="20.0" layoutY="137.0" prefHeight="27.0" prefWidth="126.0" promptText="Last Name" />
             <TextField fx:id="alias" layoutX="20.0" layoutY="178.0" prefHeight="27.0" prefWidth="126.0" promptText="Alias" />
             <Button layoutX="24.0" layoutY="300.0" mnemonicParsing="false" onAction="#createCustomerAccount" text="Create Account" />
-            <ComboBox fx:id="type" layoutX="20.0" layoutY="226.0" onAction="#setType" prefHeight="27.0" prefWidth="125.0" promptText="Type" />
-            <Text fx:id="message" layoutX="62.0" layoutY="377.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="message" layoutX="51.0" layoutY="257.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="51.0" />
          </children>
       </AnchorPane>
    </left>
@@ -52,18 +50,19 @@
       <AnchorPane prefHeight="390.0" prefWidth="496.0" BorderPane.alignment="CENTER">
          <children>
             <Text layoutX="126.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Customer Accounts" />
-            <TextField layoutX="120.0" layoutY="31.0" promptText="Email Address" />
+            <TextField fx:id="searchID" layoutX="120.0" layoutY="31.0" promptText="Alias" />
             <Button layoutX="302.0" layoutY="31.0" mnemonicParsing="false" text="Search" />
-            <TableView layoutY="61.0" prefHeight="278.0" prefWidth="448.0">
+            <TableView fx:id="customerAccountTable" layoutX="-69.0" layoutY="61.0" prefHeight="373.0" prefWidth="627.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Email " />
-                <TableColumn prefWidth="75.0" text="First Name" />
-                  <TableColumn prefWidth="75.0" text="Last Name" />
-                  <TableColumn prefWidth="75.0" text="Discount" />
-                  <TableColumn prefWidth="75.0" text="Type Discount" />
-                  <TableColumn prefWidth="75.0" text="Type Customer" />
+                <TableColumn fx:id="aliasColumn" prefWidth="75.0" text="Alias" />
+                <TableColumn fx:id="emailColumn" prefWidth="90.0" text="Email" />
+                  <TableColumn fx:id="firstNameColumn" prefWidth="116.0" text="First Name" />
+                  <TableColumn fx:id="lastNameColumn" prefWidth="95.0" text="Last name" />
+                  <TableColumn fx:id="typeColumn" prefWidth="96.0" text="Type" />
+                  <TableColumn fx:id="discountID" prefWidth="154.0" text="Discount Type" />
               </columns>
             </TableView>
+            <Button onAction="#loadCustomerAccounts" layoutX="441.0" layoutY="31.0" mnemonicParsing="false" text="Load accounts" />
          </children>
       </AnchorPane>
    </right>

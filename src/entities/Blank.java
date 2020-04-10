@@ -9,17 +9,16 @@ import java.time.LocalDate;
 
 public class Blank {
 
-    MyDBConnectivity database = new MyDBConnectivity();
     private long blankID;
     private int blankType;
     private Integer travelAdvisorCode;
     private LocalDate blankDate;
     private String mcoText;
-    private LocalDate assignedDate;
+    private String assignedDate;
 
-    public LocalDate getAssignedDate() { return assignedDate; }
+    public String getAssignedDate() { return assignedDate; }
 
-    public void setAssignedDate(LocalDate assignedDate) {
+    public void setAssignedDate(String assignedDate) {
         this.assignedDate = assignedDate;
     }
 
@@ -57,7 +56,7 @@ public class Blank {
         this.blankDate = blankDate;
     }
 
-    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,LocalDate assignedDate, String mcoText, LocalDate blankDate) throws SQLException {
+    public Blank(long blankID, int blankType, Integer travelAdvisorCode ,String assignedDate, String mcoText, LocalDate blankDate) throws SQLException {
         this.blankID = blankID;
         this.blankType = blankType;
         this.travelAdvisorCode = travelAdvisorCode;
