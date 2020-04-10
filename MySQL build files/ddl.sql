@@ -35,6 +35,30 @@ ALTER TABLE FixedDiscount ADD CONSTRAINT FKFixedDisco545201 FOREIGN KEY (Discoun
 ALTER TABLE FlexibleBand ADD CONSTRAINT FKFlexibleBan579108 FOREIGN KEY (DiscountID) REFERENCES Discount (DiscountID) ON UPDATE CASCADE ON DELETE CASCADE;
 
 DELIMITER //
+/* finds lowest value */
+CREATE FUNCTION AirVia.MinVal(a bigint, b bigint)
+RETURNS bigint
+BEGIN
+    IF a <= b THEN
+        RETURN a;
+    ELSE
+        RETURN b;
+    end if;
+end //
+
+/* finds highest value */
+//
+CREATE FUNCTION AirVia.MaxVal(a bigint, b bigint)
+RETURNS bigint
+BEGIN
+    IF a <= b THEN
+        RETURN b;
+    ELSE
+        RETURN a;
+    end if;
+end //
+
+//
 /* Store encrypted password and account information */
 CREATE PROCEDURE AirVia.AddUser (
     IN ICode INT,
@@ -374,5 +398,67 @@ BEGIN
     VALUES (IAlias, ICode, BlankID, IPayment, 2,
             (SELECT ExchangeDate FROM ExchangeRates WHERE Code=IExchangeCode ORDER BY ExchangeDate),
             IExchangeCode, ICurrentDate, ILocalTax, IOtherTax, Commission, ICardType, ICardNumber);
+end //
+
+/* reports */
+//
+/* Stock turnover report */
+CREATE PROCEDURE AirVia.StockTurnover(
+    IN startDate DATE,
+    IN currentDate DATE
+)
+BEGIN
+    CREATE TEMPORARY TABLE temp1(Code int, ID bigint, Type int);
+    INSERT INTO temp1(Code, ID, Type)  SELECT Sale.TravelAgentCode, BlankStockID, Type
+    FROM Sale INNER JOIN BlankStock ON Sale.BlankStockID = BlankStock.ID WHERE startDate <= AssignedDate <= currentDate;
+
+    CREATE TEMPORARY TABLE temp2(Code int, ID bigint, Type int);
+    INSERT INTO temp2(Code, ID, Type) SELECT BlankStock.TravelAgentCode, ID, Type
+    FROM BlankStock WHERE BlankStock.TravelAgentCode IS NOT NULL AND startDate <= AssignedDate <= currentDate;
+
+    CREATE TEMPORARY TABLE temp3(SoldCode int, SoldStartBlank bigint, SoldEndBlank bigint, SoldAmount int, SoldType int);
+    INSERT INTO temp3(SoldCode, SoldStartBlank, SoldEndBlank, SoldAmount, SoldType)  
+    SELECT Code, MIN(ID), MAX(ID), COUNT(*), Type FROM temp1 GROUP BY Code, Type;
+
+    CREATE TEMPORARY TABLE temp3_2(SoldCode int, SoldStartBlank bigint, SoldEndBlank bigint, SoldAmount int, SoldType int);
+    INSERT INTO temp3_2(SoldCode, SoldStartBlank, SoldEndBlank, SoldAmount, SoldType)  
+    SELECT Code, MIN(ID), MAX(ID), COUNT(*), Type FROM temp1 GROUP BY Code, Type;
+
+    CREATE TEMPORARY TABLE temp4(AssCode int, AssStartBlank bigint, AssEndBlank bigint, AssAmount int, AssType int);
+    INSERT INTO temp4(AssCode, AssStartBlank, AssEndBlank, AssAmount, AssType)
+    SELECT Code, MIN(ID), MAX(ID), COUNT(*), Type FROM temp2 GROUP BY Code, Type;
+
+    CREATE TEMPORARY TABLE temp4_2(AssCode int, AssStartBlank bigint, AssEndBlank bigint, AssAmount int, AssType int);
+    INSERT INTO temp4_2(AssCode, AssStartBlank, AssEndBlank, AssAmount, AssType) 
+    SELECT Code, MIN(ID), MAX(ID), COUNT(*), Type FROM temp2 GROUP BY Code, Type;
+
+    CREATE TEMPORARY TABLE temp5(Code int, AssStartBlank bigint, AssEndBlank bigint, AssAmount int, Type int,
+    SoldStartBlank bigint, SoldEndBlank bigint, SoldAmount int, AdvisorAmount int);
+    INSERT INTO temp5(Code, AssStartBlank, AssEndBlank, AssAmount, Type, SoldStartBlank, SoldEndBlank, SoldAmount, AdvisorAmount)
+    SELECT AssCode, AssStartBlank, AssEndBlank, AssAmount, AssType, SoldStartBlank, SoldEndBlank,
+    SoldAmount, (AssAmount-SoldAmount)
+    FROM temp4 LEFT JOIN temp3 ON SoldCode=AssCode AND SoldType=AssType;
+
+    SELECT * FROM temp5;
+
+    CREATE TEMPORARY TABLE temp6(StartBlank bigint, EndBlank bigint, Amount int, Type int);
+    INSERT INTO temp6(StartBlank, EndBlank, Amount, Type)
+    SELECT MIN(ID), MAX(ID), COUNT(*), Type FROM BlankStock WHERE startDate <= Date <= currentDate GROUP BY Type;
+
+    CREATE TEMPORARY TABLE temp7(RecStartBlank bigint, RecEndBlank bigint, RecAmount int, Type int, FinalAmount int);
+    INSERT INTO temp7(RecStartBlank, RecEndBlank, RecAmount, Type, FinalAmount)
+    SELECT StartBlank, EndBlank, Amount, Type, (Amount-SoldAmount) FROM temp6 INNER JOIN temp3 ON SoldType=Type;
+
+    SELECT * FROM temp7;
+
+    DROP TABLE temp1;
+    DROP TABLE temp2;
+    DROP TABLE temp3;
+    DROP TABLE temp3_2;
+    DROP TABLE temp4;
+    DROP TABLE temp4_2;
+    DROP TABLE temp5;
+    DROP TABLE temp6;
+    DROP TABLE temp7;
 end //
 DELIMITER ;

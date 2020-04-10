@@ -9,7 +9,6 @@ import java.time.LocalDate;
 
 public class Blank {
 
-    MyDBConnectivity database = new MyDBConnectivity();
     private long blankID;
     private int blankType;
     private int travelAdvisorCode;

@@ -16,13 +16,13 @@ public class SystemAdminController implements SystemController {
     private int id;
     MyDBConnectivity database;
 
-    public SystemAdminController() throws SQLException {
+    public SystemAdminController() {
     }
 
     public void onClickAddBlanks(javafx.event.ActionEvent event) throws IOException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/addBlanks.fxml"));
         Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
+        AddBlanksController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
         Scene homeScene = new Scene(homeView);
         // Get stage information
@@ -38,7 +38,7 @@ public class SystemAdminController implements SystemController {
     @Override
     public void setId (int id) { this.id = id; }
 
-    public void accessFullStock(javafx.event.ActionEvent event) throws SQLException, IOException {
+    public void accessFullStock(javafx.event.ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
         BlankListController sys = fxmlloader.getController();
@@ -51,8 +51,17 @@ public class SystemAdminController implements SystemController {
         window.setScene(homeScene);
         window.show();
     }
-    public void generateStockReport(){
 
+    public void accessStockTurnover(javafx.event.ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/turnover.fxml"));
+        Parent homeView = fxmlloader.load();
+        StockTurnoverController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        Scene homeScene = new Scene(homeView);
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
     }
-
 }

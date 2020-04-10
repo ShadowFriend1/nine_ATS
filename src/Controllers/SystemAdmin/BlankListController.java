@@ -120,6 +120,7 @@ public class BlankListController implements SystemController {
             System.out.println(e.getMessage());
         } finally {
             stmt.close();
+            blankTable.getItems().addAll(blanks);
         }
     }
 
@@ -133,37 +134,35 @@ public class BlankListController implements SystemController {
         String tempMCOText;
         LocalDate tempDate;
         String tempAlias;
-        try {
-            while (resultSet.next()) {
-                tempID = resultSet.getLong("ID");
-                tempType = resultSet.getInt("Type");
-                try {
-                    tempAdvisorCode = resultSet.getInt("TravelAgentCode");
-                } catch (NullPointerException e) {
-                    tempAdvisorCode = 0;
-                }
-                try {
-                    tempAssignedDate = resultSet.getDate("AssignedDate").toLocalDate();
-                } catch (NullPointerException e) {
-                    tempAssignedDate = null;
-                }
-                try {
-                    tempMCOText = resultSet.getString("MCOText");
-                } catch (NullPointerException e) {
-                    tempMCOText = "";
-                }
-                try {
-                    tempAlias = resultSet.getString("CustomerAlias");
-                } catch (NullPointerException | SQLException e) {
-                    tempAlias = "";
-                }
-                tempDate = resultSet.getDate("Date").toLocalDate();
-                Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate, tempMCOText, tempDate, tempAlias);
-                blanks.add(newBlank);
+
+        while (resultSet.next()) {
+            tempID = resultSet.getLong("ID");
+            tempType = resultSet.getInt("Type");
+            try {
+                tempAdvisorCode = resultSet.getInt("TravelAgentCode");
+            } catch (NullPointerException e) {
+                tempAdvisorCode = 0;
             }
-        } finally {
-            blankTable.getItems().addAll(blanks);
+            try {
+                tempAssignedDate = resultSet.getDate("AssignedDate").toLocalDate();
+            } catch (NullPointerException e) {
+                tempAssignedDate = null;
+            }
+            try {
+                tempMCOText = resultSet.getString("MCOText");
+            } catch (NullPointerException e) {
+                tempMCOText = "";
+            }
+            try {
+                tempAlias = resultSet.getString("CustomerAlias");
+            } catch (NullPointerException | SQLException e) {
+                tempAlias = "";
+            }
+            tempDate = resultSet.getDate("Date").toLocalDate();
+            Blank newBlank = new Blank(tempID, tempType, tempAdvisorCode, tempAssignedDate, tempMCOText, tempDate, tempAlias);
+            blanks.add(newBlank);
         }
+
     }
 
     public void logout(ActionEvent event) throws IOException {
