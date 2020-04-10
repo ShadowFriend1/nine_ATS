@@ -156,8 +156,12 @@ public class StockTurnoverController implements SystemController {
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     public void goHome(ActionEvent event) throws IOException {
-        Parent homeView = FXMLLoader.load(getClass().getResource("/GUI/manager.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/GUI/admin.fxml"));
+        Parent homeView = fxmlLoader.load();
+        SystemAdminController sys = fxmlLoader.getController();
+        sys.setDatabaseC(database);
         Scene homeScene = new Scene(homeView);
+
         // Get stage information
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         // Change the scene
