@@ -127,6 +127,7 @@ DELIMITER //
 /* finds lowest value */
 CREATE FUNCTION AirVia.MinVal(a bigint, b bigint)
     RETURNS bigint
+	DETERMINISTIC
 BEGIN
     IF a <= b THEN
         RETURN a;
@@ -139,6 +140,7 @@ end //
 //
 CREATE FUNCTION AirVia.MaxVal(a bigint, b bigint)
     RETURNS bigint
+    DETERMINISTIC
 BEGIN
     IF a <= b THEN
         RETURN b;

@@ -51,13 +51,22 @@ public class CustomerAccount {
 
     private String alias;
 
-    public CustomerAccount(String alias, String email, String firstName, String lastName, String type, int discountID){
+    public float getOutstandingBalance() {
+        return outstandingBalance;
+    }
+
+    public void setOutstandingBalance(float oustandingBalance) {
+        this.outstandingBalance = oustandingBalance;
+    }
+
+    public CustomerAccount(String alias, String email, String firstName, String lastName, String type, int discountID, float outstandingBalance){
         this.alias = alias;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.type = type;
         this.discountID = discountID;
+        this.outstandingBalance = outstandingBalance;
     }
 
     private String email;
@@ -65,4 +74,5 @@ public class CustomerAccount {
     private String lastName;
     private String type;
     private int discountID;
+    private float outstandingBalance;
 }

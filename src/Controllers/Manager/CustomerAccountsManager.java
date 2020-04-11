@@ -1,10 +1,8 @@
-package Controllers.TravelAdvisor;
+package Controllers.Manager;
 
 import Controllers.NavigationController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
-
-import entities.Blank;
 import entities.CustomerAccount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,28 +15,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.sql.*;
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 
-public class CreateCustomerAccountController extends NavigationController implements SystemController {
+public class CustomerAccountsManager extends NavigationController implements SystemController {
 
     private int id;
     MyDBConnectivity database;
 
-
-    @FXML
-    private TextField alias;
-@FXML
-    private TextField email;
-@FXML
-    private TextField firstName;
-@FXML
-    private TextField lastName;
-@FXML
-    private Text message;
 
     @FXML
     private TableView<CustomerAccount> customerAccountTable;
@@ -56,6 +40,7 @@ public class CreateCustomerAccountController extends NavigationController implem
     private TableColumn<CustomerAccount, Integer> discountID;
     @FXML
     private TableColumn<CustomerAccount, Float> outstandingBalanceColumn;
+
     @FXML
     private TextField searchID;
 
@@ -74,12 +59,16 @@ public class CreateCustomerAccountController extends NavigationController implem
     private TextField upperValue;
     @FXML
     private TextField value;
+    @FXML
+    private Text typeMessage;
+    @FXML
+    private Text discountMessage;
 
 
 
 
 
-    public CreateCustomerAccountController()  throws SQLException {
+    public CustomerAccountsManager()  throws SQLException {
     }
 
     @Override
@@ -97,23 +86,11 @@ public class CreateCustomerAccountController extends NavigationController implem
         discountID.setCellValueFactory(new PropertyValueFactory<>("discountID"));
         outstandingBalanceColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
 
+        customerType.getItems().setAll("Regular", "Valued");
+        customerDiscount.getItems().setAll("Flexible", "Fixed");
 
     }
 
-    public void createCustomerAccount(ActionEvent event) throws SQLException {
-
-        String addCustomer = "{call AddCustomer(?, ?, ?, ?, ?, ?)}";
-        CallableStatement cs = database.call(addCustomer);
-        cs.setString(1, alias.getText());
-        cs.setString(2, email.getText());
-        cs.setString(3, firstName.getText());
-        cs.setString(4, lastName.getText());
-        cs.setInt(5, 1);
-
-        cs.registerOutParameter(6, Types.VARCHAR);
-        cs.execute();
-        message.setText(cs.getString(6));
-    }
     public void loadCustomerAccounts(ActionEvent event) throws SQLException {
         try {
             customerAccountTable.getItems().clear();
@@ -175,6 +152,45 @@ public class CreateCustomerAccountController extends NavigationController implem
 
 
     }
+    public void changeType() throws SQLException {
+        int typeInt=0;
+        if (customerType.getValue().equals("Regular")) typeInt = 1;
+        else if (customerType.getValue().equals("Valued")) typeInt = 2;
+        String changeType = "UPDATE CustomerAccount SET Type = " + typeInt + " WHERE Alias = '" + aliasType.getText() + "';";
+        Statement statement = database.getStatement();
+        statement.executeUpdate(changeType);
+        typeMessage.setText("Type has been changed");
+        statement.close();
+
+
+    }
+    public void addDiscount() throws SQLException {
+        if (customerDiscount.getValue().equals("Fixed")){
+            CallableStatement stmt = database.call("{call AddFixedDiscount(?, ?, ?)}");
+            stmt.setString(1, aliasDiscount.getText());
+            stmt.setFloat(2, Float.parseFloat(value.getText()));
+            stmt.registerOutParameter(3, Types.VARCHAR);
+
+            stmt.execute();
+            discountMessage.setText(stmt.getString(3));
+            stmt.close();
+        }
+        if (customerDiscount.getValue().equals("Flexible")){
+            CallableStatement stmt = database.call("{call AddFlexibleDiscount(?, ?, ?, ?, ?)}");
+            stmt.setString(1, aliasDiscount.getText());
+            stmt.setInt(2, Integer.parseInt(lowerValue.getText()));
+            stmt.setInt(3, Integer.parseInt(upperValue.getText()));
+            stmt.setFloat(4, Float.parseFloat(value.getText()));
+            stmt.registerOutParameter(5, Types.VARCHAR);
+
+            stmt.execute();
+            discountMessage.setText(stmt.getString(5));
+
+
+            stmt.close();
+        }
+    }
+
 
 
 

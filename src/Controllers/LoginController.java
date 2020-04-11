@@ -48,18 +48,25 @@ public class LoginController implements SystemController {
         // if it's an admin type (type 2)
         if (type == 2) {
             System.out.println("Logged in as admin: " + username.getText());
-            fxmlFile = "/GUI/SystemAdmin/admin.fxml";
+            fxmlFile = "/GUI/Admin/admin.fxml";
         }
 
         // type 1 office manager
         else if (type == 1) {
             System.out.println("Logged in as manager: " + username.getText());
-            fxmlFile = "/GUI/OfficeManager/manager.fxml";
+            fxmlFile = "/GUI/Manager/manager.fxml";
         }
 
 
         // type 0 travel advisor
         else if (type == 0) {
+            Statement stmt = database.getStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
+                    " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
+            if (rs.first()) {
+                code = rs.getInt("Code");
+            }
+            stmt.close();
             System.out.println("Logged in as advisor: " + username.getText());
             fxmlFile = "/GUI/Advisor/advisor.fxml";
         }
@@ -79,13 +86,6 @@ public class LoginController implements SystemController {
                 message.setText("Database error");
             }
         } else {
-            Statement stmt = database.getStatement();
-            ResultSet rs = stmt.executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
-                    " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
-            if (rs.first()) {
-                code = rs.getInt("Code");
-            }
-            stmt.close();
             FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource(fxmlFile));
             Parent homeView = fxmlloader.load();
             SystemController sys = fxmlloader.getController();

@@ -16,7 +16,7 @@ public class NavigationController implements SystemController {
     private MyDBConnectivity database;
 
     public void goManagerHome(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/OfficeManager/manager.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/manager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -46,7 +46,7 @@ public class NavigationController implements SystemController {
 
     }
     public void goAdminHome(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/admin.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/admin.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

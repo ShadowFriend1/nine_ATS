@@ -31,17 +31,15 @@ public class OfficeManagerController extends NavigationController implements Sys
     public void accessRefundLog(){
 
     }
-    public void onClickAllocateBlanks(javafx.event.ActionEvent event) throws SQLException, IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/OfficeManager/assignBlanks.fxml"));
-        Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
-        sys.setDatabaseC(database);
-        Scene homeScene = new Scene(homeView);
-        // Get stage information
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        // Change the scene
-        window.setScene(homeScene);
-        window.show();
+    public void allocateBlanks(int code, long start, long finish, Date currentDate) throws SQLException {
+        CallableStatement stmt = database.call("{call AssignBlanks(?, ?, ?, ?, ?)}");
+        stmt.setLong(1, start);
+        stmt.setLong(2, finish);
+        stmt.setInt(3, code);
+        stmt.setDate(4, currentDate);
+        stmt.registerOutParameter(5, Types.VARCHAR);
+        stmt.execute();
+        System.out.println(stmt.getString(5));
     }
     public void generateSalesReport(){
 
@@ -72,7 +70,7 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     public void blankList(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/blankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -87,7 +85,7 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     public void onClickCustomerAccounts(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/customerAccountsManager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
