@@ -2,8 +2,8 @@ package entities;
 
 public class SysAccount {
 
-    private int code;
-    private String username;
+    protected int code;
+    protected String username;
 
     public int getCode() {
         return code;
@@ -29,7 +29,7 @@ public class SysAccount {
         this.type = type;
     }
 
-    private String type;
+    protected String type;
 
     public SysAccount(int code, String username, String type) {
         this.code = code;

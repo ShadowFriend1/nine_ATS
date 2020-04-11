@@ -1,7 +1,5 @@
-package Controllers.OfficeManager;
+package Controllers;
 
-import Controllers.NavigationController;
-import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -55,8 +53,8 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     public void giveFlaxibleDiscount(String alias, float value) {
-    }
 
+    }
     public void setCurrencyExchangeRate(){
 
     }
@@ -98,9 +96,8 @@ public class OfficeManagerController extends NavigationController implements Sys
         window.setScene(homeScene);
         window.show();
     }
-
-    public void onClickSalesReport(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/saleReportGlobal.fxml"));
+    public void onClickTravelAdvisors(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/travelAdvisors.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -108,7 +105,7 @@ public class OfficeManagerController extends NavigationController implements Sys
         Scene homeScene = new Scene(homeView);
 
         // Get stage information
-        Stage window = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         // Change the scene
         window.setScene(homeScene);
         window.show();
