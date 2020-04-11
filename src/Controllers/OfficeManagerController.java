@@ -1,20 +1,42 @@
 package Controllers;
 
 import DBConnect.MyDBConnectivity;
+import entities.Blank;
+import entities.LatePayment;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class OfficeManagerController extends NavigationController implements SystemController {
 
     private int id;
-    MyDBConnectivity database;
+    MyDBConnectivity database = new MyDBConnectivity();
+
+
+    @FXML
+    private TableColumn<LatePayment, Integer> saleIDColumn;
+    @FXML
+    private TableColumn<LatePayment, String> aliasColumn;
+
+    @FXML
+    TableView<LatePayment> latePaymentTable;
+
 
 
     public OfficeManagerController() throws SQLException {
@@ -25,6 +47,28 @@ public class OfficeManagerController extends NavigationController implements Sys
 
     @Override
     public void setId (int id) { this.id = id; }
+
+    public void initialize() throws ParseException, SQLException {
+        saleIDColumn.setCellValueFactory(new PropertyValueFactory<>("saleID"));
+        aliasColumn.setCellValueFactory(new PropertyValueFactory<>("alias"));
+
+        latePaymentTable.getItems().clear();
+
+
+
+
+
+        // get late payments
+        loadLatePayments();
+
+
+        LocalDate now = LocalDate.now();
+        LocalDate date = LocalDate.of(2020,03,10);
+
+        if (now.minusDays(30).isAfter(date)){
+            System.out.println("Late payment");
+        }
+    }
 
     public void accessRefundLog(){
 
@@ -52,19 +96,24 @@ public class OfficeManagerController extends NavigationController implements Sys
         System.out.println(stmt.getString(3));
     }
 
-    public void giveFlaxibleDiscount(String alias, float value) {
+    public void loadLatePayments() throws SQLException {
+        String query = "SELECT SaleID, CustomerAlias, SaleDate FROM Sale WHERE PaymentType = 0;";
+        Statement statement = database.getStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        ObservableList<LatePayment> latePayments = FXCollections.observableArrayList();
 
-    }
-    public void setCurrencyExchangeRate(){
+        LocalDate nowDate = LocalDate.now();
+        LocalDate saleDate;
+        while (resultSet.next()){
+            saleDate = resultSet.getDate("SaleDate").toLocalDate();
+            if (nowDate.minusDays(30).isAfter(saleDate)){
+                LatePayment latePayment = new LatePayment(resultSet.getInt("SaleID"), resultSet.getString("CustomerAlias"));
+                latePayments.add(latePayment);
+            }
 
-    }
-    public void setCustomerType(String alias, int type) throws SQLException {
+        }
+        latePaymentTable.getItems().addAll(latePayments);
 
-    }
-    public void viewTravelAgentDetails(int id) throws SQLException {
-    }
-    public void setCommissionRate(int id, float commissionRate){
-        String query;
     }
 
     public void blankList(javafx.event.ActionEvent event) throws IOException {

@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.OfficeManagerController">
    <left>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TableView fx:id="latePaymentTable" layoutY="200.0" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="saleIDColumn" prefWidth="75.0" text="Sale ID" />
+                <TableColumn fx:id="aliasColumn" prefWidth="123.0" text="Customer alias" />
+              </columns>
+            </TableView>
+            <Text layoutX="50.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Late payments" />
+         </children></AnchorPane>
    </left>
    <right>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
@@ -21,7 +32,7 @@
             <Button layoutX="31.0" layoutY="158.0" mnemonicParsing="false" text="Commission Rates" />
             <Button layoutX="30.0" layoutY="242.0" mnemonicParsing="false" onAction="#onClickCustomerAccounts" text="Customer Accounts" />
             <Button layoutX="19.0" layoutY="200.0" mnemonicParsing="false" text="Generate Blank Report" />
-            <Button onAction="#onClickTravelAdvisors" layoutX="41.0" layoutY="282.0" mnemonicParsing="false" text="Travel Advisors" />
+            <Button layoutX="41.0" layoutY="282.0" mnemonicParsing="false" onAction="#onClickTravelAdvisors" text="Travel Advisors" />
          </children>
       </AnchorPane>
    </center>
