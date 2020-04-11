@@ -1,8 +1,10 @@
 package Controllers.SystemAdmin;
 
 import Controllers.NavigationController;
+import Controllers.SystemAdmin.SystemAdminController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -21,7 +23,7 @@ public class SystemAdminController extends NavigationController implements Syste
     }
 
     public void onClickAddBlanks(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/addBlanks.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/addBlanks.fxml"));
         Parent homeView = fxmlloader.load();
         AddBlanksController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -40,7 +42,7 @@ public class SystemAdminController extends NavigationController implements Syste
     public void setId (int id) { this.id = id; }
 
     public void accessFullStock(javafx.event.ActionEvent event) throws IOException, SQLException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
         BlankListController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -57,6 +59,19 @@ public class SystemAdminController extends NavigationController implements Syste
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/turnover.fxml"));
         Parent homeView = fxmlloader.load();
         StockTurnoverController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        Scene homeScene = new Scene(homeView);
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+
+    public void sysAccounts(ActionEvent event) throws IOException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/account.fxml"));
+        Parent homeView = fxmlloader.load();
+        SysAccountController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
         Scene homeScene = new Scene(homeView);
         // Get stage information
