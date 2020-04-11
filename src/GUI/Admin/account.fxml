@@ -58,7 +58,7 @@
          <children>
             <Pane prefHeight="101.0" prefWidth="878.0">
                <children>
-                  <Button onAction="#goAdminHome" layoutX="62.0" layoutY="38.0" mnemonicParsing="false" text="Home" />
+                  <Button onAction="#goHome" layoutX="62.0" layoutY="38.0" mnemonicParsing="false" text="Home" />
                   <Button onAction="#goLogout" layoutX="338.0" layoutY="38.0" mnemonicParsing="false" text="Logout" />
                   <Button onAction="#loadAccounts" layoutX="764.0" layoutY="64.0" mnemonicParsing="false" text="Load Accounts" />
                </children>

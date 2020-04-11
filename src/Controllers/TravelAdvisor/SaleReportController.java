@@ -4,16 +4,21 @@ import Controllers.NavigationController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import entities.Blank;
+import entities.SaleReports.IndividualSaleReport;
 import entities.StockReports.StockElementAdvisor;
 import entities.StockReports.StockElementAgent;
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
+import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -29,33 +34,33 @@ public class SaleReportController extends NavigationController implements System
     @FXML
     private DatePicker endDate;
     @FXML
-    private TableView<StockElementAdvisor> advisorTable;
+    private TableView<IndividualSaleReport> saleTable;
     @FXML
-    private TableView<StockElementAgent> agentTable;
+    private TableColumn<IndividualSaleReport, String> blankIDColumn;
     @FXML
-    private TableColumn<Blank, Long> recStartColumn;
+    private TableColumn<IndividualSaleReport, Float> USDFareColumn;
     @FXML
-    private TableColumn<Blank, Long> recEndColumn;
+    private TableColumn<IndividualSaleReport, Float> fareColumn;
     @FXML
-    private TableColumn<Blank, Integer> recAmountColumn;
+    private TableColumn<IndividualSaleReport, Float> localTaxColumn;
     @FXML
-    private TableColumn<Blank, Integer> codeColumn;
+    private TableColumn<IndividualSaleReport, Float> otherTaxColumn;
     @FXML
-    private TableColumn<Blank, Long> assStartColumn;
+    private TableColumn<IndividualSaleReport, Float> cashColumn;
     @FXML
-    private TableColumn<Blank, Long> assEndColumn;
+    private TableColumn<IndividualSaleReport, String> cardNameColumn;
     @FXML
-    private TableColumn<Blank, Integer> assAmountColumn;
+    private TableColumn<IndividualSaleReport, Long> cardNumberColumn;
     @FXML
-    private TableColumn<Blank, Long> soldStartColumn;
+    private TableColumn<IndividualSaleReport, Float> cardAmountColumn;
     @FXML
-    private TableColumn<Blank, Long> soldEndColumn;
+    private TableColumn<IndividualSaleReport, String> commissionColumn;
     @FXML
-    private TableColumn<Blank, Integer> soldAmountColumn;
+    private TableColumn<IndividualSaleReport, Float> commissionAmountColumn;
     @FXML
-    private TableColumn<Blank, Integer> advisorFinalColumn;
+    private TableColumn<IndividualSaleReport, String> remittanceColumn;
     @FXML
-    private TableColumn<Blank, Integer> finalAmountColumn;
+    private Text message;
 
 
     public SaleReportController() {
@@ -63,91 +68,144 @@ public class SaleReportController extends NavigationController implements System
     }
 
     public void initialize() {
-        recStartColumn.setCellValueFactory((new PropertyValueFactory<>("recStart")));
-        recEndColumn.setCellValueFactory((new PropertyValueFactory<>("recEnd")));
-        recAmountColumn.setCellValueFactory((new PropertyValueFactory<>("recAmount")));
-        codeColumn.setCellValueFactory((new PropertyValueFactory<>("code")));
-        assStartColumn.setCellValueFactory((new PropertyValueFactory<>("assStart")));
-        assEndColumn.setCellValueFactory((new PropertyValueFactory<>("assEnd")));
-        assAmountColumn.setCellValueFactory((new PropertyValueFactory<>("assAmount")));
-        soldStartColumn.setCellValueFactory((new PropertyValueFactory<>("soldStart")));
-        soldEndColumn.setCellValueFactory((new PropertyValueFactory<>("soldEnd")));
-        soldAmountColumn.setCellValueFactory((new PropertyValueFactory<>("soldAmount")));
-        advisorFinalColumn.setCellValueFactory((new PropertyValueFactory<>("advisorFinal")));
-        finalAmountColumn.setCellValueFactory((new PropertyValueFactory<>("finalAmount")));
+        blankIDColumn.setCellValueFactory((new PropertyValueFactory<>("blankID")));
+        USDFareColumn.setCellValueFactory((new PropertyValueFactory<>("USDFare")));
+        fareColumn.setCellValueFactory((new PropertyValueFactory<>("fare")));
+        localTaxColumn.setCellValueFactory((new PropertyValueFactory<>("localTax")));
+        otherTaxColumn.setCellValueFactory((new PropertyValueFactory<>("otherTax")));
+        cashColumn.setCellValueFactory((new PropertyValueFactory<>("cash")));
+        cardNameColumn.setCellValueFactory((new PropertyValueFactory<>("cardName")));
+        cardNumberColumn.setCellValueFactory((new PropertyValueFactory<>("cardNumber")));
+        cardAmountColumn.setCellValueFactory((new PropertyValueFactory<>("cardAmount")));
+        commissionColumn.setCellValueFactory((new PropertyValueFactory<>("commission")));
+        commissionAmountColumn.setCellValueFactory((new PropertyValueFactory<>("commissionAmount")));
+        remittanceColumn.setCellValueFactory((new PropertyValueFactory<>("remittance")));
     }
 
-    public void loadReport() throws SQLException {
-        advisorTable.getItems().clear();
-        agentTable.getItems().clear();
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
 
-        CallableStatement stmt = database.call("{call StockTurnover(?, ?)}");
+    @Override
+    public void setDatabaseC(MyDBConnectivity db) {
+        database = db;
+    }
+
+
+    public void onClickLoadInterline(ActionEvent event) throws SQLException {
+        saleTable.getItems().clear();
+        ObservableList<IndividualSaleReport> sales = FXCollections.observableArrayList();
+
+        String blankID;
+        float USDFare;
+        float fare;
+        float localTax;
+        float otherTax;
+        float cash;
+        String cardName;
+        long cardNumber;
+        float cardAmount;
+        String commission;
+        float commissionAmount;
+        String remittance = "";
+
+        CallableStatement stmt = database.call("{call IndInterReport(?, ?, ?)}");
         try {
-            stmt.setDate(1, Date.valueOf(startDate.getValue()));
-            stmt.setDate(2, Date.valueOf(endDate.getValue()));
+            stmt.setInt(1, id);
+            stmt.setDate(2, Date.valueOf(startDate.getValue()));
+            stmt.setDate(3, Date.valueOf(endDate.getValue()));
             ResultSet rs = stmt.executeQuery();
-
-            ObservableList<StockElementAdvisor> elements = FXCollections.observableArrayList();
-            ObservableList<StockElementAgent> agentElements = FXCollections.observableArrayList();
-            int code;
-            long assStart;
-            long assEnd;
-            int assAmount;
-            long soldStart;
-            long soldEnd;
-            int soldAmount;
-            int advisorFinal;
-            long finalStart;
-            long finalEnd;
-
-            try {
-                while (rs.next()) {
-                    code = rs.getInt("Code");
-                    assStart = rs.getLong("AssStartBlank");
-                    assEnd = rs.getLong("AssEndBlank");
-                    assAmount = rs.getInt("AssAmount");
-                    soldStart = rs.getLong("SoldStartBlank");
-                    soldEnd = rs.getLong("SoldEndBLank");
-                    soldAmount = rs.getInt("SoldAmount");
-                    advisorFinal = rs.getInt("AdvisorAmount");
-                    StockElementAdvisor se = new StockElementAdvisor(code, assStart, assEnd, assAmount,
-                            soldStart, soldEnd, soldAmount, advisorFinal);
-                    elements.add(se);
+            while (rs.next()) {
+                blankID = rs.getString(1);
+                USDFare = rs.getFloat(2);
+                fare = rs.getFloat(3);
+                localTax = rs.getFloat(4);
+                otherTax = rs.getFloat(5);
+                try {
+                    cash = rs.getFloat(6);
+                } catch (NullPointerException e) {
+                    cash = 0;
                 }
-            } finally {
-                advisorTable.getItems().addAll(elements);
-            }
-            long recStart;
-            long recEnd;
-            int recAmount;
-            int finalAmount;
-
-            try {
-                stmt.getMoreResults();
-                ResultSet rs2 = stmt.getResultSet();
-                while (rs2.next()) {
-                    finalAmount = rs2.getInt("FinalAmount");
-                    recStart = rs2.getLong("RecStartBlank");
-                    recEnd = rs2.getLong("RecEndBlank");
-                    recAmount = rs2.getInt("RecAmount");
-                    StockElementAgent sa = new StockElementAgent(recStart, recEnd, recAmount, finalAmount);
-                    agentElements.add(sa);
+                try {
+                    cardName = rs.getString(7);
+                    cardNumber = rs.getLong(8);
+                    cardAmount = rs.getFloat(9);
+                } catch (NullPointerException e) {
+                    cardName = "";
+                    cardNumber = 0;
+                    cardAmount = 0;
                 }
-            } finally {
-                agentTable.getItems().addAll(agentElements);
+                commission = (rs.getFloat(10) * 100 + "%");
+                commissionAmount = rs.getFloat(11);
+                if (rs.getString(1).equals("Totals")) {
+                    remittance = String.valueOf(cardAmount-commissionAmount);
+                }
+                IndividualSaleReport s = new IndividualSaleReport(blankID, USDFare, fare, localTax, otherTax, cash, cardName, cardNumber, cardAmount, commission, commissionAmount, remittance);
+                sales.add(s);
             }
         } catch (NullPointerException e) {
-            System.out.println("date missing");
+            message.setText("No Sales in Range");
         } finally {
+            saleTable.getItems().addAll(sales);
             stmt.close();
         }
     }
 
-    @Override
-    public void setId(int id) { this.id = id; }
+    public void onClickLoadDomestic(ActionEvent event) throws SQLException {
+        saleTable.getItems().clear();
+        ObservableList<IndividualSaleReport> sales = FXCollections.observableArrayList();
 
-    @Override
-    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+        String blankID;
+        float USDFare = 0;
+        float fare;
+        float localTax;
+        float otherTax = 0;
+        float cash;
+        String cardName;
+        long cardNumber;
+        float cardAmount;
+        String commission;
+        float commissionAmount;
+        String remittance = "";
 
-
+        CallableStatement stmt = database.call("{call IndDomReport(?, ?, ?)}");
+        try {
+            stmt.setInt(1, id);
+            stmt.setDate(2, Date.valueOf(startDate.getValue()));
+            stmt.setDate(3, Date.valueOf(endDate.getValue()));
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                blankID = rs.getString("BlankID");
+                fare = rs.getFloat("Fare");
+                localTax = rs.getFloat("LocalTax");
+                try {
+                    cash = rs.getFloat("Cash");
+                } catch (NullPointerException e) {
+                    cash = 0;
+                }
+                try {
+                    cardName = rs.getString("CardName");
+                    cardNumber = rs.getLong("CardNumber");
+                    cardAmount = rs.getFloat("CardAmount");
+                } catch (NullPointerException e) {
+                    cardName = "";
+                    cardNumber = 0;
+                    cardAmount = 0;
+                }
+                commission = (rs.getFloat("Commission") * 100 + "%");
+                commissionAmount = rs.getFloat("CommissionAmount");
+                if (rs.getString("BlankID").equals("Totals")) {
+                    remittance = String.valueOf(cardAmount-commissionAmount);
+                }
+                IndividualSaleReport s = new IndividualSaleReport(blankID, USDFare, fare, localTax, otherTax, cash, cardName, cardNumber, cardAmount, commission, commissionAmount, remittance);
+                sales.add(s);
+            }
+        } catch (NullPointerException e) {
+            message.setText("No Sales in Range");
+        } finally {
+            saleTable.getItems().addAll(sales);
+            stmt.close();
+        }
+    }
 }

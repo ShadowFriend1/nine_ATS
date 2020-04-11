@@ -11,31 +11,27 @@
                 <Text layoutX="68.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Stock Turnover" />
                 <DatePicker fx:id="startDate" layoutX="20.0" layoutY="73.0" promptText="Start Date" />
                 <DatePicker fx:id="endDate" layoutX="20.0" layoutY="100.0" promptText="End Date" />
-                <Button layoutX="20.0" layoutY="127.0" text="Load Report" onAction="#loadReport" />
+                <Button layoutX="20.0" layoutY="127.0" text="Load Interline Report By Advisor" onAction="#onClickLoadInterline" />
+                <Button layoutX="20.0" layoutY="157.0" text="Load Domestic Report By Advisor" onAction="#onClickLoadDomestic" />
+                <Button layoutX="20.0" layoutY="187.0" text="Load Domestic Report By Currency" onAction="#onClickLoadUSDInterline" />
+                <Text fx:id="message" layoutX="20.0" layoutY="227" />
             </children>
         </AnchorPane>
     </left>
     <right>
         <AnchorPane prefHeight="400.0" prefWidth="442.0" BorderPane.alignment="CENTER">
             <children>
-                <TableView fx:id="advisorTable" layoutX="-141.0" prefHeight="394.0" prefWidth="750">
+                <TableView fx:id="saleTable" layoutX="-141.0" prefHeight="394.0" prefWidth="1250">
                     <columns>
-                        <TableColumn fx:id="codeColumn" prefWidth="150" text="Advisor Code" />
-                        <TableColumn fx:id="assStartColumn" prefWidth="150" text="Assigned Start ID" />
-                        <TableColumn fx:id="assEndColumn" prefWidth="150" text="Assigned End ID" />
-                        <TableColumn fx:id="assAmountColumn" prefWidth="150" text="Assigned Amount" />
-                        <TableColumn fx:id="soldStartColumn" prefWidth="150" text="Sold Start ID" />
-                        <TableColumn fx:id="soldEndColumn" prefWidth="150" text="Sold End ID" />
-                        <TableColumn fx:id="soldAmountColumn" prefWidth="150" text="Sold Amount" />
-                        <TableColumn fx:id="advisorFinalColumn" prefWidth="150" text="Advisor Final Amount" />
-                    </columns>
-                </TableView>
-                <TableView fx:id="agentTable" layoutX="609" prefHeight="394.0" prefWidth="500">
-                    <columns>
-                        <TableColumn fx:id="recStartColumn" prefWidth="150" text="Received Start ID" />
-                        <TableColumn fx:id="recEndColumn" prefWidth="150" text="Received End ID" />
-                        <TableColumn fx:id="recAmountColumn" prefWidth="150" text="Received Amount" />
-                        <TableColumn fx:id="finalAmountColumn" prefWidth="150" text="Agent Final Amount" />
+                        <TableColumn fx:id="codeColumn" prefWidth="150" text="Advisor/Rate Code" />
+                        <TableColumn fx:id="numColumn" prefWidth="150" text="Number of Sales" />
+                        <TableColumn fx:id="fareColumn" prefWidth="150" text="Fare" />
+                        <TableColumn fx:id="localTaxColumn" prefWidth="150" text="Local Tax" />
+                        <TableColumn fx:id="otherTaxColumn" prefWidth="150" text="Other Tax" />
+                        <TableColumn fx:id="cashColumn" prefWidth="150" text="Cash Paid" />
+                        <TableColumn fx:id="cardAmountColumn" prefWidth="150" text="Card Paid" />
+                        <TableColumn fx:id="commissionColumn" prefWidth="150" text="Total Commission" />
+                        <TableColumn fx:id="remittanceColumn" prefWidth="150" text="Bank Remittance To AirVia" />
                     </columns>
                 </TableView>
             </children>
@@ -45,7 +41,7 @@
         <HBox prefHeight="100.0" prefWidth="863.0" BorderPane.alignment="CENTER">
             <children>
                 <AnchorPane prefHeight="0.0" prefWidth="115.0" />
-                <Button mnemonicParsing="false" onAction="#goManagerHome" text="Home">
+                <Button mnemonicParsing="false" onAction="#goHome" text="Home">
                     <HBox.margin>
                         <Insets top="30.0" />
                     </HBox.margin>

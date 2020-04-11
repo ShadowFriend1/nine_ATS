@@ -53,7 +53,7 @@ call MakeSaleCard(44400000002, 250, 43, 55, 230,
                   '2020-01-01', @a);
 
 /* domestic: 01/01/2020 */
-call MakeSaleCashDomestic(20100000001, 250, 0, 15.60, NULL,
+call MakeSaleCashDomestic(20100000001, 250, 15.60, NULL,
                           0.05, 86, '2020-01-01', @a);
 
 /* interline: 02/01/2020 */
@@ -68,8 +68,8 @@ call MakeSaleCard(44400000022, 211, 28, 37, 300,
                   '2020-01-02', @a);
 
 /* domestic: 02/01/2020 */
-call MakeSaleCardDomestic(20100000002, 250, 0, 13.80, 75,
-                          NULL, 0.05, 6454986387338876, 'VISA', 'GBP',
+call MakeSaleCardDomestic(20100000002, 250, 13.80, 75,
+                          NULL, 0.05, 6454986387338876, 'VISA',
                           '2020-01-02', @a);
-call MakeSaleCashDomestic(20100000011, 211, 0, 13.80, NULL,
-                          0.05, 75, 'GBP', '2020-01-02', @a);
+call MakeSaleCashDomestic(20100000011, 211, 13.80, NULL,
+                          0.05, 75, '2020-01-02', @a);

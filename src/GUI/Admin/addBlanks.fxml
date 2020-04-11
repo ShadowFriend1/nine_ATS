@@ -20,7 +20,7 @@
                 <DatePicker fx:id="blankDate" layoutY="200.0" promptText="Blank Date" />
                 <Button layoutY="230.0" mnemonicParsing="false" text="Submit Blanks" onAction="#onClickSubmitBlanks" />
                 <Button layoutX="120.0" layoutY="230.0" mnemonicParsing="false" text="Delete Blanks" onAction="#onClickDeleteBlanks" />
-                <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#onClickBlanksCancel" />
+                <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goHome" />
                 <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
             </children>
         </AnchorPane>

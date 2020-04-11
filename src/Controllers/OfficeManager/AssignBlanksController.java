@@ -1,5 +1,6 @@
 package Controllers.OfficeManager;
 
+import Controllers.NavigationController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
@@ -18,7 +19,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Types;
 
-public class AssignBlanksController implements SystemController {
+public class AssignBlanksController extends NavigationController implements SystemController {
 
     private int id;
     private MyDBConnectivity database;

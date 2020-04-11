@@ -652,7 +652,6 @@ end //
 CREATE PROCEDURE AirVia.MakeSaleDelayedDomestic(IN BlankID bigint,
                                                 IN ICode int,
                                                 IN ILocalTax float,
-                                                IN IOtherTax float,
                                                 IN IAlias varchar(10),
                                                 IN Commission float,
                                                 IN IPayment float,
@@ -685,25 +684,25 @@ BEGIN
             SET Dis = (SELECT DiscountValue
                        FROM Discount
                                 INNER JOIN FlexibleBand ON Discount.DiscountID = FlexibleBand.DiscountID
-                       WHERE (UpperBound > (IPayment + ILocalTax + IOtherTax) AND
-                              (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (UpperBound IS NULL AND (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (LowerBound IS NULL AND (IPayment + ILocalTax + IOtherTax) <= UpperBound)
+                       WHERE (UpperBound > (IPayment + ILocalTax) AND
+                              (IPayment + ILocalTax) >= LowerBound)
+                          OR (UpperBound IS NULL AND (IPayment + ILocalTax) >= LowerBound)
+                          OR (LowerBound IS NULL AND (IPayment + ILocalTax) <= UpperBound)
                        ORDER BY DiscountValue DESC
                        LIMIT 1);
         end if;
     end if;
 
     IF Dis IS NULL THEN
-        SET FinalFee = (IPayment + ILocalTax + IOtherTax);
+        SET FinalFee = (IPayment + ILocalTax);
     ELSE
-        SET FinalFee = ((IPayment + ILocalTax + IOtherTax) * (1 - Dis));
+        SET FinalFee = ((IPayment + ILocalTax) * (1 - Dis));
     end if;
 
     IF NOT EXISTS(SELECT BlankStockID FROM Sale WHERE BlankStockID = BlankID) THEN
         INSERT INTO Sale (fee, customeralias, TravelAgentCode, blankstockid, payment, paymenttype, saledate, LocalTax,
-                          OtherTax, CommissionRatesRate)
-        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 0, ICurrentDate, ILocalTax, IOtherTax, Commission);
+                          CommissionRatesRate)
+        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 0, ICurrentDate, ILocalTax, Commission);
         UPDATE CustomerAccount SET outstandingBalance=outstandingBalance + FinalFee WHERE Alias = IAlias;
         SET Response = 'Sale Successful';
     ELSE
@@ -716,7 +715,6 @@ end //
 CREATE PROCEDURE AirVia.MakeSaleCashDomestic(IN BlankID bigint,
                                              IN ICode int,
                                              IN ILocalTax float,
-                                             IN IOtherTax float,
                                              IN IAlias varchar(10),
                                              IN Commission float,
                                              IN IPayment float,
@@ -749,25 +747,25 @@ BEGIN
             SET Dis = (SELECT DiscountValue
                        FROM Discount
                                 INNER JOIN FlexibleBand ON Discount.DiscountID = FlexibleBand.DiscountID
-                       WHERE (UpperBound > (IPayment + ILocalTax + IOtherTax) AND
-                              (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (UpperBound IS NULL AND (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (LowerBound IS NULL AND (IPayment + ILocalTax + IOtherTax) <= UpperBound)
+                       WHERE (UpperBound > (IPayment + ILocalTax) AND
+                              (IPayment + ILocalTax) >= LowerBound)
+                          OR (UpperBound IS NULL AND (IPayment + ILocalTax) >= LowerBound)
+                          OR (LowerBound IS NULL AND (IPayment + ILocalTax) <= UpperBound)
                        ORDER BY DiscountValue DESC
                        LIMIT 1);
         end if;
     end if;
 
     IF Dis IS NULL THEN
-        SET FinalFee = (IPayment + ILocalTax + IOtherTax);
+        SET FinalFee = (IPayment + ILocalTax);
     ELSE
-        SET FinalFee = ((IPayment + ILocalTax + IOtherTax) * (1 - Dis));
+        SET FinalFee = ((IPayment + ILocalTax) * (1 - Dis));
     end if;
 
     IF NOT EXISTS(SELECT BlankStockID FROM Sale WHERE BlankStockID = BlankID) THEN
         INSERT INTO Sale (fee, customeralias, TravelAgentCode, blankstockid, payment, paymenttype, saledate, LocalTax,
-                          OtherTax, CommissionRatesRate)
-        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 1, ICurrentDate, ILocalTax, IOtherTax, Commission);
+                          CommissionRatesRate)
+        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 1, ICurrentDate, ILocalTax, Commission);
         SET Response = 'Sale Successful';
     ELSE
         SET Response = 'Blank Already Used';
@@ -779,7 +777,6 @@ end //
 CREATE PROCEDURE AirVia.MakeSaleCardDomestic(IN BlankID bigint,
                                              IN ICode int,
                                              IN ILocalTax float,
-                                             IN IOtherTax float,
                                              IN IPayment float,
                                              IN IAlias varchar(10),
                                              IN Commission float,
@@ -814,25 +811,25 @@ BEGIN
             SET Dis = (SELECT DiscountValue
                        FROM Discount
                                 INNER JOIN FlexibleBand ON Discount.DiscountID = FlexibleBand.DiscountID
-                       WHERE (UpperBound > (IPayment + ILocalTax + IOtherTax) AND
-                              (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (UpperBound IS NULL AND (IPayment + ILocalTax + IOtherTax) >= LowerBound)
-                          OR (LowerBound IS NULL AND (IPayment + ILocalTax + IOtherTax) <= UpperBound)
+                       WHERE (UpperBound > (IPayment + ILocalTax) AND
+                              (IPayment + ILocalTax) >= LowerBound)
+                          OR (UpperBound IS NULL AND (IPayment + ILocalTax) >= LowerBound)
+                          OR (LowerBound IS NULL AND (IPayment + ILocalTax) <= UpperBound)
                        ORDER BY DiscountValue DESC
                        LIMIT 1);
         end if;
     end if;
 
     IF Dis IS NULL THEN
-        SET FinalFee = (IPayment + ILocalTax + IOtherTax);
+        SET FinalFee = (IPayment + ILocalTax);
     ELSE
-        SET FinalFee = ((IPayment + ILocalTax + IOtherTax) * (1 - Dis));
+        SET FinalFee = ((IPayment + ILocalTax) * (1 - Dis));
     end if;
 
     IF NOT EXISTS(SELECT BlankStockID FROM Sale WHERE BlankStockID = BlankID) THEN
         INSERT INTO Sale (fee, customeralias, TravelAgentCode, blankstockid, payment, paymenttype,
-                          saledate, LocalTax, OtherTax, CommissionRatesRate, CardName, CardNumber)
-        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 2, ICurrentDate, ILocalTax, IOtherTax, Commission,
+                          saledate, LocalTax, CommissionRatesRate, CardName, CardNumber)
+        VALUES (FinalFee, IAlias, ICode, BlankID, IPayment, 2, ICurrentDate, ILocalTax, Commission,
                 ICardType, ICardNumber);
         SET Response = 'Sale Successful';
     ELSE
@@ -1027,7 +1024,9 @@ BEGIN
            (fee * (SELECT Rate
                    FROM ExchangeRates
                    WHERE ExchangeRatesCode = Sale.ExchangeRatesCode
-                     AND ExchangeRatesDate = Sale.ExchangeRatesDate)),
+                     AND ExchangeRatesDate = Sale.ExchangeRatesDate
+                   ORDER BY ExchangeRatesDate
+                   LIMIT 1)),
            LocalTax,
            OtherTax,
            payment,
@@ -1047,7 +1046,9 @@ BEGIN
            (fee * (SELECT Rate
                    FROM ExchangeRates
                    WHERE ExchangeRatesCode = Sale.ExchangeRatesCode
-                     AND ExchangeRatesDate = Sale.ExchangeRatesDate)),
+                     AND ExchangeRatesDate = Sale.ExchangeRatesDate
+                   ORDER BY ExchangeRatesDate
+                   LIMIT 1)),
            LocalTax,
            OtherTax,
            payment,
@@ -1062,6 +1063,9 @@ BEGIN
       AND SaleDate <= EndDate
       AND SaleDate >= StartDate;
 
+    CREATE TEMPORARY TABLE temp2 AS
+    SELECT * FROM temp1;
+
     INSERT INTO temp1(BlankID, USDFare, Fare, LocalTax, OtherTax, Cash, CardAmount, CommissionAmount)
     SELECT 'Totals',
            SUM(USDFare),
@@ -1071,11 +1075,12 @@ BEGIN
            SUM(Cash),
            SUM(CardAmount),
            SUM(CommissionAmount)
-    FROM temp1;
+    FROM temp2;
 
     SELECT * FROM temp1;
 
     DROP TABLE temp1;
+    DROP TABLE temp2;
 end //
 
 //
@@ -1095,7 +1100,6 @@ BEGIN
         BlankID          varchar(255),
         Fare             float,
         LocalTax         float,
-        OtherTax         float,
         Cash             float,
         CardAmount       float,
         CardName         varchar(10),
@@ -1103,26 +1107,24 @@ BEGIN
         Commission       float,
         CommissionAmount float
     );
-    INSERT INTO temp1(BlankID, Fare, LocalTax, OtherTax, Cash, Commission, CommissionAmount)
+    INSERT INTO temp1(BlankID, Fare, LocalTax, Cash, Commission, CommissionAmount)
     SELECT CAST(BlankStockID AS CHAR),
            fee,
            LocalTax,
-           OtherTax,
            payment,
            CommissionRatesRate,
            (fee * CommissionRatesRate)
     FROM Sale
     WHERE TravelAgentCode = ICode
-      AND ExchangeRatesCode IS NOT NULL
+      AND ExchangeRatesCode IS NULL
       AND PaymentType = 1
       AND SaleDate <= EndDate
-      AND SaleDate >= StartDate;;
+      AND SaleDate >= StartDate;
 
-    INSERT INTO temp1(BlankID, Fare, LocalTax, OtherTax, CardAmount, CardName, CardNumber, Commission, CommissionAmount)
+    INSERT INTO temp1(BlankID, Fare, LocalTax, CardAmount, CardName, CardNumber, Commission, CommissionAmount)
     SELECT CAST(BlankStockID AS CHAR),
            fee,
            LocalTax,
-           OtherTax,
            payment,
            CardName,
            CardNumber,
@@ -1130,24 +1132,27 @@ BEGIN
            (fee * CommissionRatesRate)
     FROM Sale
     WHERE TravelAgentCode = ICode
-      AND ExchangeRatesCode IS NOT NULL
+      AND ExchangeRatesCode IS NULL
       AND PaymentType = 2
       AND SaleDate <= EndDate
-      AND SaleDate >= StartDate;;
+      AND SaleDate >= StartDate;
 
-    INSERT INTO temp1(BlankID, Fare, LocalTax, OtherTax, Cash, CardAmount, CommissionAmount)
+    CREATE TEMPORARY TABLE temp2 AS
+    SELECT * FROM temp1;
+
+    INSERT INTO temp1(BlankID, Fare, LocalTax, Cash, CardAmount, CommissionAmount)
     SELECT 'Totals',
            SUM(Fare),
            SUM(LocalTax),
-           SUM(OtherTax),
            SUM(Cash),
            SUM(CardAmount),
            SUM(CommissionAmount)
-    FROM temp1;
+    FROM temp2;
 
     SELECT * FROM temp1;
 
     DROP TABLE temp1;
+    DROP TABLE temp2;
 end //
 
 /* Global Interline Per Advisor */
@@ -1179,12 +1184,27 @@ BEGIN
            SUM(OtherTax),
            SUM(CommissionRatesRate * payment)
     FROM Sale
-    WHERE SaleDate >= StartDate AND SaleDate <= EndDate
+    WHERE SaleDate >= StartDate
+      AND SaleDate <= EndDate
+      AND ExchangeRatesCode IS NOT NULL
     GROUP BY TravelAgentCode;
 
     UPDATE temp1
-    SET Cash=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 1 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate),
-        Card=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 2 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate);
+    SET Cash=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 1
+                AND TravelAgentCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate),
+        Card=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 2
+                AND TravelAgentCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate);
+
+    CREATE TEMPORARY TABLE temp2 AS
+    SELECT * FROM temp1;
 
     INSERT INTO temp1(Code, NumSales, payment, LocalTax, OtherTax, Cash, Card, CommissionAmount)
     SELECT 'Totals',
@@ -1195,11 +1215,12 @@ BEGIN
            SUM(Cash),
            SUM(Card),
            SUM(CommissionAmount)
-    FROM temp1;
+    FROM temp2;
 
     SELECT * FROM temp1;
 
     DROP TABLE temp1;
+    DROP TABLE temp2;
 end //
 
 /* Global Domestic Per Advisor */
@@ -1229,12 +1250,27 @@ BEGIN
            SUM(LocalTax),
            SUM(CommissionRatesRate * payment)
     FROM Sale
-    WHERE SaleDate >= StartDate AND SaleDate <= EndDate
+    WHERE SaleDate >= StartDate
+      AND SaleDate <= EndDate
+      AND ExchangeRatesCode IS NULL
     GROUP BY TravelAgentCode;
 
     UPDATE temp1
-    SET Cash=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 1 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate),
-        Card=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 2 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate);
+    SET Cash=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 1
+                AND TravelAgentCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate),
+        Card=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 2
+                AND TravelAgentCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate);
+
+    CREATE TEMPORARY TABLE temp2 AS
+    SELECT * FROM temp1;
 
     INSERT INTO temp1(Code, NumSales, payment, LocalTax, Cash, Card, CommissionAmount)
     SELECT 'Totals',
@@ -1244,23 +1280,18 @@ BEGIN
            SUM(Cash),
            SUM(Card),
            SUM(CommissionAmount)
-    FROM temp1;
+    FROM temp2;
 
     SELECT * FROM temp1;
 
     DROP TABLE temp1;
+    DROP TABLE temp2;
 end //
 
 /* Global Interline Per USD */
 CREATE PROCEDURE AirVia.GloIntUSDReport(IN StartDate Date,
                                         IN EndDate Date)
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-        BEGIN
-            SHOW ERRORS;
-            ROLLBACK;
-        end;
-
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
         BEGIN
             SHOW ERRORS;
@@ -1286,12 +1317,27 @@ BEGIN
            SUM(OtherTax),
            SUM(CommissionRatesRate * payment)
     FROM Sale
-    WHERE SaleDate >= StartDate AND SaleDate <= EndDate
+    WHERE SaleDate >= StartDate
+      AND SaleDate <= EndDate
+      AND ExchangeRatesCode IS NOT NULL;
     GROUP BY ExchangeRatesCode;
 
     UPDATE temp1
-    SET Cash=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 1 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate),
-        Card=(SELECT SUM(payment) FROM Sale WHERE PaymentType = 2 AND TravelAgentCode = Code AND SaleDate >= StartDate AND SaleDate <= EndDate);
+    SET Cash=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 1
+                AND ExchangeRatesCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate),
+        Card=(SELECT SUM(payment)
+              FROM Sale
+              WHERE PaymentType = 2
+                AND ExchangeRatesCode = Code
+                AND SaleDate >= StartDate
+                AND SaleDate <= EndDate);
+
+    CREATE TEMPORARY TABLE temp2 AS
+    SELECT * FROM temp1;
 
     INSERT INTO temp1(Code, NumSales, payment, LocalTax, OtherTax, Cash, Card, CommissionAmount)
     SELECT 'Totals',
@@ -1302,10 +1348,11 @@ BEGIN
            SUM(Cash),
            SUM(Card),
            SUM(CommissionAmount)
-    FROM temp1;
+    FROM temp2;
 
     SELECT * FROM temp1;
 
     DROP TABLE temp1;
+    DROP TABLE temp2;
 end //
 DELIMITER ;

@@ -1,4 +1,4 @@
-import Controllers.TravelAdvisor.TravelAdvisorController;
+import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +12,9 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Advisor/advisor.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("GUI/Manager/manager.fxml"));
         Parent root = fxmlLoader.load();
-        TravelAdvisorController sys = fxmlLoader.getController();
+        SystemController sys = fxmlLoader.getController();
         MyDBConnectivity database = new MyDBConnectivity();
         primaryStage.setOnCloseRequest(event -> {
             System.out.println("database connection closed");

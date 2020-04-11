@@ -1,5 +1,6 @@
 package Controllers.TravelAdvisor;
 
+import Controllers.NavigationController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.collections.FXCollections;
@@ -20,7 +21,7 @@ import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class MakeSaleController implements SystemController{
+public class MakeSaleController extends NavigationController implements SystemController{
 
     private MyDBConnectivity database;
     private int id;
@@ -184,24 +185,23 @@ public class MakeSaleController implements SystemController{
     }
 
     public void onClickMakeCashSaleDomestic(ActionEvent event) throws SQLException {
-        CallableStatement stmt = database.call("{call MakeSaleCashDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        CallableStatement stmt = database.call("{call MakeSaleCashDomestic(?, ?, ?, ?, ?, ?, ?, ?)}");
         try {
             stmt.setLong(1, Long.parseLong(blankID.getText()));
             stmt.setInt(2, id);
             stmt.setFloat(3, Float.parseFloat(localTax.getText()));
-            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
             try {
-                stmt.setString(5, alias.getValue());
+                stmt.setString(4, alias.getValue());
             } catch (NullPointerException e) {
                 System.out.println("casual customer");
-                stmt.setString(5, null);
+                stmt.setString(4, null);
             }
-            stmt.setFloat(6, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
-            stmt.setFloat(7, Float.parseFloat(payment.getText()));
-            stmt.setDate(8, Date.valueOf(LocalDate.now()));
-            stmt.registerOutParameter(9, Types.VARCHAR);
+            stmt.setFloat(5, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setFloat(6, Float.parseFloat(payment.getText()));
+            stmt.setDate(7, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(8, Types.VARCHAR);
             stmt.execute();
-            message.setText(stmt.getString(9));
+            message.setText(stmt.getString(8));
         } catch (NullPointerException | NumberFormatException e) {
             message.setText("Field Broken");
         } finally {
@@ -210,26 +210,25 @@ public class MakeSaleController implements SystemController{
     }
 
     public void onClickMakeCardSaleDomestic(ActionEvent event) throws SQLException {
-        CallableStatement stmt = database.call("{call MakeSaleCardDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        CallableStatement stmt = database.call("{call MakeSaleCardDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
         try {
             stmt.setLong(1, Long.parseLong(blankID.getText()));
             stmt.setInt(2, id);
             stmt.setFloat(3, Float.parseFloat(localTax.getText()));
-            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
-            stmt.setFloat(5, Float.parseFloat(payment.getText()));
+            stmt.setFloat(4, Float.parseFloat(payment.getText()));
             try {
-                stmt.setString(6, alias.getValue());
+                stmt.setString(5, alias.getValue());
             } catch (NullPointerException e) {
                 System.out.println("casual customer");
-                stmt.setString(6, null);
+                stmt.setString(5, null);
             }
-            stmt.setFloat(7, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
-            stmt.setLong(8, Long.parseLong(cardNumber.getText()));
-            stmt.setString(9, cardType.getText());
-            stmt.setDate(10, Date.valueOf(LocalDate.now()));
-            stmt.registerOutParameter(11, Types.VARCHAR);
+            stmt.setFloat(6, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setLong(7, Long.parseLong(cardNumber.getText()));
+            stmt.setString(8, cardType.getText());
+            stmt.setDate(9, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(10, Types.VARCHAR);
             stmt.execute();
-            message.setText(stmt.getString(11));
+            message.setText(stmt.getString(10));
         } catch (NullPointerException | NumberFormatException e) {
             message.setText("Field Broken");
         } finally {
@@ -238,24 +237,23 @@ public class MakeSaleController implements SystemController{
     }
 
     public void onClickMakeDelayedSaleDomestic(ActionEvent event) throws SQLException {
-        CallableStatement stmt = database.call("{call MakeSaleDelayedDomestic(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+        CallableStatement stmt = database.call("{call MakeSaleDelayedDomestic(?, ?, ?, ?, ?, ?, ?, ?)}");
         try {
             stmt.setLong(1, Long.parseLong(blankID.getText()));
             stmt.setInt(2, id);
             stmt.setFloat(3, Float.parseFloat(localTax.getText()));
-            stmt.setFloat(4, Float.parseFloat(otherTax.getText()));
             try {
-                stmt.setString(5, alias.getValue());
+                stmt.setString(4, alias.getValue());
             } catch (NullPointerException e) {
                 System.out.println("casual customer");
-                stmt.setString(5, null);
+                stmt.setString(4, null);
             }
-            stmt.setFloat(6, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
-            stmt.setFloat(7, Float.parseFloat(payment.getText()));
-            stmt.setDate(8, Date.valueOf(LocalDate.now()));
-            stmt.registerOutParameter(9, Types.VARCHAR);
+            stmt.setFloat(5, Float.parseFloat(commission.getValue().substring(0, commission.getValue().length()-2))/100);
+            stmt.setFloat(6, Float.parseFloat(payment.getText()));
+            stmt.setDate(7, Date.valueOf(LocalDate.now()));
+            stmt.registerOutParameter(8, Types.VARCHAR);
             stmt.execute();
-            message.setText(stmt.getString(9));
+            message.setText(stmt.getString(8));
         } catch (NullPointerException | NumberFormatException e) {
             message.setText("Field Broken");
         } finally {
