@@ -47,7 +47,7 @@ public class MakeSaleController extends NavigationController implements SystemCo
     @FXML
     private Text message;
 
-    public MakeSaleController() {}
+    public MakeSaleController() throws SQLException {}
 
     public void onClickMakeCashSale() throws SQLException {
         CallableStatement stmt = database.call("{call MakeSaleCash(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");

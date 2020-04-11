@@ -102,9 +102,8 @@ public class LoginController implements SystemController {
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(int id) {}
 
-    }
     @Override
     public void setDatabaseC(MyDBConnectivity db) {
         database = db;

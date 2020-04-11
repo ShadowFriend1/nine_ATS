@@ -63,7 +63,7 @@ public class SaleReportController extends NavigationController implements System
     private Text message;
 
 
-    public SaleReportController() {
+    public SaleReportController() throws SQLException{
 
     }
 

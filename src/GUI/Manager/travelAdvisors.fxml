@@ -50,7 +50,7 @@
          <children>
             <Pane prefHeight="101.0" prefWidth="878.0">
                <children>
-                  <Button layoutX="62.0" layoutY="38.0" mnemonicParsing="false" onAction="#goAdminHome" text="Home" />
+                  <Button layoutX="62.0" layoutY="38.0" mnemonicParsing="false" onAction="#goManagerHome" text="Home" />
                   <Button layoutX="338.0" layoutY="38.0" mnemonicParsing="false" onAction="#goLogout" text="Logout" />
                   <Button layoutX="597.0" layoutY="64.0" mnemonicParsing="false" onAction="#loadAdvisors" text="Load Advisors" />
                </children>

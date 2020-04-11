@@ -13,7 +13,8 @@
                 <DatePicker fx:id="endDate" layoutX="20.0" layoutY="100.0" promptText="End Date" />
                 <Button layoutX="20.0" layoutY="127.0" text="Load Interline Report" onAction="#onClickLoadInterline" />
                 <Button layoutX="20.0" layoutY="157.0" text="Load Domestic Report" onAction="#onClickLoadDomestic" />
-                <Text fx:id="message" layoutX="20.0" layoutY="187" />
+                <Button layoutX="20.0" layoutY="187.0" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
+                <Text fx:id="message" layoutX="20.0" layoutY="227" />
             </children>
         </AnchorPane>
     </left>

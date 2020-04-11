@@ -20,7 +20,7 @@
                 <TextField fx:id="advisorCode" layoutY="200.0" promptText="Advisor Code" />
                 <Button layoutY="230.0" mnemonicParsing="false" text="Assign Blanks" onAction="#onClickAssignBlanks" />
                 <Button layoutX="120.0" layoutY="230.0" mnemonicParsing="false" text="Reassign Blanks" onAction="#onClickReassignBlanks" />
-                <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goHome" />
+                <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goManagerHome" />
                 <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
             </children>
         </AnchorPane>

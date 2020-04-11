@@ -14,7 +14,8 @@
                 <Button layoutX="20.0" layoutY="127.0" text="Load Interline Report By Advisor" onAction="#onClickLoadInterline" />
                 <Button layoutX="20.0" layoutY="157.0" text="Load Domestic Report By Advisor" onAction="#onClickLoadDomestic" />
                 <Button layoutX="20.0" layoutY="187.0" text="Load Domestic Report By Currency" onAction="#onClickLoadUSDInterline" />
-                <Text fx:id="message" layoutX="20.0" layoutY="227" />
+                <Button layoutX="20.0" layoutY="227" mnemonicParsing="false" text="Return to Home" onAction="#goManagerHome" />
+                <Text fx:id="message" layoutX="20.0" layoutY="257" />
             </children>
         </AnchorPane>
     </left>

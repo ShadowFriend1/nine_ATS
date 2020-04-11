@@ -41,7 +41,7 @@
       <HBox prefHeight="100.0" prefWidth="863.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane prefHeight="0.0" prefWidth="115.0" />
-            <Button mnemonicParsing="false" onAction="#goAdminHome" text="Home">
+            <Button mnemonicParsing="false" onAction="#goManagerHome" text="Home">
                <HBox.margin>
                   <Insets top="30.0" />
                </HBox.margin>
