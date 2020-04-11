@@ -1,0 +1,22 @@
+.root{
+    -fx-background-color: #000000;
+
+}
+
+.button{
+    -fx-background-color: #000000;
+    -fx-text-fill: #214dff;
+    -fx-border-width: 3px;
+    -fx-border-style: ridge;
+    -fx-border-color: #214dff;
+}
+#username,#password{
+    -fx-background-color: #000000;
+    -fx-prompt-text-fill: #214dff;
+    -fx-border-width: 3px;
+    -fx-border-style: ridge;
+    -fx-border-color: #214dff;
+}
+.nav{
+    -fx-background-color: #0f87ff;
+}
