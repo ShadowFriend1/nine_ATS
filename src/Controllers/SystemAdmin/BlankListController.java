@@ -74,8 +74,8 @@ public class BlankListController extends NavigationController implements SystemC
     // This method will load blanks from the database and put them in the tableview object
 
     public void loadBlanks() throws SQLException {
-
         blankTable.getItems().clear();
+        ObservableList<Blank> blanks = FXCollections.observableArrayList();
 
         // get blanks
         Statement stmt = database.getStatement();
@@ -89,12 +89,14 @@ public class BlankListController extends NavigationController implements SystemC
             System.err.println(e.getMessage());
         } finally {
             stmt.close();
+            blankTable.getItems().addAll(blanks);
         }
     }
 
 
 
     public void searchBlank(ActionEvent event) throws SQLException {
+        System.out.println(1);
         ObservableList<Blank> blanks = FXCollections.observableArrayList();
 
         blankTable.getItems().clear();
@@ -105,6 +107,7 @@ public class BlankListController extends NavigationController implements SystemC
                 "BlankStock.ID = Sale.BlankStockID WHERE ID LIKE '%" + searchID.getText() + "%';");
         try {
             // create blank objects from each record
+
             addBlanks(resultSet);
         } catch (Exception e) {
             System.out.println(e.getMessage());

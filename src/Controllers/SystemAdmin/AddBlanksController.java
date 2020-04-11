@@ -71,12 +71,18 @@ public class AddBlanksController extends NavigationController implements SystemC
 
     public void onClickDeleteBlanks(ActionEvent actionEvent) throws SQLException {
         CallableStatement stmt = database.call("{call DeleteBlanks(?, ?, ?)}");
-        stmt.setLong(1, Long.parseLong(startBlank.getText()));
-        stmt.setLong(2, Long.parseLong(endBlank.getText()));
-        stmt.registerOutParameter(3, Types.VARCHAR);
-        message.setText("waiting");
-        stmt.execute();
-        message.setText(stmt.getString(3));
+        try {
+            stmt.setLong(1, Long.parseLong(startBlank.getText()));
+            stmt.setLong(2, Long.parseLong(endBlank.getText()));
+            stmt.registerOutParameter(3, Types.VARCHAR);
+            message.setText("waiting");
+            stmt.execute();
+            message.setText(stmt.getString(3));
+        } catch (NullPointerException | NumberFormatException e) {
+            message.setText("Field Missing");
+        }finally {
+            stmt.close();
+        }
     }
 
     @Override

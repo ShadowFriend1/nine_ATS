@@ -375,9 +375,12 @@ BEGIN
             SHOW ERRORS;
             ROLLBACK;
         end;
-
-    DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
-    SET Response = 'Unused Blanks Successfully Deleted';
+    IF NOT EXISTS(SELECT * FROM Sale WHERE BlankStockID BETWEEN StartBlank AND EndBlank) THEN
+        DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
+        SET Response = 'Unused Blanks Successfully Deleted';
+    ELSE
+        SET Response = 'All Blanks in that range are used';
+    end if;
 end //
 
 //
