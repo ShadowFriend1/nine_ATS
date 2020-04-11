@@ -96,8 +96,6 @@ public class CreateCustomerAccountController extends NavigationController implem
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         discountID.setCellValueFactory(new PropertyValueFactory<>("discountID"));
         outstandingBalanceColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
-
-
     }
 
     public void createCustomerAccount(ActionEvent event) throws SQLException {
@@ -119,7 +117,7 @@ public class CreateCustomerAccountController extends NavigationController implem
             customerAccountTable.getItems().clear();
         }
         catch (NullPointerException e){
-
+            
         }
 
         // get accounts

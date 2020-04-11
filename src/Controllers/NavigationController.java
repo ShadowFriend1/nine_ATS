@@ -9,11 +9,31 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class NavigationController implements SystemController {
 
     private int id;
     private MyDBConnectivity database;
+
+    public void goHome(ActionEvent event) throws SQLException, IOException {
+        Statement stmt = database.getStatement();
+        ResultSet rs = stmt.executeQuery("SELECT Type FROM SysAccount WHERE Code="+id+";");
+        if (rs.next()) {
+            switch (rs.getInt("Type")) {
+                case 0:
+                    goAdvisorHome(event);
+                    break;
+                case 1:
+                    goManagerHome(event);
+                    break;
+                case 2:
+                    goAdminHome(event);
+            }
+        }
+    }
 
     public void goManagerHome(ActionEvent event) throws IOException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/manager.fxml"));

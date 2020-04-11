@@ -1,4 +1,4 @@
-package entities;
+package entities.StockReports;
 
 import javafx.scene.control.cell.PropertyValueFactory;
 

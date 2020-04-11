@@ -1,4 +1,4 @@
-package entities;
+package entities.StockReports;
 
 public class StockElementAgent {
 

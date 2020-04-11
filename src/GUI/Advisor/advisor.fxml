@@ -21,8 +21,7 @@
             <Button onAction="#onClickMakeSale" layoutX="31.0" layoutY="216.0" mnemonicParsing="false" text="Make Sale" />
             <Button onAction="#onClickCheckBlankStock" layoutX="33.0" layoutY="106.0" mnemonicParsing="false" text="Check Blank Stock" />
             <Button onAction="#onClickRefund" layoutX="33.0" layoutY="146.0" mnemonicParsing="false" text="Log a Refunded Sale" />
-            <Button layoutX="49.0" layoutY="264.0" mnemonicParsing="false" text="Customer Accounts" />
-            <Button layoutX="43.0" layoutY="322.0" mnemonicParsing="false" text="Generate Sales Report" />
+            <Button onAction="#onClickSalesReport" layoutX="43.0" layoutY="322.0" mnemonicParsing="false" text="Generate Sales Report" />
          </children>
       </AnchorPane>
    </center>

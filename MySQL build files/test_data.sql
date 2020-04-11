@@ -33,38 +33,43 @@ call AssignBlanks(20100000011, 20100000025, 211, DATE('2019-06-15'), TRUE, @a);
 call AssignBlanks(10100000001, 10100000050, 211, DATE('2019-07-11'), TRUE, @a);
 
 /* add commission rates to database */
-INSERT INTO CommissionRates (Rate, CommissionDate, Active) VALUES (0.05, '2020-01-01', TRUE);
-INSERT INTO CommissionRates (Rate, CommissionDate, Active) VALUES (0.09, '2020-01-01', TRUE);
+INSERT INTO CommissionRates (Rate, CommissionDate, Active)
+VALUES (0.05, '2020-01-01', TRUE);
+INSERT INTO CommissionRates (Rate, CommissionDate, Active)
+VALUES (0.09, '2020-01-01', TRUE);
 
 /* add exchange rates to database */
-INSERT INTO ExchangeRates (ExchangeDate, Code, Rate) VALUES ('2020-01-01', 'GBP', 0.54);
-INSERT INTO ExchangeRates (ExchangeDate, Code, Rate) VALUES ('2020-01-01', 'USD', 1);
+INSERT INTO ExchangeRates (ExchangeDate, Code, Rate)
+VALUES ('2020-01-01', 'GBP', 0.54);
+INSERT INTO ExchangeRates (ExchangeDate, Code, Rate)
+VALUES ('2020-01-01', 'USD', 1);
 
 /* add sales into the database */
 /* interline: 01/01/2020 */
-call MakeSaleCash(44400000001, 250,23, 35, 'SarahB',
-    0.09, 220,'GBP', '2020-01-01', @a);
+call MakeSaleCash(44400000001, 250, 23, 35, 'SarahB',
+                  0.09, 220, 'GBP', '2020-01-01', @a);
 call MakeSaleCard(44400000002, 250, 43, 55, 230,
-    NULL, 0.09, 4901000223453456, 'VISA', 'GBP',
-    '2020-01-01', @a);
+                  NULL, 0.09, 4901000223453456, 'VISA', 'GBP',
+                  '2020-01-01', @a);
+
 /* domestic: 01/01/2020 */
-call MakeSaleCash(20100000001, 250,0, 15.60, NULL,
-     0.05, 86,'GBP', '2020-01-01', @a);
+call MakeSaleCashDomestic(20100000001, 250, 0, 15.60, NULL,
+                          0.05, 86, '2020-01-01', @a);
 
 /* interline: 02/01/2020 */
 call MakeSaleDelayed(44400000003, 250, 63, 75, 'DaveD',
-    0.09, 220, 'GBP', '2020-01-02', @a);
+                     0.09, 220, 'GBP', '2020-01-02', @a);
 call MakeSaleDelayed(44400000004, 250, 23, 35, 'Chris',
-    0.09, 230, 'GBP', '2020-01-02', @a);
+                     0.09, 230, 'GBP', '2020-01-02', @a);
 call MakeSaleDelayed(44400000021, 211, 25, 35, 'SarahB',
-    0.09, 250, 'GBP', '2020-01-02', @a);
+                     0.09, 250, 'GBP', '2020-01-02', @a);
 call MakeSaleCard(44400000022, 211, 28, 37, 300,
-    NULL, 0.09, 7449155545893456, 'VISA', 'GBP',
-    '2020-01-02', @a);
+                  NULL, 0.09, 7449155545893456, 'VISA', 'GBP',
+                  '2020-01-02', @a);
 
 /* domestic: 02/01/2020 */
-call MakeSaleCard(20100000002, 250,0, 13.80, 75,
-    NULL, 0.05, 6454986387338876, 'VISA', 'GBP',
-    '2020-01-02', @a);
-call MakeSaleCash(20100000011, 211, 0, 13.80, NULL,
-    0.05, 75, 'GBP', '2020-01-02', @a);
+call MakeSaleCardDomestic(20100000002, 250, 0, 13.80, 75,
+                          NULL, 0.05, 6454986387338876, 'VISA', 'GBP',
+                          '2020-01-02', @a);
+call MakeSaleCashDomestic(20100000011, 211, 0, 13.80, NULL,
+                          0.05, 75, 'GBP', '2020-01-02', @a);
