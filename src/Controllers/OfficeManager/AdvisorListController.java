@@ -1,4 +1,4 @@
-package Controllers.Manager;
+package Controllers.OfficeManager;
 
 import Controllers.NavigationController;
 import Controllers.SystemController;

@@ -61,7 +61,7 @@ public class SystemAdminController extends NavigationController implements Syste
     }
 
     public void accessStockTurnover(javafx.event.ActionEvent event) throws IOException, SQLException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/turnover.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/turnover.fxml"));
         Parent homeView = fxmlloader.load();
         StockTurnoverController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

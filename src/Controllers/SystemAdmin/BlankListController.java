@@ -84,7 +84,7 @@ public class BlankListController extends NavigationController implements SystemC
                 "BlankStock.ID = Sale.BlankStockID;");
         try {
             // create blank objects from each record
-            addBlanks(resultSet);
+            addBlanks(resultSet, blanks);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         } finally {
@@ -108,7 +108,7 @@ public class BlankListController extends NavigationController implements SystemC
         try {
             // create blank objects from each record
 
-            addBlanks(resultSet);
+            addBlanks(resultSet, blanks);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         } finally {
@@ -117,8 +117,7 @@ public class BlankListController extends NavigationController implements SystemC
         }
     }
 
-    private void addBlanks(ResultSet resultSet) throws SQLException {
-        ObservableList<Blank> blanks = FXCollections.observableArrayList();
+    private void addBlanks(ResultSet resultSet, ObservableList blanks) throws SQLException {
 
         long tempID;
         int tempType;
@@ -129,6 +128,7 @@ public class BlankListController extends NavigationController implements SystemC
         String tempAlias;
 
         while (resultSet.next()) {
+            System.out.println(1);
             tempID = resultSet.getLong("ID");
             tempType = resultSet.getInt("Type");
             try {
