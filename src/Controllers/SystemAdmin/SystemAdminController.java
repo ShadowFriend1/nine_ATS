@@ -5,10 +5,12 @@ import Controllers.SystemAdmin.SystemAdminController;
 import Controllers.SystemController;
 import DBConnect.MyDBConnectivity;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,7 +21,10 @@ public class SystemAdminController extends NavigationController implements Syste
     private int id;
     MyDBConnectivity database;
 
-    public SystemAdminController() {
+    @FXML
+    private Text message;
+
+    public SystemAdminController() throws SQLException {
     }
 
     public void onClickAddBlanks(javafx.event.ActionEvent event) throws IOException {
@@ -79,5 +84,53 @@ public class SystemAdminController extends NavigationController implements Syste
         // Change the scene
         window.setScene(homeScene);
         window.show();
+    }
+
+    public void backupDatabase(){
+        Process p = null;
+        try {
+            Runtime runtime = Runtime.getRuntime();
+            // change username (-u) and path.
+            p = runtime.exec("mysqldump -uroot AirVia -r /home/jonasnavikas/AirVia.sql");
+
+            int processComplete = p.waitFor();
+
+            if (processComplete == 0) {
+
+                message.setText("Backup created successfully!");
+
+            } else {
+                message.setText("Couldn't backup db");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void restoreDatabase(){
+        Process p = null;
+        String[] cmd = {"mysql", "-uroot", "-e", "source /home/jonasnavikas/AirVia.sql"};
+
+        try {
+            Runtime runtime = Runtime.getRuntime();
+            // change username (-u) and path.
+            p = runtime.exec(cmd);
+
+            int processComplete = p.waitFor();
+
+            if (processComplete == 0) {
+
+                message.setText("Restored successfully");
+
+            } else {
+                message.setText("Couldn't restore db");
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

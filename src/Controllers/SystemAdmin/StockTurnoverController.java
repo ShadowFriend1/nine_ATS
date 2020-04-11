@@ -65,7 +65,8 @@ public class StockTurnoverController extends NavigationController implements Sys
     private TableColumn<Blank, Integer> finalAmountColumn;
 
 
-    public StockTurnoverController() {
+    public StockTurnoverController() throws SQLException {
+
 
     }
 

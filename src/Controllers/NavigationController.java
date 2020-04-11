@@ -9,11 +9,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class NavigationController implements SystemController {
 
     private int id;
-    private MyDBConnectivity database;
+    private MyDBConnectivity database = new MyDBConnectivity();
+
+    public NavigationController() throws SQLException {
+    }
 
     public void goManagerHome(ActionEvent event) throws IOException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/manager.fxml"));
