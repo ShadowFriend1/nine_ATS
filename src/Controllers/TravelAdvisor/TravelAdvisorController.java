@@ -16,7 +16,7 @@ public class TravelAdvisorController implements SystemController {
 
     private MyDBConnectivity database;
     private int id;
-    public TravelAdvisorController() throws SQLException {}
+    public TravelAdvisorController() {}
 
     @Override
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
@@ -37,24 +37,6 @@ public class TravelAdvisorController implements SystemController {
         // Change the scene
         window.setScene(homeScene);
         window.show();
-    }
-    public void giveDiscount(){
-
-    }
-    public void returnBlanks() throws SQLException {
-
-    }
-    public void setCurrencyExchangeRate(){
-
-    }
-    public void writeRefundLog(){
-
-    }
-    public void accessRefundLog(){
-
-    }
-    public void generateSalesReport(){
-
     }
 
     public void onClickMakeSale(javafx.event.ActionEvent event) throws IOException, SQLException {
@@ -109,6 +91,22 @@ public class TravelAdvisorController implements SystemController {
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
         sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
+
+    public void onClickLatePayment(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/LatePayment/latePaymentFind.fxml"));
+        Parent homeView = fxmlloader.load();
+        LatePaymentController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        sys.setupList();
         Scene homeScene = new Scene(homeView);
 
         // Get stage information

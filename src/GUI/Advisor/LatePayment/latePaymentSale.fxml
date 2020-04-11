@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TravelAdvisor.LatePaymentController">
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <TextField fx:id="cardName" layoutX="100" layoutY="180" promptText="Card Type" />
+                <TextField fx:id="cardNumber" layoutX="100" layoutY="210" promptText="Card Number" />
+                <ComboBox fx:id="blankID" layoutX="100" layoutY="150" promptText="Blank ID" />
+                <Button  layoutX="30" layoutY="240" mnemonicParsing="false" text="Cash Sale Interline" onAction="#onClickMakeCashSale" />
+                <Button layoutX="200" layoutY="240" mnemonicParsing="false" text="Card Sale Interline" onAction="#onClickMakeCardSale" />
+                <Button layoutX="30" layoutY="270" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
+                <Text fx:id="message2" layoutX="200" layoutY="360.0" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

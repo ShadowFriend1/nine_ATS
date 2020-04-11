@@ -38,26 +38,4 @@
             </children>
         </AnchorPane>
     </right>
-    <top>
-        <HBox prefHeight="100.0" prefWidth="863.0" BorderPane.alignment="CENTER">
-            <children>
-                <AnchorPane prefHeight="0.0" prefWidth="115.0" />
-                <Button mnemonicParsing="false" onAction="#goHome" text="Home">
-                    <HBox.margin>
-                        <Insets top="30.0" />
-                    </HBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" text="Manager">
-                    <HBox.margin>
-                        <Insets left="20.0" top="30.0" />
-                    </HBox.margin>
-                </Button>
-                <Button mnemonicParsing="false" onAction="#goLogout" text="Logout">
-                    <HBox.margin>
-                        <Insets left="200.0" top="30.0" />
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
-    </top>
 </BorderPane>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.ComboBox?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TravelAdvisor.LatePaymentController">
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </left>
+    <right>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+    </right>
+    <center>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ComboBox fx:id="customerAlias" layoutY="140.0" promptText="Customer" />
+                <Button layoutY="230.0" mnemonicParsing="false" text="Find Delayed Payments" onAction="#onClickFindSales" />
+                <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
+                <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
