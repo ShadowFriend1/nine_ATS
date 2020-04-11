@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateCustomerAccountController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.CreateCustomerAccountController">
    <left>
       <AnchorPane prefHeight="341.0" prefWidth="152.0" BorderPane.alignment="CENTER">
          <children>
@@ -28,7 +28,7 @@
       <HBox prefHeight="59.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane prefHeight="59.0" prefWidth="71.0" />
-            <Button onAction="#goAdvisorHome" mnemonicParsing="false" text="Home">
+            <Button mnemonicParsing="false" onAction="#goAdvisorHome" text="Home">
                <HBox.margin>
                   <Insets top="15.0" />
                </HBox.margin>
@@ -38,7 +38,7 @@
                   <Insets left="30.0" top="15.0" />
                </HBox.margin>
             </Button>
-            <Button onAction="#goLogout" mnemonicParsing="false" text="Logout">
+            <Button mnemonicParsing="false" onAction="#goLogout" text="Logout">
                <HBox.margin>
                   <Insets left="200.0" top="15.0" />
                </HBox.margin>
@@ -52,14 +52,15 @@
             <Text layoutX="126.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Customer Accounts" />
             <TextField fx:id="searchID" layoutX="120.0" layoutY="31.0" promptText="Alias" />
             <Button layoutX="302.0" layoutY="31.0" mnemonicParsing="false" text="Search" />
-            <TableView fx:id="customerAccountTable" layoutX="-69.0" layoutY="61.0" prefHeight="373.0" prefWidth="627.0">
+            <TableView fx:id="customerAccountTable" layoutX="-202.0" layoutY="61.0" prefHeight="373.0" prefWidth="760.0">
               <columns>
                 <TableColumn fx:id="aliasColumn" prefWidth="75.0" text="Alias" />
                 <TableColumn fx:id="emailColumn" prefWidth="90.0" text="Email" />
                   <TableColumn fx:id="firstNameColumn" prefWidth="116.0" text="First Name" />
                   <TableColumn fx:id="lastNameColumn" prefWidth="95.0" text="Last name" />
                   <TableColumn fx:id="typeColumn" prefWidth="96.0" text="Type" />
-                  <TableColumn fx:id="discountID" prefWidth="154.0" text="Discount Type" />
+                  <TableColumn fx:id="discountID" prefWidth="117.0" text="Discount Type" />
+                  <TableColumn fx:id="outstandingBalanceColumn" prefWidth="170.0" text="Outstanding balance" />
               </columns>
             </TableView>
             <Button layoutX="441.0" layoutY="31.0" mnemonicParsing="false" onAction="#loadCustomerAccounts" text="Load accounts" />

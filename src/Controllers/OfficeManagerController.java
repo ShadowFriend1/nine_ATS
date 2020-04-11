@@ -68,7 +68,7 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     public void blankList(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/blankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
@@ -83,7 +83,7 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     public void onClickCustomerAccounts(ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/customerAccountsManager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
         sys.setDatabaseC(database);

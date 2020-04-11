@@ -48,13 +48,13 @@ public class LoginController implements SystemController {
         // if it's an admin type (type 2)
         if (type == 2) {
             System.out.println("Logged in as admin: " + username.getText());
-            fxmlFile = "/GUI/admin.fxml";
+            fxmlFile = "/GUI/Admin/admin.fxml";
         }
 
         // type 1 office manager
         else if (type == 1) {
             System.out.println("Logged in as manager: " + username.getText());
-            fxmlFile = "/GUI/manager.fxml";
+            fxmlFile = "/GUI/Manager/manager.fxml";
         }
 
 
