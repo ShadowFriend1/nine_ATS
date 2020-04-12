@@ -31,7 +31,10 @@ public class OfficeManagerController extends NavigationController implements Sys
     }
 
     @Override
-    public void setDatabaseC(MyDBConnectivity db) { database = db; }
+    public void setDatabaseC(MyDBConnectivity db) throws SQLException {
+        database = db;
+        onLogin();
+    }
 
     @Override
     public void setId (int id) { this.id = id; }
@@ -40,10 +43,9 @@ public class OfficeManagerController extends NavigationController implements Sys
         List<String> ls = new ArrayList<>();
         Statement stmt = database .getStatement();
         try {
-            Calendar cal = Calendar.getInstance();
-            cal.add(Calendar.DATE, -30);
-            ResultSet rs = stmt.executeQuery("SELECT CustomerAlias FROM Sale WHERE PaymentType=0 AND SaleDate<="+ cal.getTime().getDate() +";");
+            ResultSet rs = stmt.executeQuery("SELECT CustomerAlias FROM Sale WHERE PaymentType=0 AND SaleDate<='"+ Date.valueOf(LocalDate.now().minusDays(30)) +"';");
             while (rs.next()) {
+                System.out.println(rs.getString(1));
                 ls.add(rs.getString(1));
             }
             message.setText("Customers with overdue payments:");
@@ -55,12 +57,13 @@ public class OfficeManagerController extends NavigationController implements Sys
         }
     }
 
-    public void blankList(javafx.event.ActionEvent event) throws IOException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/blankStock.fxml"));
+    public void blankList(javafx.event.ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
+        BlankListController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
         sys.setId(id);
+        sys.loadBlanks();
         Scene homeScene = new Scene(homeView);
 
         // Get stage information
@@ -85,7 +88,7 @@ public class OfficeManagerController extends NavigationController implements Sys
         window.setScene(homeScene);
         window.show();
     }
-    public void onClickTravelAdvisors(ActionEvent event) throws IOException {
+    public void onClickTravelAdvisors(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/travelAdvisors.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -100,7 +103,7 @@ public class OfficeManagerController extends NavigationController implements Sys
         window.show();
     }
 
-    public void onClickAssignBlanks(ActionEvent event) throws IOException {
+    public void onClickAssignBlanks(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/assignBlanks.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -115,7 +118,7 @@ public class OfficeManagerController extends NavigationController implements Sys
         window.show();
     }
 
-    public void onClickSalesReport(ActionEvent event) throws IOException {
+    public void onClickSalesReport(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/saleReportGlobal.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -129,6 +132,19 @@ public class OfficeManagerController extends NavigationController implements Sys
         window.setScene(homeScene);
         window.show();
     }
+
+    public void onClickCommissionRates(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/commissionRates.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+    }
 }
-
-

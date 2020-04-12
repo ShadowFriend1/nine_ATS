@@ -24,7 +24,9 @@ public class NavigationController implements SystemController {
     public void goHome(ActionEvent event) throws IOException, SQLException {
         Statement stmt = database.getStatement();
         ResultSet rs = stmt.executeQuery("SELECT Type FROM SysAccount WHERE Code="+id+";");
+        System.out.println(id);
         if (rs.next()) {
+            System.out.println(2);
             switch (rs.getInt(1)) {
                 case 0:
                     goAdvisorHome(event);
@@ -38,7 +40,7 @@ public class NavigationController implements SystemController {
         }
     }
 
-    public void goManagerHome(ActionEvent event) throws IOException {
+    public void goManagerHome(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Manager/manager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -53,7 +55,7 @@ public class NavigationController implements SystemController {
         window.show();
 
     }
-    public void goAdvisorHome(ActionEvent event) throws IOException {
+    public void goAdvisorHome(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/advisor.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -68,7 +70,7 @@ public class NavigationController implements SystemController {
         window.show();
 
     }
-    public void goAdminHome(ActionEvent event) throws IOException {
+    public void goAdminHome(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Admin/admin.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -83,7 +85,7 @@ public class NavigationController implements SystemController {
         window.show();
 
     }
-    public void goLogout(ActionEvent event) throws IOException {
+    public void goLogout(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/login.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -104,7 +106,7 @@ public class NavigationController implements SystemController {
     }
 
     @Override
-    public void setDatabaseC(MyDBConnectivity db) {
+    public void setDatabaseC(MyDBConnectivity db) throws SQLException {
         database = db;
     }
 

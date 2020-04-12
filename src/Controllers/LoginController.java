@@ -47,12 +47,26 @@ public class LoginController implements SystemController {
 
         // if it's an admin type (type 2)
         if (type == 2) {
+            Statement stmt = database.getStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
+                    " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
+            if (rs.first()) {
+                code = rs.getInt("Code");
+            }
+            stmt.close();
             System.out.println("Logged in as admin: " + username.getText());
             fxmlFile = "/GUI/Admin/admin.fxml";
         }
 
         // type 1 office manager
         else if (type == 1) {
+            Statement stmt = database.getStatement();
+            ResultSet rs = stmt.executeQuery("SELECT Code FROM SysAccount WHERE UserName='"+username.getText()+"' "+
+                    " AND aes_decrypt(PasswordHash, 'catdog')='"+password.getText()+"' LIMIT 1;");
+            if (rs.first()) {
+                code = rs.getInt("Code");
+            }
+            stmt.close();
             System.out.println("Logged in as manager: " + username.getText());
             fxmlFile = "/GUI/Manager/manager.fxml";
         }
@@ -91,7 +105,6 @@ public class LoginController implements SystemController {
             SystemController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             sys.setId(code);
-            sys.onLogin();
             Scene homeScene = new Scene(homeView);
 
             // Get stage information

@@ -95,7 +95,7 @@ public class RefundController extends NavigationController implements SystemCont
         }
     }
 
-    public void onClickHome(javafx.event.ActionEvent event) throws IOException {
+    public void onClickHome(javafx.event.ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/SystemAdmin/admin.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();

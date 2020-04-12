@@ -57,7 +57,7 @@ public class AssignBlanksController extends NavigationController implements Syst
         }
     }
 
-    public void onClickBlanksCancel(javafx.event.ActionEvent event) throws IOException {
+    public void onClickBlanksCancel(javafx.event.ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/OfficeManager/manager.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();

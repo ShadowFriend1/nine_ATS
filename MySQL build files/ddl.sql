@@ -3,7 +3,7 @@ CREATE TABLE Sale
     SaleID              int AUTO_INCREMENT,
     TravelAgentCode     int   DEFAULT 0 NOT NULL,
     CustomerAlias       varchar(10),
-    CommissionRatesRate float DEFAULT 0 NOT NULL,
+    CommissionRatesRate decimal(5, 2) DEFAULT 0 NOT NULL,
     BlankStockID        bigint          NOT NULL,
     fee                 float           NOT NULL,
     payment             float           NOT NULL,
@@ -74,7 +74,7 @@ CREATE TABLE SysAccount
 
 CREATE TABLE CommissionRates
 (
-    Rate           float NOT NULL,
+    Rate           decimal(5, 2) NOT NULL,
     CommissionDate date  NOT NULL,
     Active         bool  NOT NULL,
     PRIMARY KEY (Rate)
@@ -259,8 +259,8 @@ BEGIN
         end;
 
     IF NOT EXISTS(SELECT Alias FROM CustomerAccount WHERE Alias = IAlias) THEN
-        INSERT INTO CustomerAccount(Alias, CustomerEmail, FirstName, LastName, Type, outstandingBalance)
-        VALUES (IAlias, IEmail, IFirstName, ILastName, IType, 0);
+        INSERT INTO CustomerAccount(Alias, CustomerEmail, FirstName, LastName, Type)
+        VALUES (IAlias, IEmail, IFirstName, ILastName, IType);
         SET Response = 'Customer Account Created';
     ELSE
         UPDATE CustomerAccount
@@ -375,12 +375,9 @@ BEGIN
             SHOW ERRORS;
             ROLLBACK;
         end;
-    IF NOT EXISTS(SELECT * FROM Sale WHERE BlankStockID BETWEEN StartBlank AND EndBlank) THEN
-        DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
-        SET Response = 'Unused Blanks Successfully Deleted';
-    ELSE
-        SET Response = 'All Blanks in that range are used';
-    end if;
+
+    DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
+    SET Response = 'Unused Blanks Successfully Deleted';
 end //
 
 //

@@ -29,7 +29,7 @@ public class TravelAdvisorController implements SystemController {
     @Override
     public void setId (int id) { this.id = id; }
 
-    public void onCLickCreateCustomerAccount(javafx.event.ActionEvent event) throws IOException {
+    public void onCLickCreateCustomerAccount(javafx.event.ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -60,7 +60,7 @@ public class TravelAdvisorController implements SystemController {
         window.show();
     }
 
-    public void onClickCheckBlankStock(ActionEvent event) throws IOException {
+    public void onClickCheckBlankStock(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/checkBlankStock.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -75,7 +75,7 @@ public class TravelAdvisorController implements SystemController {
         window.show();
     }
 
-    public void onClickRefund(ActionEvent event) throws IOException {
+    public void onClickRefund(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/refund.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
@@ -90,7 +90,7 @@ public class TravelAdvisorController implements SystemController {
         window.show();
     }
 
-    public void onClickSalesReport(ActionEvent event) throws IOException {
+    public void onClickSalesReport(ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/saleReportIndividual.fxml"));
         Parent homeView = fxmlloader.load();
         SystemController sys = fxmlloader.getController();
