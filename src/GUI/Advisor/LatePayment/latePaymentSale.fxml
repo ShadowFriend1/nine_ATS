@@ -19,7 +19,7 @@
                 <Button  layoutX="30" layoutY="240" mnemonicParsing="false" text="Cash Sale Interline" onAction="#onClickMakeCashSale" />
                 <Button layoutX="200" layoutY="240" mnemonicParsing="false" text="Card Sale Interline" onAction="#onClickMakeCardSale" />
                 <Button layoutX="30" layoutY="270" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
-                <Text fx:id="message2" layoutX="200" layoutY="360.0" />
+                <Text fx:id="message2" layoutX="200" layoutY="360.0" fill="red" />
             </children>
         </AnchorPane>
     </center>

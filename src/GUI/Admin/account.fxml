@@ -31,8 +31,8 @@
                   <TextField fx:id="accountID" layoutX="20.0" layoutY="148.0" promptText="ID" />
                   <TextField fx:id="firstName" layoutX="20.0" layoutY="240.0" promptText="First Name" />
                   <TextField fx:id="lastName" layoutX="20.0" layoutY="284.0" promptText="Last Name" />
-                  <Text fx:id="message" layoutX="25.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                  <Text fx:id="message2" layoutX="226.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text fx:id="message" layoutX="25.0" layoutY="338.0" strokeType="OUTSIDE" strokeWidth="0.0" fill="red" />
+                  <Text fx:id="message2" layoutX="226.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" fill="red" />
                </children>
             </AnchorPane>
             <Button layoutX="35.0" layoutY="349.0" mnemonicParsing="false" onAction="#createNewAccount" text="Create Account" />

@@ -18,7 +18,7 @@
                 <TextField fx:id="blankID" layoutY="140.0" promptText="BlankID" />
                 <Button layoutY="230.0" mnemonicParsing="false" text="Refund Sale" onAction="#onClickRefundBlank" />
                 <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
-                <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
+                <Text fx:id="message" layoutX="52.0" layoutY="310.0" fill="red" />
             </children>
         </AnchorPane>
     </center>

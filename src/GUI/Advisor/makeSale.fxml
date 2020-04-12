@@ -30,7 +30,7 @@
                 <Button layoutX="200" layoutY="300" mnemonicParsing="false" text="Card Sale Domestic" onAction="#onClickMakeCardSaleDomestic" />
                 <Button layoutX="30" layoutY="330" mnemonicParsing="false" text="Delayed Sale Domestic" onAction="#onClickMakeDelayedSaleDomestic" />
                 <Button layoutX="30" layoutY="360" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
-                <Text fx:id="message" layoutX="200" layoutY="360.0" />
+                <Text fx:id="message" layoutX="200" layoutY="360.0" fill="red" />
             </children>
         </AnchorPane>
     </center>

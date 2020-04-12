@@ -21,7 +21,7 @@
             <TextField fx:id="lastName" layoutX="20.0" layoutY="137.0" prefHeight="27.0" prefWidth="126.0" promptText="Last Name" />
             <TextField fx:id="alias" layoutX="20.0" layoutY="178.0" prefHeight="27.0" prefWidth="126.0" promptText="Alias" />
             <Button layoutX="24.0" layoutY="300.0" mnemonicParsing="false" onAction="#createCustomerAccount" text="Create Account" />
-            <Text fx:id="message" layoutX="25.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="message" layoutX="25.0" layoutY="370.0" strokeType="OUTSIDE" strokeWidth="0.0" fill="red" />
          </children>
       </AnchorPane>
    </left>

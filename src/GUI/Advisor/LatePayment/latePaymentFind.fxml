@@ -19,7 +19,7 @@
                 <ComboBox fx:id="customerAlias" layoutY="140.0" promptText="Customer" />
                 <Button layoutY="230.0" mnemonicParsing="false" text="Find Delayed Payments" onAction="#onClickFindSales" />
                 <Button layoutY="260.0" mnemonicParsing="false" text="Return to Home" onAction="#goAdvisorHome" />
-                <Text fx:id="message" layoutX="52.0" layoutY="310.0" />
+                <Text fx:id="message" layoutX="52.0" layoutY="310.0" fill="red" />
             </children>
         </AnchorPane>
     </center>
