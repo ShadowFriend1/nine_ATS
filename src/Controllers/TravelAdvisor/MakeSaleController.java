@@ -76,6 +76,23 @@ public class MakeSaleController extends NavigationController implements SystemCo
         }
     }
 
+    @Override
+    public void goAdvisorHome(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/advisor.fxml"));
+        Parent homeView = fxmlloader.load();
+        SystemController sys = fxmlloader.getController();
+        sys.setDatabaseC(database);
+        sys.setId(id);
+        Scene homeScene = new Scene(homeView);
+
+        // Get stage information
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        // Change the scene
+        window.setScene(homeScene);
+        window.show();
+
+    }
+
     public void onClickMakeCardSale() throws SQLException {
         CallableStatement stmt = database.call("{call MakeSaleCard(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
         try {

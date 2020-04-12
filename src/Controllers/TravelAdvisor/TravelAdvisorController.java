@@ -27,7 +27,10 @@ public class TravelAdvisorController implements SystemController {
     }
 
     @Override
-    public void setId (int id) { this.id = id; }
+    public void setId (int id) {
+        System.out.println(id);
+        this.id = id;
+    }
 
     public void onCLickCreateCustomerAccount(javafx.event.ActionEvent event) throws IOException, SQLException {
         FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/customerAccounts.fxml"));
@@ -61,11 +64,12 @@ public class TravelAdvisorController implements SystemController {
     }
 
     public void onClickCheckBlankStock(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/checkBlankStock.fxml"));
+        FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/GUI/Advisor/blankStock.fxml"));
         Parent homeView = fxmlloader.load();
-        SystemController sys = fxmlloader.getController();
+        BlankListController sys = fxmlloader.getController();
         sys.setDatabaseC(database);
         sys.setId(id);
+        sys.loadBlanks();
         Scene homeScene = new Scene(homeView);
 
         // Get stage information
