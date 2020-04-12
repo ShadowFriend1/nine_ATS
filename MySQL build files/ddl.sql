@@ -1,18 +1,18 @@
 CREATE TABLE Sale
 (
     SaleID              int AUTO_INCREMENT,
-    TravelAgentCode     int   DEFAULT 0 NOT NULL,
+    TravelAgentCode     int           DEFAULT 0 NOT NULL,
     CustomerAlias       varchar(10),
     CommissionRatesRate decimal(5, 2) DEFAULT 0 NOT NULL,
-    BlankStockID        bigint          NOT NULL,
-    fee                 float           NOT NULL,
-    payment             float           NOT NULL,
-    PaymentType         int             NOT NULL,
+    BlankStockID        bigint                  NOT NULL,
+    fee                 float                   NOT NULL,
+    payment             float                   NOT NULL,
+    PaymentType         int                     NOT NULL,
     ExchangeRatesDate   date,
     ExchangeRatesCode   varchar(3),
     CardNumber          bigint,
     CardName            varchar(255),
-    SaleDate            date            NOT NULL,
+    SaleDate            date                    NOT NULL,
     LocalTax            float,
     OtherTax            float,
     PRIMARY KEY (SaleID)
@@ -75,8 +75,8 @@ CREATE TABLE SysAccount
 CREATE TABLE CommissionRates
 (
     Rate           decimal(5, 2) NOT NULL,
-    CommissionDate date  NOT NULL,
-    Active         bool  NOT NULL,
+    CommissionDate date          NOT NULL,
+    Active         bool          NOT NULL,
     PRIMARY KEY (Rate)
 );
 
@@ -376,8 +376,14 @@ BEGIN
             ROLLBACK;
         end;
 
-    DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND TravelAgentCode IS NULL;
-    SET Response = 'Unused Blanks Successfully Deleted';
+    IF EXISTS(SELECT *
+              FROM BlankStock
+              WHERE ID BETWEEN StartBlank AND EndBlank AND ID NOT IN (SELECT BlankStockID FROM Sale)) THEN
+        DELETE FROM BlankStock WHERE ID BETWEEN StartBlank AND EndBlank AND ID NOT IN (SELECT BlankStockID FROM Sale);
+        SET Response = 'Unused Blanks Successfully Deleted';
+    ELSE
+        SET Response = 'No Unused Blanks in range';
+    end if;
 end //
 
 //
