@@ -259,8 +259,8 @@ BEGIN
         end;
 
     IF NOT EXISTS(SELECT Alias FROM CustomerAccount WHERE Alias = IAlias) THEN
-        INSERT INTO CustomerAccount(Alias, CustomerEmail, FirstName, LastName, Type)
-        VALUES (IAlias, IEmail, IFirstName, ILastName, IType);
+        INSERT INTO CustomerAccount(Alias, CustomerEmail, FirstName, LastName, Type, outstandingBalance)
+        VALUES (IAlias, IEmail, IFirstName, ILastName, IType, 0);
         SET Response = 'Customer Account Created';
     ELSE
         UPDATE CustomerAccount
