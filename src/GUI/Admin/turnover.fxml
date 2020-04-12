@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
+<?import java.net.URL?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="494.0" prefWidth="1500" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SystemAdmin.StockTurnoverController">
     <left>
         <AnchorPane prefHeight="328.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -63,4 +64,7 @@
             </children>
         </HBox>
     </top>
+    <stylesheets>
+        <URL value="@turnoverfx.css" />
+    </stylesheets>
 </BorderPane>

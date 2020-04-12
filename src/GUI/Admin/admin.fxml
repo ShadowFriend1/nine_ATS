@@ -5,11 +5,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.SystemAdmin.SystemAdminController">
    <left>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="message" layoutX="14.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+            <Text fx:id="message" layoutX="14.0" layoutY="372.0" strokeType="OUTSIDE" strokeWidth="0.0" fill="red" />
          </children></AnchorPane>
    </left>
    <right>
@@ -34,4 +35,7 @@
          </children>
       </AnchorPane>
    </center>
+   <stylesheets>
+      <URL value="@adminfx.css" />
+   </stylesheets>
 </BorderPane>

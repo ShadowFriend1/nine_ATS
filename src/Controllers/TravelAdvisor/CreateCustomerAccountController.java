@@ -98,21 +98,28 @@ public class CreateCustomerAccountController extends NavigationController implem
         outstandingBalanceColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
     }
 
-    public void createCustomerAccount(ActionEvent event) throws SQLException {
+    public void createCustomerAccount() throws SQLException {
 
         String addCustomer = "{call AddCustomer(?, ?, ?, ?, ?, ?)}";
         CallableStatement cs = database.call(addCustomer);
-        cs.setString(1, alias.getText());
-        cs.setString(2, email.getText());
-        cs.setString(3, firstName.getText());
-        cs.setString(4, lastName.getText());
-        cs.setInt(5, 1);
+        try {
+            cs.setString(1, alias.getText());
+            cs.setString(2, email.getText());
+            cs.setString(3, firstName.getText());
+            cs.setString(4, lastName.getText());
+            cs.setInt(5, 1);
 
-        cs.registerOutParameter(6, Types.VARCHAR);
-        cs.execute();
-        message.setText(cs.getString(6));
+            cs.registerOutParameter(6, Types.VARCHAR);
+            cs.execute();
+            message.setText(cs.getString(6));
+        } catch (NullPointerException e) {
+            message.setText("Field Broken");
+        } finally {
+            cs.close();
+            loadCustomerAccounts();
+        }
     }
-    public void loadCustomerAccounts(ActionEvent event) throws SQLException {
+    public void loadCustomerAccounts() throws SQLException {
         try {
             customerAccountTable.getItems().clear();
         }

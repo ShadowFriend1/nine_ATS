@@ -22,6 +22,11 @@ public class TravelAdvisorController implements SystemController {
     public void setDatabaseC(MyDBConnectivity db) { database = db; }
 
     @Override
+    public void onLogin() throws SQLException {
+
+    }
+
+    @Override
     public void setId (int id) { this.id = id; }
 
     public void onCLickCreateCustomerAccount(javafx.event.ActionEvent event) throws IOException {

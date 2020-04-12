@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
 
+<?import java.net.URL?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="493.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.TravelAdvisor.CreateCustomerAccountController">
    <left>
       <AnchorPane prefHeight="341.0" prefWidth="152.0" BorderPane.alignment="CENTER">
@@ -67,4 +68,7 @@
          </children>
       </AnchorPane>
    </right>
+   <stylesheets>
+      <URL value="@advisorfx.css" />
+   </stylesheets>
 </BorderPane>

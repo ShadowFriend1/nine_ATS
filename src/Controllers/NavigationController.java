@@ -107,4 +107,9 @@ public class NavigationController implements SystemController {
     public void setDatabaseC(MyDBConnectivity db) {
         database = db;
     }
+
+    @Override
+    public void onLogin() throws SQLException {
+
+    }
 }

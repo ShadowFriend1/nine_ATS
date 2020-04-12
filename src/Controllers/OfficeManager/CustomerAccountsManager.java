@@ -50,9 +50,9 @@ public class CustomerAccountsManager extends NavigationController implements Sys
     @FXML
     private TextField aliasDiscount;
     @FXML
-    private ComboBox customerType;
+    private ComboBox<String> customerType;
     @FXML
-    private ComboBox customerDiscount;
+    private ComboBox<String> customerDiscount;
     @FXML
     private TextField lowerValue;
     @FXML
@@ -86,18 +86,16 @@ public class CustomerAccountsManager extends NavigationController implements Sys
         discountID.setCellValueFactory(new PropertyValueFactory<>("discountID"));
         outstandingBalanceColumn.setCellValueFactory(new PropertyValueFactory<>("outstandingBalance"));
 
-        customerType.getItems().setAll("Regular", "Valued");
-        customerDiscount.getItems().setAll("Flexible", "Fixed");
+        ObservableList<String> items1 = FXCollections.observableArrayList();
+        ObservableList<String> items2 = FXCollections.observableArrayList();
+        items1.addAll("Regular", "Valued");
+        items2.addAll("Flexible", "Fixed");
+        customerType.setItems(items1);
+        customerDiscount.setItems(items2);
 
     }
 
-    public void loadCustomerAccounts(ActionEvent event) throws SQLException {
-        try {
-            customerAccountTable.getItems().clear();
-        }
-        catch (NullPointerException e){
-
-        }
+    public void loadCustomerAccounts() throws SQLException {
 
         // get accounts
         Statement stmt = database.getStatement();
@@ -148,46 +146,59 @@ public class CustomerAccountsManager extends NavigationController implements Sys
             CustomerAccount newAccount = new CustomerAccount(tempAlias, tempEmail, tempFirstName, tempLastName, tempType, tempdiscountID, tempOutstandingBalance);
             customerAccounts.add(newAccount);
         }
-            customerAccountTable.getItems().addAll(customerAccounts);
+            customerAccountTable.getItems().setAll(customerAccounts);
 
 
     }
     public void changeType() throws SQLException {
         int typeInt=0;
-        if (customerType.getValue().equals("Regular")) typeInt = 1;
-        else if (customerType.getValue().equals("Valued")) typeInt = 2;
-        String changeType = "UPDATE CustomerAccount SET Type = " + typeInt + " WHERE Alias = '" + aliasType.getText() + "';";
-        Statement statement = database.getStatement();
-        statement.executeUpdate(changeType);
-        typeMessage.setText("Type has been changed");
-        statement.close();
-
+        try {
+            if (customerType.getValue().equals("Regular")) typeInt = 1;
+            else if (customerType.getValue().equals("Valued")) typeInt = 2;
+            String changeType = "UPDATE CustomerAccount SET Type = " + typeInt + " WHERE Alias = '" + aliasType.getText() + "';";
+            Statement statement = database.getStatement();
+            statement.executeUpdate(changeType);
+            typeMessage.setText("Type has been changed");
+            statement.close();
+        } catch (NullPointerException e) {
+            typeMessage.setText("No Type Selected");
+        } finally {
+            loadCustomerAccounts();
+        }
 
     }
     public void addDiscount() throws SQLException {
-        if (customerDiscount.getValue().equals("Fixed")){
-            CallableStatement stmt = database.call("{call AddFixedDiscount(?, ?, ?)}");
-            stmt.setString(1, aliasDiscount.getText());
-            stmt.setFloat(2, Float.parseFloat(value.getText()));
-            stmt.registerOutParameter(3, Types.VARCHAR);
+        try {
+            if (customerDiscount.getValue().equals("Fixed")) {
+                CallableStatement stmt = database.call("{call AddFixedDiscount(?, ?, ?)}");
+                stmt.setString(1, aliasDiscount.getText());
+                stmt.setFloat(2, Float.parseFloat(value.getText()));
+                stmt.registerOutParameter(3, Types.VARCHAR);
 
-            stmt.execute();
-            discountMessage.setText(stmt.getString(3));
-            stmt.close();
-        }
-        if (customerDiscount.getValue().equals("Flexible")){
-            CallableStatement stmt = database.call("{call AddFlexibleDiscount(?, ?, ?, ?, ?)}");
-            stmt.setString(1, aliasDiscount.getText());
-            stmt.setInt(2, Integer.parseInt(lowerValue.getText()));
-            stmt.setInt(3, Integer.parseInt(upperValue.getText()));
-            stmt.setFloat(4, Float.parseFloat(value.getText()));
-            stmt.registerOutParameter(5, Types.VARCHAR);
+                stmt.execute();
+                discountMessage.setText(stmt.getString(3));
+                stmt.close();
+            }
+            if (customerDiscount.getValue().equals("Flexible")) {
+                CallableStatement stmt = database.call("{call AddFlexibleDiscount(?, ?, ?, ?, ?)}");
+                stmt.setString(1, aliasDiscount.getText());
+                try {
+                    stmt.setInt(2, Integer.parseInt(lowerValue.getText()));
+                } catch (NullPointerException e) {}
+                try {
+                    stmt.setInt(3, Integer.parseInt(upperValue.getText()));
+                } catch (NullPointerException e) {}
+                stmt.setFloat(4, Float.parseFloat(value.getText()));
+                stmt.registerOutParameter(5, Types.VARCHAR);
 
-            stmt.execute();
-            discountMessage.setText(stmt.getString(5));
-
-
-            stmt.close();
+                stmt.execute();
+                discountMessage.setText(stmt.getString(5));
+                stmt.close();
+            }
+        } catch (NullPointerException e) {
+            discountMessage.setText("Field Broken");
+        } finally {
+            loadCustomerAccounts();
         }
     }
 

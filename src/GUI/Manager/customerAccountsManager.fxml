@@ -62,7 +62,7 @@
                   <TableColumn fx:id="lastNameColumn" prefWidth="95.0" text="Last name" />
                   <TableColumn fx:id="typeColumn" prefWidth="96.0" text="Type" />
                   <TableColumn fx:id="discountID" prefWidth="114.0" text="Discount Type" />
-                  <TableColumn fx:id="outstandingBalanceColumn" prefWidth="194.0" text="Oustanding balance" />
+                  <TableColumn fx:id="outstandingBalanceColumn" prefWidth="194.0" text="Outstanding balance" />
               </columns>
             </TableView>
             <Button layoutX="441.0" layoutY="31.0" mnemonicParsing="false" onAction="#loadCustomerAccounts" text="Load accounts" />

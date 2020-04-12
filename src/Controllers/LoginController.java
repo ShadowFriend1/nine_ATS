@@ -91,6 +91,7 @@ public class LoginController implements SystemController {
             SystemController sys = fxmlloader.getController();
             sys.setDatabaseC(database);
             sys.setId(code);
+            sys.onLogin();
             Scene homeScene = new Scene(homeView);
 
             // Get stage information
@@ -107,6 +108,11 @@ public class LoginController implements SystemController {
     @Override
     public void setDatabaseC(MyDBConnectivity db) {
         database = db;
+    }
+
+    @Override
+    public void onLogin() throws SQLException {
+
     }
 }
 

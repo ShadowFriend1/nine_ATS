@@ -91,7 +91,7 @@ public class SystemAdminController extends NavigationController implements Syste
         try {
             Runtime runtime = Runtime.getRuntime();
             // change username (-u) and path.
-            p = runtime.exec("mysqldump -uroot AirVia -r /home/jonasnavikas/AirVia.sql");
+            p = runtime.exec("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysqldump --user=root --password=giratina950 AirVia -r C:\\Users\\jackn\\IdeaProjects\\nine_ATS\\AirVia.sql");
 
             int processComplete = p.waitFor();
 
@@ -110,12 +110,11 @@ public class SystemAdminController extends NavigationController implements Syste
     }
     public void restoreDatabase(){
         Process p = null;
-        String[] cmd = {"mysql", "-uroot", "-e", "source /home/jonasnavikas/AirVia.sql"};
 
         try {
             Runtime runtime = Runtime.getRuntime();
             // change username (-u) and path.
-            p = runtime.exec(cmd);
+            p = runtime.exec("C:\\Program Files\\MySQL\\MySQL Server 8.0\\bin\\mysql --user=root --password=giratina950 AirVia -r C:\\Users\\jackn\\IdeaProjects\\nine_ATS\\AirVia.sql");
 
             int processComplete = p.waitFor();
 
